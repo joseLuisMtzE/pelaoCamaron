@@ -12,6 +12,9 @@
 
 /* Estilos de componenntes */
 @import './components/spinner.css';
+@import './components/login.css';
 
 /* Estilos de cotenedores pages */
 @import './pages/home.css';
+
+
