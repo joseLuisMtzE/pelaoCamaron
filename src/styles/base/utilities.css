@@ -7,3 +7,18 @@
   margin: 0 auto;
   display: block;
 }
+
+.inputs{
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.margin-10{
+  margin: 10px;
+}
+
+
+/*    TEXT COLORS    */ 
+.white-text-color{
+  color: #fff
+}

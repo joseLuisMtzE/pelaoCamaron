@@ -7,7 +7,7 @@
 
 
 
- -webkit-box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
 box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
 }
@@ -16,19 +16,25 @@ box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
     margin: 15px;
     padding: 5px;
 }
-
+    
 .enterButton{
-    margin: 20px;
-    height: 50px;
-    width: 100px;
+    margin-top: 15px;
+    /*height: 50px;
+    width: 100px;*/
     border-radius: 5px;
+
     background-color: var(--color-main);
     border-color: var(--color-main) ;
 }
 
-.container{
+.login-container{
     height:100%; 
     width:100%;
-    background-image: url(https://image.freepik.com/vector-gratis/fondo-creativo-formas-geometricas-coloridas-abstractas_1035-17834.jpg);
+    background-image: url(../../assets/backgroundWood2.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+        
 }
 
+  

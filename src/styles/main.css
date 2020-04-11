@@ -12,7 +12,9 @@
 
 /* Estilos de componenntes */
 @import './components/spinner.css';
-@import './components/login.css';
+@import './components/FormLogin.css';
+@import './components/HomeDelivery.css';
+
 
 /* Estilos de cotenedores pages */
 @import './pages/home.css';
