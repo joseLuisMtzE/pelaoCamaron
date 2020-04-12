@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 //Este es de prueba y solo ilustrativo de un spinner para mostrar mienstras los componenntes cargan
 import Spinner from '../shared/ejemplo_spinner';
 
-const Home = lazy(() => import('../pages/Home'));
+const Board = lazy(() => import('../pages/Board'));
 
 export default function AppRoutes() {
   return (
@@ -12,7 +12,7 @@ export default function AppRoutes() {
       <Suspense fallback={<Spinner size={130} />}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={Home} />
+            <Route exapath="/board" component={Board} />
           </Switch>
         </BrowserRouter>
       </Suspense>
