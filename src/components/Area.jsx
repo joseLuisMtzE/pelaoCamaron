@@ -10,41 +10,26 @@ const Area = ({area}) => {
     //para saber si estas seguro de borrar el area
     function alert(){
 
-      //sweetAlert
-      const swalWithBootstrapButtons = Swal.mixin({
-       customClass: {
-       confirmButton: 'btn btn-success',
-       cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false
+      Swal.fire({
+        title: '¿Estás seguro de eliminarlo?',
+        text: "No podras revertir está acción!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si borralo!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire(
+            'Borrado!',
+            'La area de cocina ha sido borrada',
+            'success'
+          )
+          removeArea(area.id)
+        }
       })
-
-        swalWithBootstrapButtons.fire({
-            title: '¿Estás seguro de eliminarlo?',
-            text: "No podras revertir esta acción!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Si, eliminalo',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true
-          }).then((result) => {
-            if (result.value) {
-              swalWithBootstrapButtons.fire(
-                'Borrado!',
-                'La area de cocina ha sido borrada correctamente',
-                'success'
-              )
-              removeArea(area.id)
-            } else if (
-              result.dismiss === Swal.DismissReason.cancel
-            ) {
-              swalWithBootstrapButtons.fire(
-                'Cancelado',
-                'Tu area de cocina esta a salvo',
-                'error'
-              )
-            }
-        })
+      
     }
 
 
