@@ -114,9 +114,10 @@
 .container-kitchen{
     background: #D0CFD4;
     padding: 30px;
-    width: 50%;
+    width: 80%;
     min-width: 450px;
     margin:15px;
+    margin-top: 20px;
     height: 100%;
     box-sizing: border-box;
     border-radius: 5px;
@@ -125,27 +126,6 @@
     display: block;
 }
 
-.btn-edit{
-    margin: 5px;
-    background-color: #3D3739;
-}
-
-.btn-delete{
-    margin: 5px;
-    background-color: #3D3739;
-}
-
-.buttonsKitchen {
-    display: flex;
-}
-
-.formKitchen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10px;
-}
 
 .listKitchen {
     width: 90%;
@@ -155,29 +135,6 @@
     overflow-y: auto;
 }
 
-.list-itemKitchen {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
-    border: none;
-    padding: 10px 15px 10px 15px;
-    background-color:#fff;
-    border-radius: 15px;
-    align-items: center;
-}
-
-.add-area-btn{
-    margin:10px;
-    margin-right: 10px;
-    border-radius: 15px;
-    background-color: #80EDEC;
-    outline: none;
-    cursor: pointer;
-    border: none;
-    padding: 5px 15px 5px 15px;
-    color: black;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
 
 .headerKitchen{
     color: #ccc;
@@ -185,4 +142,11 @@
     text-align: center;
     margin: 50px 20px 60px 20px;
 
+}
+
+.no-areas {
+    color: #777;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
 }

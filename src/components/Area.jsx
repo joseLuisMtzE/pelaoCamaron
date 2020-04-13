@@ -41,11 +41,11 @@ const Area = ({area}) => {
             <span>{area.title}</span>
             <div>
                 <Button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
-                className="btn-delete area-btn">
+                className="btn-delete-kitchen">
                  Borrar
                 </Button>
                 <Button onClick={()=>findItem(area.id)} id="edit-kitchenArea" type="primary" shape="round"
-                className="btn-edit area-btn">
+                className="btn-edit-kitchen">
                 Editar
                 </Button>
             </div>
