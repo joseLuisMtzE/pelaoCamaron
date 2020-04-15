@@ -1,8 +1,8 @@
 import React,{Fragment,useState} from 'react';
-import AreaList from '../components/AreaList';
-import AreaForm from '../components/AreaForm';
-import Header from '../components/HeaderKitchen';
-import AreaListContext from '../components/AreaListContext';
+import AreaList from '../components/KitchenAreas/AreaList';
+import AreaForm from '../components/KitchenAreas/AreaForm';
+import Header from '../components/KitchenAreas/HeaderKitchen';
+import AreaListContext from '../components/KitchenAreas/AreaListContext';
 import Spinner from '../shared/Spinner';
 
 const KitchenArea = () => {

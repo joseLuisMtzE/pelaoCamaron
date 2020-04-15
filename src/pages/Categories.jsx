@@ -1,8 +1,8 @@
 import React,{Fragment,useState} from 'react';
-import CategoryList from '../components/CategoryList';
-import CategoryForm from '../components/CategoryForm';
-import HeaderCategory from '../components/HeaderCategory';
-import CategoryListContext from '../components/CategoryListContext';
+import CategoryList from '../components/Categories/CategoryList';
+import CategoryForm from '../components/Categories/CategoryForm';
+import HeaderCategory from '../components/Categories/HeaderCategory';
+import CategoryListContext from '../components/Categories/CategoryListContext';
 import Spinner from '../shared/Spinner';
 
 const Categories = () => {
