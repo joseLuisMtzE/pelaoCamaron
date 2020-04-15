@@ -38,7 +38,7 @@ const Area = ({area}) => {
 
     return (
         <li className="list-itemKitchen">
-            <span>{area.title}</span>
+            <span>{area.name}</span>
             <div>
                 <Button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">

@@ -7,6 +7,7 @@ import Spinner from '../shared/ejemplo_spinner';
 
 const Home = lazy(() => import('../pages/Home'));
 const KitchenArea = lazy(()=> import ('../pages/KitchenArea'));
+const Categories = lazy(()=> import ('../pages/Categories'));
 
 export default function AppRoutes() {
   return (
@@ -15,7 +16,8 @@ export default function AppRoutes() {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/kitchen" component={KitchenArea} />
+            <Route exact path="/cocina" component={KitchenArea} />
+            <Route exact path="/categorias" component={Categories} />
           </Switch>
         </BrowserRouter>
       </Suspense>

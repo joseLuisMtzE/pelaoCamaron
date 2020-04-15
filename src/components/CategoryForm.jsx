@@ -1,10 +1,9 @@
-import React, {useContext, useState,useEffect} from 'react'
-import {AreaListContext} from './AreaListContext';
-import { Input } from 'antd';
+import React, {useContext, useState,useEffect} from 'react';
+import {CategoryListContext} from './CategoryListContext';
+import {Input} from 'antd';
 
-const AreaForm = () => {
-
-    const {addArea, editItem, editArea} = useContext(AreaListContext);
+const CategoryForm = () => {
+    const {addCategory, editItem, editCategory} = useContext(CategoryListContext);
 
     const [name, setName] = useState('');
 
@@ -13,14 +12,14 @@ const AreaForm = () => {
         setName(e.target.value);
     };
 
-    //cuando se ingresa el area 
+    //cuando se ingresa la categoria
     const handleSubmit = e => {
         e.preventDefault();
         if(editItem===null){
-            addArea(name);
+            addCategory(name);
             setName("");
         }else{
-            editArea(name,editItem.id);
+            editCategory(name,editItem.id);
         }
     };
 
@@ -37,9 +36,9 @@ const AreaForm = () => {
               onChange={handleChange}
               value={name}
               maxLength="20"
-              id="input-KitchenArea"
+              id="input-categories"
               className="area-input"
-              placeholder="Añadir áreas de cocina..."
+              placeholder="Añadir Categorias..."
               required/>
               <div className="buttonsKitchen">
                   <button  className="add-area-btn" >
@@ -49,5 +48,5 @@ const AreaForm = () => {
         </form>
     )
 }
-
-export default AreaForm
+ 
+export default CategoryForm;

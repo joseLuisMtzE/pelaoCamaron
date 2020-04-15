@@ -19,9 +19,9 @@ const AreaListContextProvider = props => {
    },[areas]);
 
     //Funcion para añadir un area
-    const addArea = (title) => {
+    const addArea = (name) => {
      loader();
-     setAreas([...areas,{title,id:uuidv4()}])
+     setAreas([...areas,{name,id:uuidv4()}])
     }
 
     //Funcion para borrar un area
@@ -35,10 +35,10 @@ const AreaListContextProvider = props => {
         setEditItem(item);
     };
 
-    const editArea = (title,id)=>{
+    const editArea = (name,id)=>{
         loader();
         const newArea = areas.map(area=>(area.id===id ?
-             {title,id} : area));
+             {name,id} : area));
 
         setAreas(newArea);
         //reinicio de input

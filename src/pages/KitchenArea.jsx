@@ -1,7 +1,7 @@
 import React,{Fragment,useState} from 'react';
 import AreaList from '../components/AreaList';
 import AreaForm from '../components/AreaForm';
-import Header from '../components/Header';
+import Header from '../components/HeaderKitchen';
 import AreaListContext from '../components/AreaListContext';
 import Spinner from '../shared/Spinner';
 
