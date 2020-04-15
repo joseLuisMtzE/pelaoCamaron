@@ -16,8 +16,8 @@ export default function AppRoutes() {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/cocina" component={KitchenArea} />
-            <Route exact path="/categorias" component={Categories} />
+            <Route exact path="/areas-cocina" component={KitchenArea} />
+            <Route exact path="/categorias-alimentos" component={Categories} />
           </Switch>
         </BrowserRouter>
       </Suspense>
