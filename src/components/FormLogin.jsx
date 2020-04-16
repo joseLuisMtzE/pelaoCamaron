@@ -1,50 +1,92 @@
-import React,{useState} from 'react'
-import Logo from '../assets/logo (2).png';
-import { Card, Input, Button,Typography } from 'antd';
-const { Title } = Typography; 
+import { Form, Input, Button, Card } from 'antd';
+import React from 'react';
+import Logo from '../assets/logo.png';
 
-function FormLogin() {
-    const [user,setUser]=useState('')
-    const [password,setPassword]=useState('');
-    const [list,setList]=useState([])
-    
-    const LOCAL_STORAGE_KEY = "users";
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
 
-    const checkLogin=()=>{
-        const newList=list;
-        newList.unshift({user:user, pass:password});
-        setList([...newList])
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(list));
-        setUser("")
-        setPassword("");
-    }
+const LSKEY = 'users';
 
-    const keyDown=(e)=>{
-        if(e===13){
-            checkLogin();
-        }
-    }
+const FormLogin = () => {
+  const onFinish = (values) => {
+    localStorage.setItem(LSKEY, JSON.stringify(values));
+    console.log('Success:', values);
+  };
 
-    return (
-        < >
-        <div className="login-container">
-        <div className="centerContent"  size="small">
-          <img className="imgLogo" src={Logo} width="300px"/>
-          
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+  return (
+    <>
+      <div className="login-container" >
+        <div className="centerContent" size="small">
+          <img className="imgLogo" src={Logo} alt="logo" width="300px" />
         </div>
-      <div className="centerContent" >
-        <Card  className="login-form-content">
-             <Title level={2} >Iniciar Sesión</Title>
-             <Input className="inputs" placeholder="Usuario" value={user} onChange={(e) => { setUser(e.target.value)}} />
-             <Input className="inputs" id="password-login" value={password} type="password" placeholder="Contraseña" onChange={(e) => { setPassword(e.target.value)}} onKeyDown={(e)=>{keyDown(e.keyCode)}}/>
-            <Button className="enterButton " type="primary" size="large" onClick={checkLogin} onKeyDown={(e)=>{keyDown(e.keyCode)}}><strong>Entrar</strong></Button>
-        </Card>
-            
-      </div>
-      </div>
+        <div className="centerContent"  >
+          <Card className="login-form-content">
+            <Form
+              {...layout}
+              name="basic"
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+            >
+              <Form.Item
+                label="Usuario"
+                name="nombreUsuario"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Introduce tu nombre de usuario',
+                  },
+                ]}
+              >
+                <Input className="inputs" />
+              </Form.Item>
 
-      </>
-    )
-}
+              <Form.Item
+                label="Contraseña"
+                name="contraseña"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Introduce tu contraseña',
+                  },
+                ]}
+              >
+                <Input.Password className="inputs" />
+              </Form.Item>
+              <Form.Item {...tailLayout}>
+                <Button
+                  style={{ display: 'flex' }}
+                  className="buttons"
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Entrar
+                </Button>
+              </Form.Item>
+            </Form>
+          </Card>
+        </div>
+      </div>
+    </>
+  );
+};
 
-export default FormLogin
+export default FormLogin;

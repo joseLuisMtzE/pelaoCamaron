@@ -8,13 +8,21 @@
   display: block;
 }
 
-.inputs{
-  margin-top: 10px;
-  border-radius: 5px;
-}
+
 
 .margin-10{
   margin: 10px;
+}
+
+/*------Inputs------*/
+.inputs{
+  /*margin-top: 10px;*/
+  border-radius: 5px;
+}
+
+/*------Buttons-------*/
+.buttons{
+  border-radius: 5px;
 }
 
 
@@ -22,3 +30,4 @@
 .white-text-color{
   color: #fff
 }
+
