@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Spinner from '../shared/ejemplo_spinner';
 
 const Home = lazy(() => import('../pages/Home'));
+const Ticket = lazy(() => import('../pages/Ticket'));
 
 export default function AppRoutes() {
   return (
@@ -12,7 +13,8 @@ export default function AppRoutes() {
       <Suspense fallback={<Spinner size={130} />}>
         <BrowserRouter>
           <Switch>
-            <Route path="/" component={Home} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/ticket" component={Ticket} />
           </Switch>
         </BrowserRouter>
       </Suspense>

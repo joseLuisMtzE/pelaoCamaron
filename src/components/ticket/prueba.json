@@ -1,0 +1,25 @@
+{
+  "InfoVariable":{
+    "folio": 153,
+    "nombreUsuario":"Blanca",
+    "numCaja":12,
+    "mesa":4,
+    "numPersonas":3,
+    "fecha":"20/02/2020 4:00 PM",
+    "fechaReimpresion":"21/02/2020 8:00 PM"
+  },
+  "TablaProductos":{
+    "cantidad":5,
+    "platillo":"Camarones",
+    "precio":250,
+    "importe":1000
+  },
+  "Pago":{
+      "subtotal":25,
+      "impuestos":10,
+      "descuento":45,
+      "efectivo":600,
+      "cambio":100,
+      "total":200 
+  }
+}
