@@ -1,9 +1,8 @@
 import React from 'react';
+import { Spin } from 'antd';
 
 export default function Spinner() {
-  return (
-    <>
-      <h2 className="spinner">Un momento porfavor...</h2>
-    </>
-  );
+  return <div style={{top:'400px',textAlign:'center',position:'relative'}}>
+    <Spin size="large" />
+  </div>;
 }
