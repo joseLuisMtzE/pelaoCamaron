@@ -7,6 +7,8 @@
 @import './base/animation.css';
 /* Estilos básicos */
 @import './base/base.css';
+/*Cierre De cuentas*/
+@import './components/ClosingAccounts.css';
 /* Margenes, paddgins, bordes */
 @import './base/utilities.css';
 
