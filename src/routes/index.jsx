@@ -8,8 +8,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Spinner from '../shared/ejemplo_spinner';
 
 const Home = lazy(() => import('../pages/Home'));
-const ClosingAccount = lazy(() => import('../pages/ClosingAccounts'));
 const paraborrar = lazy(() => import('../pages/paraborrar'));
+const KitchenArea = lazy(()=> import ('../pages/KitchenArea'));
+const Categories = lazy(()=> import ('../pages/Categories'));
+const closeAccount = lazy(()=> import ('../pages/closeAccount'));
+
 export default function AppRoutes() {
   return (
     <>
@@ -17,8 +20,10 @@ export default function AppRoutes() {
         <BrowserRouter>
           <Switch>
             <Route  exact path="/" component={Home} />
-            <Route  exact path="/cierre-cuenta" component={ClosingAccount} />
             <Route  exact path="/prueba" component={paraborrar} />
+            <Route exact path="/areas-cocina" component={KitchenArea} />
+            <Route exact path="/categorias-alimentos" component={Categories} />
+            <Route  exact path="/cerrar-cuenta" component={closeAccount} />
           </Switch>
         </BrowserRouter>
       </Suspense>

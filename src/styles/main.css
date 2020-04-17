@@ -14,6 +14,9 @@
 
 /* Estilos de componenntes */
 @import './components/spinner.css';
+@import './components/kitchen.css';
+@import './components/Area.css';
+@import './components/AreaForm.css';
 
 /* Estilos de cotenedores pages */
 @import './pages/home.css';
