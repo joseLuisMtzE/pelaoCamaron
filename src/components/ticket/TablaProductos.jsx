@@ -1,8 +1,8 @@
 import React from 'react';
 
-const TablaProductos = (props) => {
-  const producto = props.TablaProductos;
-  
+const TablaProductos = props => {
+  const comandas = props.comandas;
+  console.log('COMANDAS', comandas);
   return (
     <div className="Container-ticket">
       <hr></hr>
@@ -17,24 +17,17 @@ const TablaProductos = (props) => {
         </thead>
 
         <tbody>
-          <tr>
-            <td>{}</td>
-            <td>{}</td>
-            <td>${}</td>
-            <td>${}</td>
-          </tr>
-          <tr>
-            <td>{}</td>
-            <td>{}</td>
-            <td>${}</td>
-            <td>${}</td>
-          </tr>
-          <tr>
-            <td>{}</td>
-            <td>{}</td>
-            <td>${}</td>
-            <td>${}</td>
-          </tr>
+          {comandas &&
+            comandas.map(comanda => {
+              return (
+                <tr key={comanda.id}>
+                  <td>{comanda.cantidad}</td>
+                  <td>{comanda.nombre}</td>
+                  <td>${comanda.precioUnitario}</td>
+                  <td>${comanda.total}</td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

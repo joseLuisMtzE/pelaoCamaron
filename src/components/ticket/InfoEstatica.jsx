@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from '../../assets/logo.png';
 
-const InfoEstatica = (props) => {
+const InfoEstatica = props => {
   return (
     <div className="Container-ticket">
       <img src={logo} alt="Logo Camaron Pelao" width={250}></img>
-      <p>
-        <p className="Center">MARISCOS EL PELAO CAMARON</p>
+      <div>
+        <h4 className="Center">MARISCOS EL PELAO CAMARON</h4>
         <span className="Space-span">LUIS SALAS CHAVEZ</span>
         <span className="Space-span">RÉGIMEN: INCORPORACIÓN FISCAL</span>
         <span className="Space-span">MÁTRIZ:</span>
@@ -20,7 +20,7 @@ const InfoEstatica = (props) => {
         <span className="Space-span">RESIDENCIAL ESMERALDA CP 28017</span>
         <span className="Space-span">COLIMA COLIMA</span>
         <span className="Space-span">TELÉFONO:312 323 66 76</span>
-      </p>
+      </div>
     </div>
   );
 };

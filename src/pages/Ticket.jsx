@@ -8,16 +8,13 @@ import data from '../components/ticket/prueba.json';
 
 function App() {
   return (
-    
-      <>        
-        <InfoEstatica />
-        <InfoVariables infoVariable={data.InfoVariable}/>
-        <TablaProductos TablaProductos={data.TablaProductos}/>
-        <Pago Pago={data.Pago}/> 
-        <MapExample mapExample={data.TablaProductos}/>
-      </>
-    
-    
+    <>
+      <InfoEstatica />
+      <InfoVariables infoVariable={data.InfoVariable} />
+      <TablaProductos comandas={data.comandas} />
+      <Pago Pago={data.Pago} />
+      <MapExample mapExample={data.TablaProductos} />
+    </>
   );
 }
 
