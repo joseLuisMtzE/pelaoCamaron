@@ -8,10 +8,12 @@
     "fecha":"20/02/2020 4:00 PM",
     "fechaReimpresion":"21/02/2020 8:00 PM"
   },
-  "TablaProductos":[
-    5, "Camarones", 250, 1000
-  ]
-    
+  "TablaProductos":{
+    "cantidad":25,
+      "platillo":"Camarones",
+      "total":45,
+      "importe":600
+  }
   ,
   "Pago":{
       "subtotal":25,
