@@ -1,5 +1,11 @@
 import React from 'react';
+import Sidernav from '../components/Sidernav';
 
 export default function Home() {
-  return <div className="background-home">Soy el home</div>;
+  return (
+    <div>
+      <Sidernav/>
+      <div className="background-home">Soy el home</div>
+    </div>
+  );
 }

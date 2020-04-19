@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import { ArrowLeftOutlined} from '@ant-design/icons';
 
 import Form from './FormHomeDelivery';
 
@@ -12,7 +13,7 @@ function HomeDelivery() {
           <div className="header-img"></div>
           <div>
             <Button className="margin-10 buttons" type="primary" size={'small'}>
-              atras
+            <ArrowLeftOutlined />
             </Button>
           </div>
           <div className="centerContent">
