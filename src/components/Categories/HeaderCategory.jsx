@@ -8,7 +8,7 @@ const HeaderCategory = () => {
         <Icon path={mdiShapeOutline}
         title="Categorias"
         size={3}
-        color="#426BFF"
+        color="#FFF"
         /> 
             <h1>Categorías</h1>
         </div>

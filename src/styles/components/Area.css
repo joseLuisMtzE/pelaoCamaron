@@ -13,9 +13,13 @@
 .btn-edit-kitchen {
     margin: 5px;
     background-color: #3D3739;
+    border-radius: 20px;
+    border-color: black;
 }
 
 .btn-delete-kitchen {
     margin: 5px;
     background-color: #3D3739;
+    border-radius: 20px;
+    border-color: black;
 }

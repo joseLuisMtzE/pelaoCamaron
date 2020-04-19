@@ -5,6 +5,7 @@ import Category from './Category';
 const CategoryList = () => {
     
     const {categories} = useContext(CategoryListContext);
+    console.log(categories)
     
     return (
 
@@ -12,7 +13,7 @@ const CategoryList = () => {
             {categories.length ? (
                 <ul className="listKitchen">
                 {categories.map((category)=>{
-                    return <Category category={category} key={category.id}/>
+                    return <Category category={category} key={category._id}/>
                 })}
                 </ul>
             ):(

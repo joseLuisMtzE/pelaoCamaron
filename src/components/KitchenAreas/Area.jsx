@@ -2,6 +2,9 @@ import React,{useContext} from 'react'
 import {AreaListContext} from './AreaListContext';
 import Swal from 'sweetalert2';
 import { Button } from 'antd';
+import Icon from '@mdi/react';
+import { mdiDelete } from '@mdi/js';
+import { mdiLeadPencil } from '@mdi/js';
 
 
 const Area = ({area}) => {
@@ -42,11 +45,19 @@ const Area = ({area}) => {
             <div>
                 <Button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
-                 Borrar
+                <Icon path={mdiDelete}
+                title="Basura"
+                size={.9}
+                color="#FFF"
+                /> 
                 </Button>
                 <Button onClick={()=>findItem(area.id)} id="edit-kitchenArea" type="primary" shape="round"
                 className="btn-edit-kitchen">
-                Editar
+                <Icon path={mdiLeadPencil}
+                title="Lapiz"
+                size={.9}
+                color="#FFF"
+                /> 
                 </Button>
             </div>
         </li>

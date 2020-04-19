@@ -2,6 +2,10 @@ import React,{useContext}  from 'react';
 import {CategoryListContext} from './CategoryListContext';
 import Swal from 'sweetalert2';
 import {Button} from 'antd';
+import Icon from '@mdi/react';
+import { mdiDelete } from '@mdi/js';
+import { mdiLeadPencil } from '@mdi/js';
+
 
 const Category = ({category}) => {
 
@@ -24,7 +28,8 @@ const Category = ({category}) => {
               'La categoria ha sido borrada',
               'success'
             )
-            removeCategory(category.id)
+            console.log(category)
+            removeCategory(category._id)
           }
         })
         
@@ -35,15 +40,23 @@ const Category = ({category}) => {
 
     return (
         <li className="list-itemKitchen">
-            <span>{category.name}</span>
+            <span>{category.nombre}</span>
             <div>
                 <Button id="delete-categories" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
-                 Borrar
+                <Icon path={mdiDelete}
+                title="Basura"
+                size={.9}
+                color="#FFF"
+                /> 
                 </Button>
-                <Button onClick={()=>findItem(category.id)} id="edit-categories" type="primary" shape="round"
+                <Button onClick={()=>{findItem(category._id)}} id="edit-categories" type="primary" shape="round"
                 className="btn-edit-kitchen">
-                Editar
+                <Icon path={mdiLeadPencil}
+                title="Lapiz"
+                size={.9}
+                color="#FFF"
+                /> 
                 </Button>
             </div>
         </li>
