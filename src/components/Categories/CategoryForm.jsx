@@ -1,6 +1,5 @@
 import React, {useContext, useState,useEffect} from 'react';
 import {CategoryListContext} from './CategoryListContext';
-import {Input} from 'antd';
 
 const CategoryForm = () => {
     const {addCategory, editItem, editCategory} = useContext(CategoryListContext);
@@ -31,7 +30,7 @@ const CategoryForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="formKitchen">
-            <Input
+            <input
               type="text"
               onChange={handleChange}
               value={name}

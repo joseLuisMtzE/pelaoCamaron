@@ -1,6 +1,5 @@
 import React, {useContext, useState,useEffect} from 'react'
 import {AreaListContext} from './AreaListContext';
-import { Input } from 'antd';
 
 const AreaForm = () => {
 
@@ -32,7 +31,7 @@ const AreaForm = () => {
 
     return (
         <form onSubmit={handleSubmit} className="formKitchen">
-            <Input
+            <input
               type="text"
               onChange={handleChange}
               value={name}

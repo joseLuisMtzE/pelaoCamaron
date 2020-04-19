@@ -1,7 +1,7 @@
 import React,{useContext}  from 'react';
 import {CategoryListContext} from './CategoryListContext';
 import Swal from 'sweetalert2';
-import {Button} from 'antd';
+//import {Button} from 'antd';
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
 import { mdiLeadPencil } from '@mdi/js';
@@ -42,22 +42,22 @@ const Category = ({category}) => {
         <li className="list-itemKitchen">
             <span>{category.nombre}</span>
             <div>
-                <Button id="delete-categories" type="primary" shape="round" onClick={()=> alert()} 
+                <button id="delete-categories" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
                 <Icon path={mdiDelete}
-                title="Basura"
+                title="Eliminar"
                 size={.9}
                 color="#FFF"
                 /> 
-                </Button>
-                <Button onClick={()=>{findItem(category._id)}} id="edit-categories" type="primary" shape="round"
+                </button>
+                <button onClick={()=>{findItem(category._id)}} id="edit-categories" type="primary" shape="round"
                 className="btn-edit-kitchen">
                 <Icon path={mdiLeadPencil}
-                title="Lapiz"
+                title="Editar"
                 size={.9}
                 color="#FFF"
                 /> 
-                </Button>
+                </button>
             </div>
         </li>
       );

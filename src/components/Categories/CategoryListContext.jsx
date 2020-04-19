@@ -1,5 +1,4 @@
 import React, {createContext, useState,useEffect} from 'react';
-//import {v4 as uuidv4} from 'uuid';
 import axios from 'axios';
 import url from '../../constants/api';
 import {alertError,alertSuccess} from '../../shared/Alert';
@@ -32,7 +31,7 @@ const CategoryListContextProvider = props => {
                 alertSuccess(`Categoria ${name} creada correctamente`)
             }
             else{
-                alertError(`Hubo un error`)
+                alertError(`Hubo un error al añadir la categoria`)
             }
             let data = response.data.data;
             return data;
@@ -52,7 +51,7 @@ const CategoryListContextProvider = props => {
                 alertSuccess(`Categoria ${name} editada correctamente`)
             }
             else{
-                alertError(`Hubo un error`)
+                alertError(`Hubo un error al editar la categoria`)
             }
             
             let data = response.data.data;
@@ -71,7 +70,7 @@ const CategoryListContextProvider = props => {
                 alertSuccess(`Categoria borrada correctamente`)
             }
             else{
-                alertError(`Hubo un error`)
+                alertError(`Hubo un error al borrar la categoria`)
             }
             
             let data = response.data.data;
