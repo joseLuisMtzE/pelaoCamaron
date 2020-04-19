@@ -2,6 +2,7 @@ import React, {createContext, useState,useEffect} from 'react';
 //import {v4 as uuidv4} from 'uuid';
 import axios from 'axios';
 import url from '../../constants/api';
+import {alertError,alertSuccess} from '../../shared/Alert';
 export const CategoryListContext = createContext();
 
 const api = axios.create({
@@ -25,13 +26,13 @@ const CategoryListContextProvider = props => {
             let response = await api.post('categorias',{
                 "nombre": name
             });
-            console.log(response);
+           // console.log(response);
 
             if(response.status === 201){
-                alert(`Categoria ${name} creada correctamente`)
+                alertSuccess(`Categoria ${name} creada correctamente`)
             }
             else{
-                alert(`Hubo un error`)
+                alertError(`Hubo un error`)
             }
             let data = response.data.data;
             return data;
@@ -45,13 +46,13 @@ const CategoryListContextProvider = props => {
             let response = await api.patch(`categorias/${id}`,{
                 "nombre": name
             });
-            console.log(response);
+           // console.log(response);
 
             if(response.status === 200){
-                alert(`Categoria ${name} editada correctamente`)
+                alertSuccess(`Categoria ${name} editada correctamente`)
             }
             else{
-                alert(`Hubo un error`)
+                alertError(`Hubo un error`)
             }
             
             let data = response.data.data;
@@ -64,28 +65,26 @@ const CategoryListContextProvider = props => {
     const deleteCategoryRequest = async (id) =>{
         try{
             let response = await api.delete(`categorias/${id}`);
-            console.log(response);
+           // console.log(response);
 
             if(response.status === 204){
-                alert(`Categoria borrada correctamente`)
+                alertSuccess(`Categoria borrada correctamente`)
             }
             else{
-                alert(`Hubo un error`)
+                alertError(`Hubo un error`)
             }
             
             let data = response.data.data;
-            console.log(data);
+            //console.log(data);
             return data;
         }catch(err){
             console.log(err);
         }
     }
     
-    //obteniendo el LS
     const initializeState = async () => {
         const initialState = await retrieveCategories();
         setCategories(initialState);
-        //console.log(initialState);
         // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
     }
     useEffect(()=>{initializeState()},[])
@@ -96,16 +95,13 @@ const CategoryListContextProvider = props => {
     //estado para saber que editar
     const [editItem,setEditItem] = useState(null);
 
-    //Funcion para añadir una categoria
+
     const addCategory = async (name) => {
       loader();
       let response = await addCategoryRequest(name);
-
-      console.log(response)
       setCategories([...categories,{_id:response._id,nombre:response.nombre}])
     }
 
-    //Funcion para borrar una categoria
     const removeCategory = async (id) => {
         loader();
         await deleteCategoryRequest(id);
@@ -113,7 +109,6 @@ const CategoryListContextProvider = props => {
     };
 
     const findItem = id => {
-        console.log(categories,id)
         const item = categories.find(category=>category._id===id);
         setEditItem(item);
     };

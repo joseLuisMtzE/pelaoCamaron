@@ -29,7 +29,7 @@ const Area = ({area}) => {
             'La area de cocina ha sido borrada',
             'success'
           )
-          removeArea(area.id)
+          removeArea(area._id)
         }
       })
       
@@ -41,7 +41,7 @@ const Area = ({area}) => {
 
     return (
         <li className="list-itemKitchen">
-            <span>{area.name}</span>
+            <span>{area.nombre}</span>
             <div>
                 <Button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
@@ -51,7 +51,7 @@ const Area = ({area}) => {
                 color="#FFF"
                 /> 
                 </Button>
-                <Button onClick={()=>findItem(area.id)} id="edit-kitchenArea" type="primary" shape="round"
+                <Button onClick={()=>findItem(area._id)} id="edit-kitchenArea" type="primary" shape="round"
                 className="btn-edit-kitchen">
                 <Icon path={mdiLeadPencil}
                 title="Lapiz"

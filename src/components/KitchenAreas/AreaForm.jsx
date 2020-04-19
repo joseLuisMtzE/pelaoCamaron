@@ -20,13 +20,13 @@ const AreaForm = () => {
             addArea(name);
             setName("");
         }else{
-            editArea(name,editItem.id);
+            editArea(name,editItem._id);
         }
     };
 
     useEffect(()=>{
         if(editItem !== null){
-            setName(editItem.name);
+            setName(editItem.nombre);
         } else { setName("");}
     },[editItem]);
 

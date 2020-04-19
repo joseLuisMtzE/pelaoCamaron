@@ -13,7 +13,7 @@ const AreaList = () => {
             {areas.length ? (
                 <ul className="listKitchen">
                 {areas.map((area)=>{
-                    return <Area area={area} key={area.id}/>
+                    return <Area area={area} key={area._id}/>
                 })}
                 </ul>
             ):(

@@ -5,7 +5,7 @@ import Category from './Category';
 const CategoryList = () => {
     
     const {categories} = useContext(CategoryListContext);
-    console.log(categories)
+    //console.log(categories)
     
     return (
 

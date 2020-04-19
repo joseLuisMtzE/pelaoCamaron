@@ -28,7 +28,7 @@ const Category = ({category}) => {
               'La categoria ha sido borrada',
               'success'
             )
-            console.log(category)
+            //console.log(category)
             removeCategory(category._id)
           }
         })

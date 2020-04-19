@@ -19,14 +19,12 @@ const CategoryForm = () => {
             addCategory(name);
             setName("");
         }else{
-            //console.log(name,editItem._id)
             editCategory(name,editItem._id);
         }
     };
 
     useEffect(()=>{
         if(editItem !== null){
-            console.log(editItem)
             setName(editItem.nombre);
         } else { setName("");}
     },[editItem]);
