@@ -1,17 +1,19 @@
 import React from 'react';
 
-const infoVariables=(props)=>{
-    
-    const info=props.infoVariable;
-    return(
-        <div className="Container-ticket">
-        <h2>FOLIO TICKET #{info.folio} </h2>
-        <br></br>
-        RESPONSABLE: {info.nombreUsuario}
-        <br/>CAJA #{info.numCaja} MESA: {info.mesa}  PERSONAS: {info.numPersonas}  GENERAL
-        <br/>FECHA REIMPRESIÓN {info.fechaReimpresion}
-        <br/>FECHA VENTA {info.fecha}        
-        </div>
-    );
-}
+const infoVariables = (props) => {
+  const info = props.infoVariable;
+  return (
+    <div className="Container-ticket">
+      <br></br>
+      <h4 className="Center">FOLIO TICKET #{info.folio} </h4>
+      <p>RESPONSABLE: {info.nombreUsuario}</p>
+      <p>
+        MESA: {info.mesa} PERSONAS: {info.numPersonas} GENERAL
+      </p>
+      <p> FECHA REIMPRESIÓN {info.fechaReimpresion}</p>
+      <p>FECHA VENTA {info.fecha}</p>
+      <br></br>
+    </div>
+  );
+};
 export default infoVariables;

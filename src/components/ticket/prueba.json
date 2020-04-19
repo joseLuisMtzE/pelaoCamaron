@@ -1,5 +1,5 @@
 {
-  "InfoVariable": {
+  "infoVariable": {
     "folio": 153,
     "nombreUsuario": "Blanca",
     "numCaja": 12,
@@ -31,12 +31,13 @@
       "total": 125
     }
   ],
-  "Pago": {
-    "subtotal": 25,
-    "impuestos": 10,
-    "descuento": 45,
-    "efectivo": 600,
+  "pago": [{
+    "tipoPago":["Efectivo","Tarjeta"],
+    "porcentajeDescuento": 10,
+    "cantidadDescuento": 45,
+    "pagoCon": 600,
     "cambio": 100,
-    "total": 200
-  }
+    "subTotal": 200,
+    "precioTotal":10
+  }]
 }

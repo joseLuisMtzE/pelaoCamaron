@@ -1,7 +1,25 @@
-.Container-ticket{
-    padding-left: 50px;
-  }
+.Center {
+  text-align: center;
+}
 
-.Space-span{
+.Container-ticket {
+  padding-left: 50px;
+}
+
+.Space-span {
   display: block;
+
+}
+
+.Table-ticket {
+  border-spacing: 0 0.5em;
+}
+
+.Table-ticket thead th {
+  padding-right: 15px;
+}
+
+.Table-ticket .datos-pago td {
+  padding-top: 20px;
+  border-top: 1px solid black;
 }
