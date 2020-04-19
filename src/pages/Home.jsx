@@ -1,5 +1,9 @@
 import React from 'react';
 
 export default function Home() {
-  return <div className="background-home">Soy el home</div>;
+  return (
+    <div>
+      <div className="background-home">Soy el home</div>
+    </div>
+  );
 }

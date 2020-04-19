@@ -2,3 +2,32 @@
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
+.centerContent{
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+
+
+.margin-10{
+  margin: 10px;
+}
+
+/*------Inputs------*/
+.inputs{
+  /*margin-top: 10px;*/
+  border-radius: 5px;
+}
+
+/*------Buttons-------*/
+.buttons{
+  border-radius: 5px;
+}
+
+
+/*    TEXT COLORS    */ 
+.white-text-color{
+  color: #fff
+}
+
