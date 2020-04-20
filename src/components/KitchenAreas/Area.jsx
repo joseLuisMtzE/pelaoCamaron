@@ -23,11 +23,11 @@ const Area = ({area}) => {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.value) {
-          Swal.fire(
+          /*Swal.fire(
             'Borrado!',
             'La area de cocina ha sido borrada',
             'success'
-          )
+          )*/
           removeArea(area._id)
         }
       })

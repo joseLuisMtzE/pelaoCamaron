@@ -2,6 +2,23 @@
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
+
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
 .centerContent{
   text-align: center;
   margin: 0 auto;
