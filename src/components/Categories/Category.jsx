@@ -23,11 +23,11 @@ const Category = ({category}) => {
           cancelButtonText: 'Cancelar'
         }).then((result) => {
           if (result.value) {
-            Swal.fire(
+            /*Swal.fire(
               'Borrado!',
               'La categoria ha sido borrada',
               'success'
-            )
+            )*/
             //console.log(category)
             removeCategory(category._id)
           }
