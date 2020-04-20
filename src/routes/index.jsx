@@ -6,31 +6,24 @@ import 'antd/dist/antd.css';
 import Spinner from '../shared/ejemplo_spinner';
 const Layout = lazy(() => import('../pages/Layout/Sidernav'));
 
-<<<<<<< HEAD
 const Tables = lazy(() => import('../pages/Tables'));
 const AddDishes = lazy(() => import('../pages/AddDishes'));
-=======
 const Home = lazy(() => import('../pages/Home'));
 const Login = lazy(() => import('../pages/LoginPage'));
 const HomeDelivery = lazy(() => import('../pages/HomeDelivery'));
 const MenuDishes = lazy(() => import('../pages/MenuDishesPage'));
 const KitchenArea = lazy(() => import('../pages/KitchenArea'));
 const Categories = lazy(() => import('../pages/Categories'));
->>>>>>> origin/develop
 
 export default function AppRoutes() {
   return (
     <>
       <Suspense fallback={<Spinner size={130} />}>
         <BrowserRouter>
-<<<<<<< HEAD
-          <Switch>
-            <Route exact path="/mesas" component={Tables} />
-            <Route exact path="/agregar-platillos" component={AddDishes} />
-          </Switch>
-=======
           <Layout>
             <Switch>
+              <Route exact path="/mesas" component={Tables} />
+              <Route exact path="/agregar-platillos" component={AddDishes} />
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/home-delivery" component={HomeDelivery} />
@@ -43,7 +36,6 @@ export default function AppRoutes() {
               />
             </Switch>
           </Layout>
->>>>>>> origin/develop
         </BrowserRouter>
       </Suspense>
     </>

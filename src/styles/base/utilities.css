@@ -2,7 +2,6 @@
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
-<<<<<<< HEAD
 
 div.scrollmenu {
   overflow: auto;
@@ -19,7 +18,7 @@ div.scrollmenu a {
 
 div.scrollmenu a:hover {
   background-color: #777;
-=======
+}
 .centerContent{
   text-align: center;
   margin: 0 auto;
@@ -47,6 +46,5 @@ div.scrollmenu a:hover {
 /*    TEXT COLORS    */ 
 .white-text-color{
   color: #fff
->>>>>>> origin/develop
 }
 
