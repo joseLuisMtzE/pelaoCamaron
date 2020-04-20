@@ -51,7 +51,7 @@ const FormHomeDelivery = () => {
 
       <Form.Item
         label="Telefono"
-        name="telefono "
+        name="telefono"
         rules={[
           {
             required: true,

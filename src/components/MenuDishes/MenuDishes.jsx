@@ -3,6 +3,7 @@ import { Input, Button } from 'antd';
 import ModalForm from '../MenuDishes/ModalMenuDishes';
 import Background from '../../assets/background.png';
 import { DownloadOutlined } from '@ant-design/icons';
+import MenuGallery from './MenuGallery';
 const { Search } = Input;
 
 /*
@@ -52,7 +53,7 @@ function MenuDishes() {
         </h1>
 
         <div
-          style={{ position: 'absolute', left: 250, top: 35, display: 'block' }}
+          style={{ position: 'absolute', left: 200, top: 35, display: 'block' }}
         >
           <Search
             placeholder="Buscar"
@@ -131,6 +132,7 @@ function MenuDishes() {
         />
       </div>
       <ModalForm/>
+      <MenuGallery/>
     </div>
   );
 }
