@@ -9,7 +9,7 @@ const HeaderKitchen = () => {
         <Icon path={mdiStove}
         title="Estufa"
         size={3}
-        color="#E8624F"
+        color="#FFF"
         /> 
         <h1>Áreas de cocina</h1>
         </div>

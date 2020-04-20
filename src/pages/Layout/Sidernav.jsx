@@ -60,10 +60,10 @@ function Sidernav(props) {
                 <Link to="/menu-dishes">Platillos</Link>
               </Menu.Item>
               <Menu.Item key="4">
-                <Link to="">Categorías de platillos</Link>
+                <Link to="/categorias-alimentos">Categorías de platillos</Link>
               </Menu.Item>
               <Menu.Item key="5">
-                <Link to="">Áreas de cocina</Link>
+                <Link to="/areas-cocina">Áreas de cocina</Link>
               </Menu.Item>
             </SubMenu>
             <Menu.Item key="6">

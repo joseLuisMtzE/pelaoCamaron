@@ -1,10 +1,12 @@
 
 .container-kitchen{
-    background: #D0CFD4;
+    background-color: #DDDCE0;
     padding: 30px;
-    width: 80%;
+    background-image: url('../../assets/background.png');
+    background-repeat: no-repeat;
+    width: 70%;
     min-width: 450px;
-    margin:15px;
+    margin:auto;
     margin-top: 20px;
     height: 100%;
     box-sizing: border-box;
@@ -38,3 +40,9 @@
     font-size: 18px;
     margin-top: 20px;
 }
+
+/*.background-crud{
+    background-image: url('../../assets/background.png');
+    width: 100%;
+    height: 180px;
+}*/
