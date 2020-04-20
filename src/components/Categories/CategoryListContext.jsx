@@ -66,7 +66,7 @@ const CategoryListContextProvider = props => {
             let response = await api.delete(`categorias/${id}`);
            // console.log(response);
 
-            if(response.status === 204){
+            if(response.status === 200){
                 alertSuccess(`Categoria borrada correctamente`)
             }
             else{

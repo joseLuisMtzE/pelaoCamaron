@@ -65,7 +65,7 @@ const AreaListContextProvider = props => {
         try{
             let response = await api.delete(`areas/${id}`);
            // console.log(response);
-            if(response.status === 204){
+            if(response.status === 200){
                 alertSuccess(`Área de cocina borrada correctamente`)
             }
             else{
