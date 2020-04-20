@@ -163,6 +163,7 @@ const FormMenuDishes = ({onOk}) => {
         >
           <Input className="inputs" />
         </Form.Item>
+
         <Form.Item
           label="Imagen"
           name="imagen"
@@ -175,6 +176,7 @@ const FormMenuDishes = ({onOk}) => {
         >
           <Input type="file" accept="image/*" className="inputs" />
         </Form.Item>
+
 
         <Form.Item {...tailLayout}>
           <Button
