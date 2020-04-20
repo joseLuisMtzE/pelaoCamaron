@@ -16,7 +16,7 @@ const Categories = lazy(() => import('../pages/Categories'));
 export default function AppRoutes() {
   return (
     <>
-      <Suspense fallback={<Spinner size={130} />}>
+      <Suspense fallback={<Spinner size={130}/>}>
         <BrowserRouter>
           <Layout>
             <Switch>
