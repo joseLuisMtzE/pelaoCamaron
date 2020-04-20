@@ -1,7 +1,9 @@
 import React,{useContext} from 'react'
 import {AreaListContext} from './AreaListContext';
 import Swal from 'sweetalert2';
-import { Button } from 'antd';
+import Icon from '@mdi/react';
+import { mdiDelete } from '@mdi/js';
+import { mdiLeadPencil } from '@mdi/js';
 
 
 const Area = ({area}) => {
@@ -21,12 +23,12 @@ const Area = ({area}) => {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.value) {
-          Swal.fire(
+          /*Swal.fire(
             'Borrado!',
             'La area de cocina ha sido borrada',
             'success'
-          )
-          removeArea(area.id)
+          )*/
+          removeArea(area._id)
         }
       })
       
@@ -38,16 +40,24 @@ const Area = ({area}) => {
 
     return (
         <li className="list-itemKitchen">
-            <span>{area.name}</span>
+            <span>{area.nombre}</span>
             <div>
-                <Button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
+                <button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
-                 Borrar
-                </Button>
-                <Button onClick={()=>findItem(area.id)} id="edit-kitchenArea" type="primary" shape="round"
+                <Icon path={mdiDelete}
+                title="Eliminar"
+                size={.9}
+                color="#FFF"
+                /> 
+                </button>
+                <button onClick={()=>findItem(area._id)} id="edit-kitchenArea" type="primary" shape="round"
                 className="btn-edit-kitchen">
-                Editar
-                </Button>
+                <Icon path={mdiLeadPencil}
+                title="Editar"
+                size={.9}
+                color="#FFF"
+                /> 
+                </button>
             </div>
         </li>
     )

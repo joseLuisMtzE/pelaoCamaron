@@ -12,13 +12,14 @@ const KitchenArea = () => {
     return ( 
       <Fragment>
       <AreaListContext setLoad={setLoad}>
-        <center>
+      <center>
       <div className="container-kitchen">
           <Header/>
              <AreaForm/>
              {load ? <Spinner/> :  <AreaList/>}
       </div>
       </center>
+
       </AreaListContext>
     </Fragment>
      ); 
