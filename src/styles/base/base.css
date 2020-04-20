@@ -12,5 +12,16 @@ body,
 html {
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif !important;
+<<<<<<< HEAD
   background-color: #EEEEEE !important;
+=======
+  /* min-height:100vh; */
+>>>>>>> origin/develop
 }
+a {
+  text-decoration: none;
+}
+
+/* #root {
+  height: 100%;
+} */

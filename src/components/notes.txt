@@ -1,0 +1,49 @@
+import React,{useState} from 'react'
+import Logo from '../assets/logo (2).png';
+import { Card, Input, Button,Typography } from 'antd';
+const { Title } = Typography; 
+
+function FormLogin() {
+    const [user,setUser]=useState('')
+    const [password,setPassword]=useState('');
+    const [list,setList]=useState([])
+    
+    const LOCAL_STORAGE_KEY = "users";
+
+    const checkLogin=()=>{
+        const newList=list;
+        newList.unshift({user:user, pass:password});
+        setList([...newList])
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(list));
+        setUser("")
+        setPassword("");
+    }
+
+    const keyDown=(e)=>{
+        if(e===13){
+            checkLogin();
+        }
+    }
+
+    return (
+        < >
+        <div className="login-container">
+        <div className="centerContent"  size="small">
+          <img className="imgLogo" src={Logo} width="300px"/>
+          
+        </div>
+      <div className="centerContent" >
+        <Card  className="login-form-content">
+             <Title level={2} >Iniciar Sesión</Title>
+             <Input className="inputs" placeholder="Usuario" value={user} onChange={(e) => { setUser(e.target.value)}} />
+             <Input className="inputs" id="password-login" value={password} type="password" placeholder="Contraseña" onChange={(e) => { setPassword(e.target.value)}} onKeyDown={(e)=>{keyDown(e.keyCode)}}/>
+            <Button className="margin-10 buttons " type="primary" size="large" onClick={checkLogin} onKeyDown={(e)=>{keyDown(e.keyCode)}}><strong>Entrar</strong></Button>
+        </Card>
+            
+      </div>
+      </div>
+
+      </>
+    )
+}
+export default FormLogin
