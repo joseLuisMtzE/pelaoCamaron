@@ -37,7 +37,7 @@ function Sidernav(props) {
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
               <AppstoreOutlined />
-              <Link to="" className="nav-text">
+              <Link to="/mesas" className="nav-text">
                 Mesas
               </Link>
             </Menu.Item>
