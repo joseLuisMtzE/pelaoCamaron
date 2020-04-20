@@ -5,7 +5,7 @@
     border: none;
     padding: 10px 15px 10px 15px;
     background-color:#fff;
-    border-radius: 15px;
+    border-radius: 5px;
     align-items: center;
     color: black;
 }
@@ -13,7 +13,7 @@
 .btn-edit-kitchen {
     margin: 5px;
     background-color: #3D3739;
-    border-radius: 16px;
+    border-radius: 5px;
     border-color: black;
     cursor: pointer;
     padding: 4px 10px 0px 10px;
@@ -22,7 +22,7 @@
 .btn-delete-kitchen {
     margin: 5px;
     background-color: #3D3739;
-    border-radius: 16px;
+    border-radius: 5px;
     border-color: black;
     cursor: pointer;
     padding: 4px 10px 0px 10px;
