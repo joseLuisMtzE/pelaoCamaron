@@ -1,13 +1,25 @@
 import React,{Fragment} from 'react';
+/* import url from '../../constants/apinp';
+import axios from 'axios';
+ */
+/*const api = axios.create({
+  baseURL:url.apiEndPoint
+})*/
 
-const CloseAC = () => {
+
+const ClosingAccounts = () => {
+ /* const reciveOrder = async () =>{
+    try{
+        let response = await api.get('ordenes');
+        let data = response.data.data;
+        return data;
+    }catch(err){
+        console.log(err);
+    }
+  }*/
     return ( 
       <Fragment>
-      
-      <div className="up-style">
-      <h1>Detalles del pedido</h1>
-      </div>
-
+    <div>
     <div className="">
     <div className="App box is-three-quarter column">
      <div className="outer-box">
@@ -80,8 +92,9 @@ const CloseAC = () => {
      </div>
     </div>     
     </div>
-      </Fragment>
+      </div>
+           </Fragment>
      ); 
 }
  
-export default CloseAC;
+export default ClosingAccounts;

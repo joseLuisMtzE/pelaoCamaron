@@ -1,9 +1,9 @@
 import React from 'react';
-import ClosingAccounts from '../components/closingAccount/ClosingAccounts';
+import ModalCloseAC from '../components/closingAccount/ModalCloseAC';
 const closeAccount = () => {
     return (
         <div>
-            <ClosingAccounts/>
+            <ModalCloseAC/>
         </div>
     )
 }
