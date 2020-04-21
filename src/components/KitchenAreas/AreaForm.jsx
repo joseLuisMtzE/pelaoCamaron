@@ -1,6 +1,5 @@
 import React, {useContext, useState,useEffect} from 'react'
 import {AreaListContext} from './AreaListContext';
-import { Input } from 'antd';
 
 const AreaForm = () => {
 
@@ -20,19 +19,19 @@ const AreaForm = () => {
             addArea(name);
             setName("");
         }else{
-            editArea(name,editItem.id);
+            editArea(name,editItem._id);
         }
     };
 
     useEffect(()=>{
         if(editItem !== null){
-            setName(editItem.name);
+            setName(editItem.nombre);
         } else { setName("");}
     },[editItem]);
 
     return (
         <form onSubmit={handleSubmit} className="formKitchen">
-            <Input
+            <input
               type="text"
               onChange={handleChange}
               value={name}

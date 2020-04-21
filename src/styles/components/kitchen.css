@@ -1,11 +1,14 @@
 
 .container-kitchen{
-    background: #D0CFD4;
-    padding: 30px;
-    width: 80%;
-    min-width: 450px;
-    margin:15px;
-    margin-top: 20px;
+    background-image: url('../../assets/background.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #DDDCE0;
+    padding: 20px;
+    width: 70%;
+    min-width: 310px;
+    margin: 0 auto;
+    margin-top: 10px;
     height: 100%;
     box-sizing: border-box;
     border-radius: 5px;
@@ -14,9 +17,8 @@
     display: block;
 }
 
-
 .listKitchen {
-    width: 90%;
+    width: 95%;
     margin: auto;
     max-height: 300px;
     overflow: hidden;
@@ -28,7 +30,7 @@
     color: #ccc;
     font-weight: 300;
     text-align: center;
-    margin: 50px 20px 60px 20px;
+    margin: 0px 20px 30px 20px;
 
 }
 
@@ -38,3 +40,9 @@
     font-size: 18px;
     margin-top: 20px;
 }
+
+/*.background-crud{
+    background-image: url('../../assets/background.png');
+    width: 100%;
+    height: 180px;
+}*/

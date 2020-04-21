@@ -1,6 +1,5 @@
 import React, {useContext, useState,useEffect} from 'react';
 import {CategoryListContext} from './CategoryListContext';
-import {Input} from 'antd';
 
 const CategoryForm = () => {
     const {addCategory, editItem, editCategory} = useContext(CategoryListContext);
@@ -19,19 +18,19 @@ const CategoryForm = () => {
             addCategory(name);
             setName("");
         }else{
-            editCategory(name,editItem.id);
+            editCategory(name,editItem._id);
         }
     };
 
     useEffect(()=>{
         if(editItem !== null){
-            setName(editItem.name);
+            setName(editItem.nombre);
         } else { setName("");}
     },[editItem]);
 
     return (
         <form onSubmit={handleSubmit} className="formKitchen">
-            <Input
+            <input
               type="text"
               onChange={handleChange}
               value={name}

@@ -1,8 +1,8 @@
 .add-area-btn{
     margin:10px;
     margin-right: 10px;
-    border-radius: 15px;
-    background-color: #80EDEC;
+    border-radius: 5px;
+    background-color: #E8624F;
     outline: none;
     cursor: pointer;
     border: none;
@@ -20,11 +20,11 @@
 }
 
 .area-input {
-    width: 50%;
+    width: 65%;
     padding: 15px 10px 10px 20px;
     margin: 10px;
     font-size: 15px;
-    border: 1px solid #444;
+    border: 1px solid #FFF;
     outline: none;
-    border-radius: 20px;
+    border-radius: 5px;
 }
