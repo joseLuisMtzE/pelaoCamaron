@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Cascader } from 'antd';
 import Table from '../components/tables/Table';
-import { useState } from 'react';
 import NewTable from '../components/tables/NewTable';
 import Background from '../assets/background.png';
 
@@ -84,7 +83,17 @@ export default function Tables() {
     }
   ]);
 
-  const [selectedTables, setSelectedTables] = useState(tables);
+  const [selectedTables, setSelectedTables] = useState([]);
+  const [filter, setFilter] = useState('todas');
+
+  useEffect(() => {
+    let result =
+      filter !== 'todas'
+        ? tables.filter(table => table.estado === filter)
+        : tables;
+
+    setSelectedTables(result);
+  }, [tables, filter]);
 
   const filterOptions = [
     {
@@ -117,6 +126,10 @@ export default function Tables() {
       if (t.id === id) temp.splice(index, 1);
     });
     setTables(temp);
+  };
+
+  const onFilterChange = value => {
+    setFilter(value[0]);
   };
 
   return (
@@ -164,13 +177,4 @@ export default function Tables() {
       </Col>
     </Row>
   );
-
-  function onFilterChange(value) {
-    let result =
-      value[0] !== 'todas'
-        ? tables.filter(table => table.estado === value[0])
-        : tables;
-
-    setSelectedTables(result);
-  }
 }
