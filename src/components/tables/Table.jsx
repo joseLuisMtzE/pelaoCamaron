@@ -4,81 +4,61 @@ import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 const { confirm } = Modal;
 
-export default function Table({ numMesa, table,deleteTable}) {
-  const [visible, setVisible] = useState(false);
+export default function Table({ noMesa, table,deleteTable}) {
 
-  const waiterOptions = [
+  const options = [ //Cascader options
     {
-      value: 'Jose Luis',
-      label: 'Jose Luis',
-    },
-    {
-      value: 'Erick Noel',
-      label: 'Erick Noel',
-    },
-    {
-      value: 'Mariana Fajardo',
-      label: 'Mariana Fajardo',
-    },
-    {
-      value: 'Karen Robles',
-      label: 'Karen Robles',
-    },
-  ];
-  const stateOptions = [
-    {
-      value: 'disponible',
+      value: 'Disponible',
       label: 'Disponible',
     },
     {
-      value: 'ocupada',
+      value: 'Ocupada',
       label: 'Ocupada',
     },
     {
-      value: 'reservada',
+      value: 'Reservada',
       label: 'Reservada',
     },
   ];
 
-  const onWaiterChange = (value) => {
-    if (value[0]) console.log(value[0]);
-  };
-  const onStateChange = (value) => {
+  const onchange = (value) => { //Cascader onChange event
     if (value[0]) table.estado= value[0];
   };
 
-  const showModal = () => {
+  const [visible, setVisible] = useState(false); //Modal state
+
+  const showModal = () => { //Modal open event
     setVisible(true);
   };
 
-  const handleOk = (e) => {
+  const handleOk = (e) => { //Modal onOK event
     console.log(e);
     setVisible(false);
   };
 
-  const handleCancel = (e) => {
+  const handleCancel = (e) => { //Modal onCancel event
     console.log(e);
     setVisible(false);
   };
 
-  const showConfirm = ()=> {
+  const showConfirm = ()=> { //DeleteModal
     setVisible(false);
     confirm({
-      title: `¿Quieres eliminar la mesa ${numMesa}?` ,
+      title: `¿Quieres eliminar la mesa ${noMesa}?` ,
       icon: <ExclamationCircleOutlined />,
-      content: `La mesa ${numMesa} será eliminada de la lista de mesas.`,
+      content: `La mesa ${noMesa} será eliminada de la lista de mesas.`,
       okText: 'Eliminar',
       cancelText: 'Cancelar',
       okType: 'danger',
       onOk() {
-        deleteTable(numMesa);
+        deleteTable(noMesa);
       },
       onCancel() {},
     });
   }
 
-  var title = `Mesa ${numMesa}`;
-  var modalTitle = `Mesa ${numMesa} - ${table.estado}`;
+  var title = `Mesa ${noMesa}`;
+  var modalTitle = `Mesa ${noMesa} - ${table.estado}`;
   return (
     <div>
       <Card
@@ -97,9 +77,9 @@ export default function Table({ numMesa, table,deleteTable}) {
           style={{
             borderRadius: '100%',
             background:
-              table.estado === 'disponible'
+              table.estado === 'Disponible'
                 ? '#95D362'
-                : table.estado === 'ocupada'
+                : table.estado === 'Ocupada'
                   ? '#DC7171'
                   : '#FED154',
             height: 25,
@@ -125,24 +105,17 @@ export default function Table({ numMesa, table,deleteTable}) {
           <Button key="submit" type="primary" onClick>
             <Link to={{
               pathname:'/agregar-platillos',
-              numMesa: numMesa
+              noMesa: noMesa
             }}>Ordenar</Link>
           </Button>,
         ]}
       >
-        <p>Mesero: </p>
+        <span>Estado </span>
         <Cascader
           size="large"
-          options={waiterOptions}
-          onChange={onWaiterChange}
-          placeholder="Mesero..."
-        />
-        <p>Estado: </p>
-        <Cascader
-          size="large"
-          options={stateOptions}
-          onChange={onStateChange}
-          placeholder="Estado..."
+          options={options}
+          onChange={onchange}
+          placeholder="Estado de la mesa..."
         />
       </Modal>
     </div>

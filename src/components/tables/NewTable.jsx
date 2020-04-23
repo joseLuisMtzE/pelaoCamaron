@@ -81,7 +81,7 @@ export default function NewTable({ count , addTable}) {
         <form id="form">
           <p>Número de mesa:</p>
           <InputNumber
-            name="numMesa"
+            name="noMesa"
             size="large"
             onChange={onChange}
             defaultValue={count + 1}
