@@ -52,38 +52,54 @@ export default function Tables() {
     filter: 'todas',
   });
 
+  const [selectedTables, setSelectedTables] = useState([]);
+  const [filter, setFilter] = useState('todas');
+
+  useEffect(() => {
+    let result =
+      filter !== 'todas'
+        ? tables.filter(table => table.estado === filter)
+        : tables;
+
+    setSelectedTables(result);
+  }, [tables, filter]);
+
   const filterOptions = [
     {
       value: 'todas',
-      label: 'Todas',
+      label: 'Todas'
     },
     {
-      value: 'disponibles',
-      label: 'Disponibles',
+      value: 'disponible',
+      label: 'Disponibles'
     },
     {
-      value: 'ocupadas',
-      label: 'Ocupadas',
+      value: 'ocupada',
+      label: 'Ocupadas'
     },
     {
-      value: 'reservadas',
-      label: 'Reservadas',
-    },
+      value: 'reservada',
+      label: 'Reservadas'
+    }
   ];
 
-  const addTable = (data) => {
+  const addTable = data => {
     var temp = [...tables];
     temp.push(data);
     setTables(temp);
     addCategoryRequest(data);
   };
 
-  const deleteTable = (id) => {
+  const deleteTable = id => {
     var temp = [...tables];
-    temp.map((t, index) => {
+    temp.forEach((t, index) => {
       if (t.id === id) temp.splice(index, 1);
     });
     setTables(temp);
+  };
+
+  const onFilterChange = value => {
+    setFilter(value[0]);
   };
 
   return (
@@ -97,7 +113,7 @@ export default function Tables() {
               position: 'absolute',
               left: 20,
               top: 30,
-              fontWeight: 'bold',
+              fontWeight: 'bold'
             }}
           >
             Mesas
@@ -115,55 +131,15 @@ export default function Tables() {
         </Col>
 
         <Row>
-          {state.filter === 'todas' &&
-            tables.map((table) => (
-              <Col md={4} xs={8} key={table._id}>
-                <Table
-                  table={table}
-                  noMesa={table.noMesa}
-                  deleteTable={deleteTable}
-                />
-              </Col>
-            ))}
-          {state.filter === 'disponibles' &&
-            tables.map(
-              (table) =>
-                table.estado === 'disponible' && (
-                  <Col md={4} xs={8} key={table._id}>
-                    <Table
-                      table={table}
-                      noMesa={table.noMesa}
-                      deleteTable={deleteTable}
-                    />
-                  </Col>
-                )
-            )}
-          {state.filter === 'ocupadas' &&
-            tables.map(
-              (table) =>
-                table.estado === 'Ocupada' && (
-                  <Col md={4} xs={8} key={table._id}>
-                    <Table
-                      table={table}
-                      noMesa={table.noMesa}
-                      deleteTable={deleteTable}
-                    />
-                  </Col>
-                )
-            )}
-          {state.filter === 'reservadas' &&
-            tables.map(
-              (table) =>
-                table.estado === 'reservada' && (
-                  <Col md={4} xs={8} key={table._id}>
-                    <Table
-                      table={table}
-                      noMesa={table.noMesa}
-                      deleteTable={deleteTable}
-                    />
-                  </Col>
-                )
-            )}
+          {selectedTables.map(table => (
+            <Col md={4} xs={8} key={table.id}>
+              <Table
+                table={table}
+                numMesa={table.numMesa}
+                deleteTable={deleteTable}
+              />
+            </Col>
+          ))}
           <Col xs={8} md={4}>
             <NewTable count={tables.length} addTable={addTable} />
           </Col>
@@ -171,11 +147,4 @@ export default function Tables() {
       </Col>
     </Row>
   );
-
-  function onFilterChange(value) {
-    if (value[0])
-      setState({
-        filter: value[0],
-      });
-  }
 }
