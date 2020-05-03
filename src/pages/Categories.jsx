@@ -1,8 +1,9 @@
 import React,{Fragment,useState} from 'react';
 import CategoryList from '../components/Categories/CategoryList';
-import CategoryForm from '../components/Categories/CategoryForm';
 import HeaderCategory from '../components/Categories/HeaderCategory';
 import CategoryListContext from '../components/Categories/CategoryListContext';
+import CategoryModal from '../components/Categories/CategoryModal';
+import {getRol} from '../components/Wrapper';
 import Spinner from '../shared/Spinner';
 
 const Categories = () => {
@@ -11,13 +12,15 @@ const Categories = () => {
     return ( 
         <Fragment>
         <CategoryListContext setLoad={setLoad}>
-        <center>
         <div  className="container-kitchen">
+        <center>
+        <div className="headerCRUD">
         <HeaderCategory/>
-        <CategoryForm/>
-        {load ? <Spinner/> : <CategoryList/>}
         </div>
         </center>
+        {load ? <Spinner/> : <CategoryList/>}
+        {getRol()==='Dueño' || getRol()==='Caja' ? <CategoryModal/> : null}
+        </div>
         </CategoryListContext>
         </Fragment>
      );

@@ -1,9 +1,10 @@
 import React,{Fragment,useState} from 'react';
 import AreaList from '../components/KitchenAreas/AreaList';
-import AreaForm from '../components/KitchenAreas/AreaForm';
 import Header from '../components/KitchenAreas/HeaderKitchen';
 import AreaListContext from '../components/KitchenAreas/AreaListContext';
 import Spinner from '../shared/Spinner';
+import {getRol} from '../components/Wrapper';
+import AreaModal from '../components/KitchenAreas/AreaModal';
 
 const KitchenArea = () => {
 
@@ -11,16 +12,17 @@ const KitchenArea = () => {
 
     return ( 
       <Fragment>
+      <div className="container-kitchen">
       <AreaListContext setLoad={setLoad}>
       <center>
-      <div className="container-kitchen">
+      <div className="headerCRUD">
           <Header/>
-             <AreaForm/>
-             {load ? <Spinner/> :  <AreaList/>}
       </div>
       </center>
-
+             {load ? <Spinner/> : <AreaList/> }
+          {getRol()==='Dueño' || getRol()==='Caja' ? <AreaModal/> : null}
       </AreaListContext>
+      </div>
     </Fragment>
      ); 
 }

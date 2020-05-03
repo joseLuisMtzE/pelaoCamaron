@@ -1,18 +1,18 @@
 import React, {createContext, useState,useEffect} from 'react';
-import axios from 'axios';
-import url from '../../constants/api';
 import {alertError,alertSuccess} from '../../shared/Alert';
+import {makeRequest} from '../Wrapper';
 export const CategoryListContext = createContext();
-
-const api = axios.create({
-    baseURL:url.apiEndPoint
-})
 
 const CategoryListContextProvider = props => {
 
+   /* const prueba = async()=>{
+        let response= await makeRequest('GET','categorias')
+       console.log(response);
+}*/
+
     const retrieveCategories = async () =>{
         try{
-            let response = await api.get('categorias');
+            let response = await makeRequest('GET','categorias');
             let data = response.data.data;
             return data;
         }catch(err){
@@ -22,7 +22,7 @@ const CategoryListContextProvider = props => {
 
     const addCategoryRequest = async (name) =>{
         try{
-            let response = await api.post('categorias',{
+            let response = await makeRequest('POST','categorias',{
                 "nombre": name
             });
            // console.log(response);
@@ -42,7 +42,7 @@ const CategoryListContextProvider = props => {
 
     const editCategoryRequest = async (name,id) =>{
         try{
-            let response = await api.patch(`categorias/${id}`,{
+            let response = await makeRequest('PATCH',`categorias/${id}`,{
                 "nombre": name
             });
            // console.log(response);
@@ -63,10 +63,10 @@ const CategoryListContextProvider = props => {
 
     const deleteCategoryRequest = async (id) =>{
         try{
-            let response = await api.delete(`categorias/${id}`);
+            let response = await makeRequest('DELETE',`categorias/${id}`);
            // console.log(response);
 
-            if(response.status === 200){
+            if(response.status === 204){
                 alertSuccess(`Categoria borrada correctamente`)
             }
             else{
@@ -129,9 +129,11 @@ const CategoryListContextProvider = props => {
         },1000);        
     }
 
+    
+
     return (
     <CategoryListContext.Provider 
-    value={{categories,addCategory,removeCategory,findItem,editCategory,editItem}}>
+    value={{categories,addCategory,removeCategory,findItem,editCategory,editItem,setEditItem}}>
      {props.children}
     </CategoryListContext.Provider>  
     );

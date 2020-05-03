@@ -1,7 +1,7 @@
 import React,{useContext}  from 'react';
 import {CategoryListContext} from './CategoryListContext';
+import {getRol} from '../Wrapper';
 import Swal from 'sweetalert2';
-//import {Button} from 'antd';
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
 import { mdiLeadPencil } from '@mdi/js';
@@ -41,6 +41,7 @@ const Category = ({category}) => {
     return (
         <li className="list-itemKitchen">
             <span>{category.nombre}</span>
+            {getRol()==='Dueño' || getRol()==='Caja' ? 
             <div>
                 <button id="delete-categories" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
@@ -58,7 +59,7 @@ const Category = ({category}) => {
                 color="#FFF"
                 /> 
                 </button>
-            </div>
+            </div>: null}
         </li>
       );
 }

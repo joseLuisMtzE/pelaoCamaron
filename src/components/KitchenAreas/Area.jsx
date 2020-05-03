@@ -1,5 +1,6 @@
 import React,{useContext} from 'react'
 import {AreaListContext} from './AreaListContext';
+import {getRol} from '../Wrapper';
 import Swal from 'sweetalert2';
 import Icon from '@mdi/react';
 import { mdiDelete } from '@mdi/js';
@@ -41,6 +42,7 @@ const Area = ({area}) => {
     return (
         <li className="list-itemKitchen">
             <span>{area.nombre}</span>
+            {getRol()==='Dueño' || getRol()==='Caja' ? 
             <div>
                 <button id="delete-kitchenArea" type="primary" shape="round" onClick={()=> alert()} 
                 className="btn-delete-kitchen">
@@ -58,7 +60,7 @@ const Area = ({area}) => {
                 color="#FFF"
                 /> 
                 </button>
-            </div>
+            </div>: null}
         </li>
     )
 }
