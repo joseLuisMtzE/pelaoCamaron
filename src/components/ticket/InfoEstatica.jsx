@@ -6,7 +6,7 @@ const InfoEstatica = (props) => {
     <div className="Container-ticket">
       <img src={logo} alt="Logo Camaron Pelao" width={250}></img>
       <div>
-        <h4 className="Center ">MARISCOS EL PELAO CAMARON</h4>
+        <h4>MARISCOS EL PELAO CAMARON</h4>
         <span className="Space-span">LUIS SALAS CHAVEZ</span>
         <br></br>
         <span className="Space-span">RÉGIMEN: INCORPORACIÓN FISCAL</span>

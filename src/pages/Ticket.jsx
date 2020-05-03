@@ -2,28 +2,24 @@ import React from 'react';
 import InfoEstatica from '../components/ticket/InfoEstatica';
 import InfoVariables from '../components/ticket/InfoVariables';
 import TablaProductos from '../components/ticket/TablaProductos';
-import Pago from '../components/ticket/Pago';
-import data from '../components/ticket/prueba.json';
+import Domicilio from '../components/ticket/Domicilio';
+import ConvNumLet from '../components/ticket/ConvNumLet';
+import PrintTicket from '../components/ticket/PrintTicket';
 import dataFinal from '../assets/jsonFinal.json';
 
 function ticket() {
-  const infoVariable = {
-    folio: dataFinal.folio,
-    responsable: dataFinal.comandas.usuario,
-    mesa: dataFinal.mesa,
-    personas: dataFinal.numPersonas,
-    fecha: dataFinal.fecha,
-  };
   return (
     <>
       <InfoEstatica />
-      <InfoVariables infoVariable={data.infoVariable} />
+      <InfoVariables pago={dataFinal.pago} />
+      <Domicilio domicilio={dataFinal.domicilio} RendDomicilio={false} />
       <TablaProductos
         comandas={dataFinal.comandas}
         platillos={dataFinal.platillos}
         pago={dataFinal.pago}
       />
-      <Pago Pago={dataFinal.pago} />
+      <ConvNumLet pago={dataFinal.pago} />
+      <PrintTicket />
     </>
   );
 }

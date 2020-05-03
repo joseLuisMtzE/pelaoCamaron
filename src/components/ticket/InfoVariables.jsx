@@ -1,17 +1,18 @@
 import React from 'react';
 
 const infoVariables = (props) => {
-  const info = props.infoVariable;
+  //const infoVariable = ({ folio, fecha, mesa } = props);
+  const pago = props.pago;
   return (
     <div className="Container-ticket">
       <br></br>
-      <h4 className="Center">FOLIO TICKET #{info.folio} </h4>
-      <p>RESPONSABLE: {info.nombreUsuario}</p>
+      <h4 className="Center">FOLIO TICKET #{pago.cambio} </h4>
+      <p>RESPONSABLE: {}</p>
       <p>
-        MESA: {info.mesa} PERSONAS: {info.numPersonas} GENERAL
+        MESA: {} PERSONAS: {} GENERAL
       </p>
-      <p> FECHA REIMPRESIÓN {info.fechaReimpresion}</p>
-      <p>FECHA VENTA {info.fecha}</p>
+      <p> FECHA REIMPRESIÓN {}</p>
+      <p>FECHA VENTA {}</p>
       <br></br>
     </div>
   );
