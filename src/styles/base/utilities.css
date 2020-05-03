@@ -2,3 +2,45 @@
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
+
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+  background-color: #777;
+}
+.centerContent {
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+/*------Inputs------*/
+.inputs {
+  /*margin-top: 10px;*/
+  border-radius: 5px;
+}
+
+/*------Buttons-------*/
+.buttons {
+  border-radius: 5px;
+}
+
+/*    TEXT COLORS    */
+.white-text-color {
+  color: #fff;
+}

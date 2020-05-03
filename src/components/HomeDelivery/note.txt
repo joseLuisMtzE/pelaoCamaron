@@ -1,0 +1,9 @@
+<form action="" >
+                <Input className="inputs" name="name" size="large" placeholder="Nombre"  onChange={handleInputChange}/>
+                <Input className="inputs" name="phone" size="large" placeholder="Teléfono" onChange={handleInputChange}/>
+                <Input className="inputs" name="street" size="large" placeholder="Calle" onChange={handleInputChange}/>
+                <Input className="inputs" name="interiorN" size="large" placeholder="Número Ext." onChange={handleInputChange}/>
+                <Input className="inputs" name="outdoorN" size="large" placeholder="Número Int." onChange={handleInputChange}/>
+                <Input className="inputs" name="suburb" size="large" placeholder="Colonia" onChange={handleInputChange}/>
+                <Input className="inputs" name="reference" size="large" placeholder="Referencia" onChange={handleInputChange}/>
+            </form>
