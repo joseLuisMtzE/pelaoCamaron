@@ -7,6 +7,8 @@
 @import './base/animation.css';
 /* Estilos básicos */
 @import './base/base.css';
+/*Cierre De cuentas*/
+@import './components/CloseOrder.css';
 /* Margenes, paddgins, bordes */
 @import './base/utilities.css';
 
@@ -18,6 +20,8 @@
 @import './components/kitchen.css';
 @import './components/Area.css';
 @import './components/AreaForm.css';
+
+@import './components/ticket.css';
 
 /* Estilos de cotenedores pages */
 @import './pages/home.css';

@@ -39,8 +39,7 @@ const AreaListContextProvider = props => {
             return data;
         }catch(err){
             console.log(err);
-        }
-    }
+        }}
 
     const editAreaRequest = async (name,id) =>{
         try{
@@ -79,70 +78,66 @@ const AreaListContextProvider = props => {
         }catch(err){
             console.log(err);
         }
-    }
+  
+  };
 
-    const initializeState = async () => {
-        const initialState = await retrieveAreas();
-        setAreas(initialState);
-        // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
-    }
-    useEffect(()=>{initializeState()},[])
-
-    
-    //estado para mi arreglo de objetos de las areas de cocina
-    const [areas, setAreas]= useState([]);
-
-    //estado para saber que editar
-    const [editItem,setEditItem] = useState(null);
-
-   /*
-   useEffect(()=>{
-       localStorage.setItem("areas",JSON.stringify(areas));
-   },[areas]);*/
-
-
-    const addArea = async (name) => {
-     loader();
-     let response = await addAreaRequest(name);
-     setAreas([...areas,{_id:response._id,nombre:response.nombre}])
-    }
-
-
-    const removeArea = async (id) => {
-        loader();
-        await deleteAreaRequest(id);
-        setAreas(areas.filter(area =>area._id !== id));
-    };
-
-    const findItem = id => {
-        const item = areas.find(area=>area._id===id);
-        setEditItem(item);
-    };
-
-    const editArea = async (name,id)=>{
-        loader();
-        const newArea = areas.map(area=>(area._id===id ?
-             {_id:id,nombre:name} : area));
-        
-        await editAreaRequest(name,id);
-        setAreas(newArea);
-        setEditItem(null);
-    };
-
-    //spinner
-    function loader(){
-        props.setLoad(true);
-        setTimeout(()=>{
-            props.setLoad(false);
-        },1000);        
-    }
-
-    return (
-    <AreaListContext.Provider 
-    value={{areas,addArea,removeArea,findItem,editArea,editItem,setEditItem}}>
-     {props.children}
-    </AreaListContext.Provider>  
-    );
+  const initializeState = async () => {
+    const initialState = await retrieveAreas();
+    setAreas(initialState);
+    // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
 }
- 
+useEffect(()=>{initializeState()},[])
+
+
+//estado para mi arreglo de objetos de las areas de cocina
+const [areas, setAreas]= useState([]);
+
+//estado para saber que editar
+const [editItem,setEditItem] = useState(null);
+
+  const addArea = async name => {
+    loader();
+    let response = await addAreaRequest(name);
+    setAreas([...areas, { _id: response._id, nombre: response.nombre }]);
+  };
+
+  const removeArea = async id => {
+    loader();
+    await deleteAreaRequest(id);
+    setAreas(areas.filter(area => area._id !== id));
+  };
+
+  const findItem = id => {
+    const item = areas.find(area => area._id === id);
+    setEditItem(item);
+  };
+
+  const editArea = async (name, id) => {
+    loader();
+    const newArea = areas.map(area =>
+      area._id === id ? { _id: id, nombre: name } : area
+    );
+
+    await editAreaRequest(name, id);
+    setAreas(newArea);
+    setEditItem(null);
+  };
+
+  //spinner
+  function loader() {
+    props.setLoad(true);
+    setTimeout(() => {
+      props.setLoad(false);
+    }, 1000);
+  }
+
+  return (
+    <AreaListContext.Provider
+      value={{ areas, addArea, removeArea, findItem, editArea, editItem,setEditItem }}
+    >
+      {props.children}
+    </AreaListContext.Provider>
+  );
+};
+
 export default AreaListContextProvider;

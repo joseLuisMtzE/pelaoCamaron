@@ -18,7 +18,7 @@ const CategoryListContextProvider = props => {
         }catch(err){
             console.log(err);
         }
-    }
+      }
 
     const addCategoryRequest = async (name) =>{
         try{
@@ -79,15 +79,16 @@ const CategoryListContextProvider = props => {
         }catch(err){
             console.log(err);
         }
-    }
+      }
+
     
-    const initializeState = async () => {
+   const initializeState = async () => {
         const initialState = await retrieveCategories();
         setCategories(initialState);
         // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
     }
     useEffect(()=>{initializeState()},[])
-    
+ 
     //estado para mi arreglo de objetos de las categorias
     const [categories, setCategories]= useState([]);
 
@@ -135,8 +136,8 @@ const CategoryListContextProvider = props => {
     <CategoryListContext.Provider 
     value={{categories,addCategory,removeCategory,findItem,editCategory,editItem,setEditItem}}>
      {props.children}
-    </CategoryListContext.Provider>  
-    );
-}
- 
+    </CategoryListContext.Provider>      
+  );
+};
+
 export default CategoryListContextProvider;

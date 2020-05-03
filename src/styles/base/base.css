@@ -12,12 +12,12 @@ body,
 html {
   box-sizing: border-box;
   font-family: 'Montserrat', sans-serif !important;
+  background-color: #eeeeee !important;
   /* min-height:100vh; */
+}
+root {
+  min-height: 100vh;
 }
 a {
   text-decoration: none;
 }
-
-/* #root {
-  height: 100%;
-} */
