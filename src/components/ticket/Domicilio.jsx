@@ -8,16 +8,32 @@ const Domicilio = (props) => {
     <div>
       {(domicilio && (
         <div className="Container-ticket">
-          <h4> DOMILIO </h4>
-          <p>CLIENTE: {domicilio.nombreCliente}</p>
-          <p> TELÉFONO: {domicilio.telefono}</p>
-          <p> CALLE: {domicilio.calle}</p>
-          <p>NUMERO EXTERIOR: {domicilio.numeroExterior}</p>
-          <p> NUMERO INTERIOR: {domicilio.numeroInterior}</p>
-          <p> COLONIA: {domicilio.colonia}</p>
-          <p> REFERENCIAS: {domicilio.referencia}</p>
-          <p> PAGARÁ CON: ${domicilio.pagaraCon}</p>
-          <p> CAMBIO: {domicilio.cambio}</p>
+          <h4> DOMICILIO </h4>
+          <span className="Space-span">
+            {' '}
+            CLIENTE: {domicilio.nombreCliente}
+          </span>
+          <span className="Space-span"> TELÉFONO: {domicilio.telefono}</span>
+          <span className="Space-span"> CALLE: {domicilio.calle}</span>
+          <span className="Space-span">
+            {' '}
+            NUMERO EXTERIOR: {domicilio.numeroExterior}
+          </span>
+          <span className="Space-span">
+            {' '}
+            NUMERO INTERIOR: {domicilio.numeroInterior}
+          </span>
+          <span className="Space-span"> COLONIA: {domicilio.colonia}</span>
+          <span className="Space-span">
+            {' '}
+            REFERENCIAS: {domicilio.referencia}
+          </span>
+          <span className="Space-span">
+            {' '}
+            PAGARÁ CON: ${domicilio.pagaraCon}
+          </span>
+          <span className="Space-span"> CAMBIO: {domicilio.cambio}</span>
+
           <br></br>
         </div>
       )) ||

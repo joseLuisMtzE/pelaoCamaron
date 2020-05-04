@@ -4,6 +4,7 @@ import InfoVariables from '../components/ticket/InfoVariables';
 import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
 import ConvNumLet from '../components/ticket/ConvNumLet';
+import PieTicket from '../components/ticket/PieTicket';
 import PrintTicket from '../components/ticket/PrintTicket';
 import dataFinal from '../assets/jsonFinal.json';
 
@@ -19,6 +20,7 @@ function ticket() {
         pago={dataFinal.pago}
       />
       <ConvNumLet pago={dataFinal.pago} />
+      <PieTicket />
       <PrintTicket />
     </>
   );

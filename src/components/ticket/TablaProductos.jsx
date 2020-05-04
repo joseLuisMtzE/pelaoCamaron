@@ -112,12 +112,15 @@ const TablaProductos = (props) => {
             <td>${}</td>
           </tr>
           <tr>
-            <td colSpan={3}>TOTAL</td>
-            <td>${}</td>
+            <td colSpan={3}>
+              <h2>TOTAL: </h2>
+            </td>
+            <td>
+              <h2>${}</h2>
+            </td>
           </tr>
         </tbody>
       </table>
-      <hr></hr>
       <br></br>
     </div>
   );

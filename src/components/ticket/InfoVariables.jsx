@@ -6,13 +6,13 @@ const infoVariables = (props) => {
   return (
     <div className="Container-ticket">
       <br></br>
-      <h4 className="Center">FOLIO TICKET #{pago.cambio} </h4>
-      <p>RESPONSABLE: {}</p>
-      <p>
+      <span className="Space-span">FOLIO TICKET #{pago.cambio}</span>
+      <span className="Space-span">RESPONSABLE: {}</span>
+      <span className="Space-span">
         MESA: {} PERSONAS: {} GENERAL
-      </p>
-      <p> FECHA REIMPRESIÓN {}</p>
-      <p>FECHA VENTA {}</p>
+      </span>
+      <span className="Space-span">FECHA REIMPRESIÓN {}</span>
+      <span className="Space-span">FECHA VENTA {}</span>
       <br></br>
     </div>
   );
