@@ -9,7 +9,7 @@ import url from '../../constants/api';
 
 //! Libraries
 import axios from 'axios';
-import { errorAlert, successAlert } from '../Alerts/Alerts';
+import { errorAlert, successAlert } from '../../shared/Alerts';
 
 function ModalCloseAC() {
   const [modalVisible, setModalVisible] = useState(false);
