@@ -1,27 +1,43 @@
-import React from 'react';
-import InfoEstatica from '../components/ticket/InfoEstatica';
+import React, { useState, useEffect } from 'react';
 import InfoVariables from '../components/ticket/InfoVariables';
 import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
 import ConvNumLet from '../components/ticket/ConvNumLet';
 import PrintTicket from '../components/ticket/PrintTicket';
-import dataFinal from '../assets/jsonFinal.json';
+import { makeRequest } from '../components/Wrapper';
 
-function ticket() {
+function Ticket(props) {
+  const [orden, setOrden] = useState({});
+  const id = props.match.params.id;
+  //console.log(domicilio ? true : false);
+  const recuperarOrdenes = async () => {
+    try {
+      let response = await makeRequest('GET', `ordenes/${id}`);
+      let data = response.data.data;
+      //console.log('data', data);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const inicializarState = async () => {
+    const orden = await recuperarOrdenes();
+    setOrden(orden);
+  };
+  useEffect(() => {
+    inicializarState();
+  }, []);
+
   return (
     <>
-      <InfoEstatica />
-      <InfoVariables pago={dataFinal.pago} />
-      <Domicilio domicilio={dataFinal.domicilio} RendDomicilio={false} />
-      <TablaProductos
-        comandas={dataFinal.comandas}
-        platillos={dataFinal.platillos}
-        pago={dataFinal.pago}
-      />
-      <ConvNumLet pago={dataFinal.pago} />
+      <InfoVariables info={orden} />
+      <Domicilio domicilio={orden.domicilio} />
+      <TablaProductos comandas={orden} />
+      <ConvNumLet pago={orden.pago} />
       <PrintTicket />
     </>
   );
 }
 
-export default ticket;
+export default Ticket;
