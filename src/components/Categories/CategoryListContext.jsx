@@ -1,37 +1,17 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
-import url from '../../constants/api';
 import { alertError, alertSuccess } from '../../shared/Alert';
+import { makeRequest } from '../../shared/ApiWrapper';
 export const CategoryListContext = createContext();
 
-const api = axios.create({
-  baseURL: url.apiEndPoint
-});
-
 const CategoryListContextProvider = props => {
-  //estado para mi arreglo de objetos de las categorias
-  const [categories, setCategories] = useState([]);
-  //estado para saber que editar
-  const [editItem, setEditItem] = useState(null);
-
-  useEffect(() => {
-    //Saber si el componente está montado o no
-    let isMounted = true;
-    async function fetchData() {
-      const initialState = await retrieveCategories();
-      if (isMounted) setCategories(initialState);
-    }
-    fetchData();
-
-    //This cleanup funtion will be called whenever the component unmounts, this will be similar to componentWillUnmount() in class components
-    return function cleanup() {
-      isMounted = false;
-    };
-  }, []);
+  /* const prueba = async()=>{
+        let response= await makeRequest('GET','categorias')
+       console.log(response);
+}*/
 
   const retrieveCategories = async () => {
     try {
-      let response = await api.get('categorias');
+      let response = await makeRequest('GET', 'categorias');
       let data = response.data.data;
       return data;
     } catch (err) {
@@ -41,7 +21,7 @@ const CategoryListContextProvider = props => {
 
   const addCategoryRequest = async name => {
     try {
-      let response = await api.post('categorias', {
+      let response = await makeRequest('POST', 'categorias', {
         nombre: name
       });
       // console.log(response);
@@ -49,7 +29,7 @@ const CategoryListContextProvider = props => {
       if (response.status === 201) {
         alertSuccess(`Categoria ${name} creada correctamente`);
       } else {
-        alertError('Hubo un error al añadir la categoria');
+        alertError(`Hubo un error al añadir la categoria`);
       }
       let data = response.data.data;
       return data;
@@ -60,7 +40,7 @@ const CategoryListContextProvider = props => {
 
   const editCategoryRequest = async (name, id) => {
     try {
-      let response = await api.patch(`categorias/${id}`, {
+      let response = await makeRequest('PATCH', `categorias/${id}`, {
         nombre: name
       });
       // console.log(response);
@@ -68,7 +48,7 @@ const CategoryListContextProvider = props => {
       if (response.status === 200) {
         alertSuccess(`Categoria ${name} editada correctamente`);
       } else {
-        alertError('Hubo un error al editar la categoria');
+        alertError(`Hubo un error al editar la categoria`);
       }
 
       let data = response.data.data;
@@ -80,13 +60,13 @@ const CategoryListContextProvider = props => {
 
   const deleteCategoryRequest = async id => {
     try {
-      let response = await api.delete(`categorias/${id}`);
+      let response = await makeRequest('DELETE', `categorias/${id}`);
       // console.log(response);
 
-      if (response.status === 200) {
-        alertSuccess('Categoria borrada correctamente');
+      if (response.status === 204) {
+        alertSuccess(`Categoria borrada correctamente`);
       } else {
-        alertError('Hubo un error al borrar la categoria');
+        alertError(`Hubo un error al borrar la categoria`);
       }
 
       let data = response.data.data;
@@ -96,6 +76,21 @@ const CategoryListContextProvider = props => {
       console.log(err);
     }
   };
+
+  const initializeState = async () => {
+    const initialState = await retrieveCategories();
+    setCategories(initialState);
+    // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
+  };
+  useEffect(() => {
+    initializeState();
+  }, []);
+
+  //estado para mi arreglo de objetos de las categorias
+  const [categories, setCategories] = useState([]);
+
+  //estado para saber que editar
+  const [editItem, setEditItem] = useState(null);
 
   const addCategory = async name => {
     loader();
@@ -143,7 +138,8 @@ const CategoryListContextProvider = props => {
         removeCategory,
         findItem,
         editCategory,
-        editItem
+        editItem,
+        setEditItem
       }}
     >
       {props.children}

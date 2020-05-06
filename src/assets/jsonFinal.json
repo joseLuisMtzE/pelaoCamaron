@@ -1,0 +1,50 @@
+{
+  "id": 1,
+  "folio": 2,
+  "ordenTipo": ["Domicilio", "Local"],
+  "domicilio": {
+    "nombreCliente": "Mariana",
+    "telefono": "3121743226",
+    "calle": "Av del oceano",
+    "numeroExterior": 10,
+    "numeroInterior": 0,
+    "colonia": "Real Santa Fe",
+    "referencia": "blablabla",
+    "pagaraCon": 3,
+    "cambio": 4
+  },
+  "numPersonas": 5,
+  "mesa": 6,
+  "fecha": "02/01/2020",
+  "estado": ["En proceso", "Cerrada", "Cancelada"],
+  "comandas": [{
+    "numComanda": 7,
+    "platillo": "Camarones",
+    "cantidad": 8,
+    "usuario": "Fajardo",
+    "estado": ["En preparación", "Cancelada", "Lista"],
+    "observaciones": "blablabla"
+  }],
+  "pago": {
+    "tipoPago": ["Efectivo", "Tarjeta"],
+    "porcentajeDescuento": 9,
+    "cantidadDescuento": 10,
+    "pagoCon": 11,
+    "cambio": 12,
+    "subTotal": 13,
+    "precioTotal": 14485.63
+  },
+  "observaciones": "blablabla",
+  "platillos": {
+    "id": 15,
+    "nombre": "Camarones",
+    "categoria": "blablabla",
+    "area": "cocina",
+    "precioConIva": 16,
+    "precioSinIva": 17,
+    "peso": "18 grs",
+    "descripcion": "blablabla",
+    "tiempoPreparacion": 18,
+    "imagen": "imagen"
+  }
+}

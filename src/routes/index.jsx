@@ -7,6 +7,7 @@ const Layout = lazy(() => import('../pages/Layout/Sidernav'));
 const Tables = lazy(() => import('../pages/Tables'));
 const AddDishes = lazy(() => import('../pages/AddDishes'));
 const Home = lazy(() => import('../pages/Home'));
+const Ticket = lazy(() => import('../pages/Ticket'));
 const CloseOrderPage = lazy(() => import('../pages/CloseOrderPage'));
 const Login = lazy(() => import('../pages/LoginPage'));
 const HomeDelivery = lazy(() => import('../pages/HomeDelivery'));
@@ -34,6 +35,7 @@ export default function AppRoutes() {
                 path="/categorias-alimentos"
                 component={Categories}
               />
+              <Route exact path="/ticket/:id" component={Ticket} />
             </Switch>
           </Layout>
         </BrowserRouter>
