@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 import url from '../constants/api';
 import jwt_decode from 'jwt-decode';
@@ -16,8 +15,10 @@ function getToken() {
 }
 
 export function getRol() {
-  var decoded = jwt_decode(getToken());
-  return decoded.user.rol;
+  if (localStorage.getItem('token')) {
+    var decoded = jwt_decode(getToken());
+    return decoded.user.rol;
+  }
 }
 
 export const makeRequest = async (metodo, complement, payload) => {
