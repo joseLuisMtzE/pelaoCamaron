@@ -36,7 +36,7 @@ export default function AppRoutes() {
                 path="/categorias-alimentos"
                 component={Categories}
               />
-              <Route exact path="/ticket" component={Ticket} />
+              <Route exact path="/ticket/:id" component={Ticket} />
             </Switch>
           </Layout>
         </BrowserRouter>

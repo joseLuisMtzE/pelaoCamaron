@@ -13,8 +13,6 @@ var decena,
   strMillones;
 
 const ConvNumLet = (props) => {
-  const pago = props.pago;
-
   function Unidades(num) {
     switch (num) {
       case 1:
@@ -143,21 +141,14 @@ const ConvNumLet = (props) => {
     cientos = Math.floor(num / divisor);
     resto = num - cientos * divisor;
 
-    strMiles = Seccion(num, divisor, 'UN MIL', 'MIL');
+    strMiles = Seccion(num, divisor, 'MIL', 'MIL');
     strCentenas = Centenas(resto);
-    if (resto === 0) {
-      strMiles = strMiles;
-    }
-    if (strMiles === '' && resto > 0) {
-      strMiles = strCentenas;
-    }
-    if (strMiles !== '' && resto > 0) {
-      strMiles = strMiles + '' + strCentenas;
-    }
 
-    return strMiles;
+    if (strMiles == '') return strCentenas;
 
-    //return Seccion(num, divisor, “UN MIL”, “MIL”) + ” ” + Centenas(resto);
+    return strMiles + ' ' + strCentenas;
+
+    //return Seccion(num, divisor, "UN MIL", "MIL") + " " + Centenas(resto);
   } //Miles()
 
   function Millones(num) {
@@ -175,18 +166,23 @@ const ConvNumLet = (props) => {
     //return Seccion(num, divisor, "UN MILLON", "MILLONES") + " " + Miles(resto);
   } //Millones()
 
-  function NumeroALetras(num) {
+  function NumeroALetras(num, centavos) {
     var data = {
       numero: num,
       enteros: Math.floor(num),
       centavos: Math.round(num * 100) - Math.floor(num) * 100,
       letrasCentavos: '',
-      letrasMonedaPlural: 'PESOS',
-      letrasMonedaSingular: 'PESO',
     };
+    if (centavos == undefined || centavos == false) {
+      data.letrasMonedaPlural = 'PESOS';
+      data.letrasMonedaSingular = 'PESO';
+    } else {
+      data.letrasMonedaPlural = 'CENTAVOS';
+      data.letrasMonedaSingular = 'CENTAVO';
+    }
 
     if (data.centavos > 0)
-      data.letrasCentavos = 'CON ' + data.centavos + '/100';
+      data.letrasCentavos = 'CON ' + NumeroALetras(data.centavos, true);
 
     if (data.enteros == 0)
       return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
@@ -207,9 +203,12 @@ const ConvNumLet = (props) => {
         data.letrasCentavos
       );
   } //NumeroALetras()
+
+  //console.log('precioTotal', props.pago && props.pago.precioTotal);
+  //console.log('convNumeroALetras2', props.pago);
   return (
     <div className="Container-ticket">
-      <h4>({NumeroALetras(pago.precioTotal)})</h4>
+      <h3>({NumeroALetras(props.pago && props.pago.precioTotal)})</h3>
     </div>
   );
 };
