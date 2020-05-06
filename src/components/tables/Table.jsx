@@ -124,7 +124,7 @@ export default function Table({ numMesa, table,deleteTable}) {
           </Button>,
           <Button key="submit" type="primary" onClick>
             <Link to={{
-              pathname:'/agregar-platillos',
+              pathname:'/menu-dishes',
               numMesa: numMesa
             }}>Ordenar</Link>
           </Button>,

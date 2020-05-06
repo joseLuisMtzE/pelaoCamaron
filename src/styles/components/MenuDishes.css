@@ -14,3 +14,30 @@ div.scrollmenu {
   div.scrollmenu a:hover {
     background-color: #777;
   }
+
+  .img-bg-menu-dishes {
+    padding: 10px;
+    background: url(../../assets/background.png);
+
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    /*background-position: center;*/
+    height: 100%;
+    display: block
+  }
+
+  .floatButton {
+    display:scroll;
+    bottom:60px;
+    right:20px;
+    z-index: 40;
+    position:fixed;
+}
+
+
+.ant-modal-padding{
+  padding: 0px;
+    
+}
+  
