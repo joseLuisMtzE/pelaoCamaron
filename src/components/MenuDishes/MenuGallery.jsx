@@ -15,9 +15,16 @@ function MenuGallery({
   categories,
   nombre,
   imagen,
-  descripcion,precioSinIva,precioConIva,peso,tiempoPreparación,categoria,area
+  descripcion,
+  precioSinIva,
+  precioConIva,
+  peso,
+  tiempoPreparación,
+  categoria,
+  area
 }) {
   //const [state, setState] = useState({ visible: false, loading:false });
+  // console.log('MenuGallery, Area: ', area);
   const [visible, setVisible] = useState(false);
   const showModal = () => {
     setVisible(true);
@@ -46,9 +53,6 @@ function MenuGallery({
           precioConIva={precioConIva}
           peso={peso}
           tiempoPreparación={tiempoPreparación}
-
-
-
           visible={visible}
           setVisible={setVisible}
           handleOk={handleOk}
@@ -63,7 +67,7 @@ function MenuGallery({
             style={{
               boxShadow: '0px 3px 5px 0px grey',
               width: '100%',
-              borderRadius: '5px',
+              borderRadius: '5px'
             }}
           />
           <div
@@ -72,7 +76,7 @@ function MenuGallery({
               backgroundColor: 'white',
               borderBottomRightRadius: '5px',
               borderBottomLeftRadius: '5px',
-              wordWrap: 'break-word',
+              wordWrap: 'break-word'
             }}
           >
             <p>{nombre}</p>

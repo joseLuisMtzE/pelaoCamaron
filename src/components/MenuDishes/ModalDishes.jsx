@@ -12,19 +12,19 @@ function ModalDishes({
   precioConIva,
   precioSinIva,
   peso,
-  tiempoPreparación,categoria,area,
-
+  tiempoPreparación,
+  categoria,
+  area,
   visible,
   handleOk,
   handleCancel,
   categories
-  
 }) {
   const [editModal, setEditModal] = useState({ visible: false });
-
+  // console.log('ModalDishes, Area: ', area);
   const showEditModal = () => {
     setEditModal({
-      visible: true,
+      visible: true
     });
   };
 
@@ -64,7 +64,6 @@ function ModalDishes({
           tiempoPreparación={tiempoPreparación}
           categoria={categoria}
           area={area}
-         
         />
       </Modal>
 
@@ -83,7 +82,7 @@ function ModalDishes({
             height: 'auto',
             marginTop: '20px',
             borderRadius: '5px',
-            zIndex: 0,
+            zIndex: 0
           }}
         />
         <div style={{ padding: '2px' }}>
@@ -92,7 +91,7 @@ function ModalDishes({
             style={{
               marginBottom: '40px',
               borderRadius: '5px',
-              boxShadow: '0px 3px 5px 0px grey',
+              boxShadow: '0px 3px 5px 0px grey'
             }}
           >
             <Title level={4} vel>
@@ -122,7 +121,7 @@ function ModalDishes({
                 width: 40,
                 height: 40,
                 border: 'none',
-                boxShadow: '0px 3px 5px 0px grey',
+                boxShadow: '0px 3px 5px 0px grey'
               }}
             />
             <Button
@@ -134,7 +133,7 @@ function ModalDishes({
                 width: 40,
                 height: 40,
                 border: 'none',
-                boxShadow: '0px 3px 5px 0px grey',
+                boxShadow: '0px 3px 5px 0px grey'
               }}
               danger
             />

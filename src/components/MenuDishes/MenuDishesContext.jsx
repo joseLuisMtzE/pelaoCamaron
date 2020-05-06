@@ -4,20 +4,20 @@ import url from '../../constants/api';
 
 export const DishesContext = createContext();
 
-const MenuDishesContext = (props) => {
+const MenuDishesContext = props => {
   const api = axios.create({
-    baseURL: url.apiEndPoint,
+    baseURL: url.apiEndPoint
   });
   const token =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg3MDQzMjAsImV4cCI6MTU4ODczMzEyMH0.pQelQk_4SXXBbSxPQZGazA6WXXezxoCNkNrBBJSWi2M';
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg3Mzk3NjUsImV4cCI6MTU4ODc2ODU2NX0.QCGp77zS0p3WWlSPqaRmsoYu5ooETPO6MUSHA9KmWQ8';
 
   //------GET
   const retrieveFormMenuDishes = async () => {
     try {
       let response = await api.get('platillos', {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       });
       let data = response.data.data;
 
@@ -31,8 +31,8 @@ const MenuDishesContext = (props) => {
     try {
       let response = await api.get('areas', {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       });
       let data = response.data.data;
 
@@ -46,8 +46,8 @@ const MenuDishesContext = (props) => {
     try {
       let response = await api.get('categorias', {
         headers: {
-          Authorization: token,
-        },
+          Authorization: token
+        }
       });
       let data = response.data.data;
 
@@ -59,7 +59,7 @@ const MenuDishesContext = (props) => {
 
   //------POST
 
-  const addDishesRequest = async (values) => {
+  const addDishesRequest = async values => {
     /* console.log({
           "nombre":values.nombre,
           "area":values.area[0],
@@ -84,12 +84,12 @@ const MenuDishesContext = (props) => {
           peso: parseFloat(values.peso),
           descripcion: values.descripcion,
           tiempoPreparación: parseInt(values.tiempoPreparación),
-          imagen: values.imagen,
+          imagen: values.imagen
         },
         {
           headers: {
-            Authorization: token,
-          },
+            Authorization: token
+          }
         }
       );
 
@@ -107,7 +107,7 @@ const MenuDishesContext = (props) => {
 
   //-----toEdit
   const editDishes = async (id, nombre) => {
-    console.log(id,nombre)
+    console.log(id, nombre);
     /*try {
       let response = await api.patch(`platillos/${id}`, {
         "nombre": nombre,
