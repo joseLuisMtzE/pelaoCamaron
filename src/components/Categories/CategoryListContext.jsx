@@ -1,140 +1,150 @@
-import React, {createContext, useState,useEffect} from 'react';
-import axios from 'axios';
-import url from '../../constants/api';
-import {alertError,alertSuccess} from '../../shared/Alert';
+import React, { createContext, useState, useEffect } from 'react';
+import { alertError, alertSuccess } from '../../shared/Alert';
+import { makeRequest } from '../../shared/ApiWrapper';
 export const CategoryListContext = createContext();
 
-const api = axios.create({
-    baseURL:url.apiEndPoint
-})
-
 const CategoryListContextProvider = props => {
+  /* const prueba = async()=>{
+        let response= await makeRequest('GET','categorias')
+       console.log(response);
+}*/
 
-    const retrieveCategories = async () =>{
-        try{
-            let response = await api.get('categorias');
-            let data = response.data.data;
-            return data;
-        }catch(err){
-            console.log(err);
-        }
+  const retrieveCategories = async () => {
+    try {
+      let response = await makeRequest('GET', 'categorias');
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    const addCategoryRequest = async (name) =>{
-        try{
-            let response = await api.post('categorias',{
-                "nombre": name
-            });
-           // console.log(response);
+  const addCategoryRequest = async name => {
+    try {
+      let response = await makeRequest('POST', 'categorias', {
+        nombre: name
+      });
+      // console.log(response);
 
-            if(response.status === 201){
-                alertSuccess(`Categoria ${name} creada correctamente`)
-            }
-            else{
-                alertError(`Hubo un error al añadir la categoria`)
-            }
-            let data = response.data.data;
-            return data;
-        }catch(err){
-            console.log(err);
-        }
+      if (response.status === 201) {
+        alertSuccess(`Categoria ${name} creada correctamente`);
+      } else {
+        alertError(`Hubo un error al añadir la categoria`);
+      }
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    const editCategoryRequest = async (name,id) =>{
-        try{
-            let response = await api.patch(`categorias/${id}`,{
-                "nombre": name
-            });
-           // console.log(response);
+  const editCategoryRequest = async (name, id) => {
+    try {
+      let response = await makeRequest('PATCH', `categorias/${id}`, {
+        nombre: name
+      });
+      // console.log(response);
 
-            if(response.status === 200){
-                alertSuccess(`Categoria ${name} editada correctamente`)
-            }
-            else{
-                alertError(`Hubo un error al editar la categoria`)
-            }
-            
-            let data = response.data.data;
-            return data;
-        }catch(err){
-            console.log(err);
-        }
+      if (response.status === 200) {
+        alertSuccess(`Categoria ${name} editada correctamente`);
+      } else {
+        alertError(`Hubo un error al editar la categoria`);
+      }
+
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    const deleteCategoryRequest = async (id) =>{
-        try{
-            let response = await api.delete(`categorias/${id}`);
-           // console.log(response);
+  const deleteCategoryRequest = async id => {
+    try {
+      let response = await makeRequest('DELETE', `categorias/${id}`);
+      // console.log(response);
 
-            if(response.status === 200){
-                alertSuccess(`Categoria borrada correctamente`)
-            }
-            else{
-                alertError(`Hubo un error al borrar la categoria`)
-            }
-            
-            let data = response.data.data;
-            //console.log(data);
-            return data;
-        }catch(err){
-            console.log(err);
-        }
+      if (response.status === 204) {
+        alertSuccess(`Categoria borrada correctamente`);
+      } else {
+        alertError(`Hubo un error al borrar la categoria`);
+      }
+
+      let data = response.data.data;
+      //console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err);
     }
-    
-    const initializeState = async () => {
-        const initialState = await retrieveCategories();
-        setCategories(initialState);
-        // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
-    }
-    useEffect(()=>{initializeState()},[])
-    
-    //estado para mi arreglo de objetos de las categorias
-    const [categories, setCategories]= useState([]);
+  };
 
-    //estado para saber que editar
-    const [editItem,setEditItem] = useState(null);
+  const initializeState = async () => {
+    const initialState = await retrieveCategories();
+    setCategories(initialState);
+    // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
+  };
+  useEffect(() => {
+    initializeState();
+  }, []);
 
+  //estado para mi arreglo de objetos de las categorias
+  const [categories, setCategories] = useState([]);
 
-    const addCategory = async (name) => {
-      loader();
-      let response = await addCategoryRequest(name);
-      setCategories([...categories,{_id:response._id,nombre:response.nombre}])
-    }
+  //estado para saber que editar
+  const [editItem, setEditItem] = useState(null);
 
-    const removeCategory = async (id) => {
-        loader();
-        await deleteCategoryRequest(id);
-        setCategories(categories.filter(category =>category._id !== id));
-    };
+  const addCategory = async name => {
+    loader();
+    let response = await addCategoryRequest(name);
+    setCategories([
+      ...categories,
+      { _id: response._id, nombre: response.nombre }
+    ]);
+  };
 
-    const findItem = id => {
-        const item = categories.find(category=>category._id===id);
-        setEditItem(item);
-    };
+  const removeCategory = async id => {
+    loader();
+    await deleteCategoryRequest(id);
+    setCategories(categories.filter(category => category._id !== id));
+  };
 
-    const editCategory = async (name,id)=>{
-        loader();
-        const newCategory = categories.map(category=>(category._id===id ?
-             {_id:id,nombre:name} : category));
-        await editCategoryRequest(name,id);
-        setCategories(newCategory);
-        setEditItem(null);
-    };
+  const findItem = id => {
+    const item = categories.find(category => category._id === id);
+    setEditItem(item);
+  };
 
-    //spinner
-    function loader(){
-        props.setLoad(true);
-        setTimeout(()=>{
-            props.setLoad(false);
-        },1000);        
-    }
-
-    return (
-    <CategoryListContext.Provider 
-    value={{categories,addCategory,removeCategory,findItem,editCategory,editItem}}>
-     {props.children}
-    </CategoryListContext.Provider>  
+  const editCategory = async (name, id) => {
+    loader();
+    const newCategory = categories.map(category =>
+      category._id === id ? { _id: id, nombre: name } : category
     );
-}
- 
+    await editCategoryRequest(name, id);
+    setCategories(newCategory);
+    setEditItem(null);
+  };
+
+  //spinner
+  function loader() {
+    props.setLoad(true);
+    setTimeout(() => {
+      props.setLoad(false);
+    }, 1000);
+  }
+
+  return (
+    <CategoryListContext.Provider
+      value={{
+        categories,
+        addCategory,
+        removeCategory,
+        findItem,
+        editCategory,
+        editItem,
+        setEditItem
+      }}
+    >
+      {props.children}
+    </CategoryListContext.Provider>
+  );
+};
+
 export default CategoryListContextProvider;
