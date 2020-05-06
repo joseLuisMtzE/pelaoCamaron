@@ -13,8 +13,6 @@ var decena,
   strMillones;
 
 const ConvNumLet = (props) => {
-  const pago = props.pago;
-
   function Unidades(num) {
     switch (num) {
       case 1:
@@ -205,9 +203,12 @@ const ConvNumLet = (props) => {
         data.letrasCentavos
       );
   } //NumeroALetras()
+
+  //console.log('precioTotal', props.pago && props.pago.precioTotal);
+  //console.log('convNumeroALetras2', props.pago);
   return (
     <div className="Container-ticket">
-      <h4>({NumeroALetras(pago.precioTotal)})</h4>
+      <h3>({NumeroALetras(props.pago && props.pago.precioTotal)})</h3>
     </div>
   );
 };

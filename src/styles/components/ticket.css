@@ -6,7 +6,7 @@
   }
 
   @page {
-    margin-right: 150mm;
+    padding-top: 15cm;
     height: 14.6cm;
     width: 14cm;
   }
@@ -14,7 +14,10 @@
   #Button-print {
     display: none !important;
   }
+
+
 }
+
 
 .Container-ticket {
   padding-left: 50px;

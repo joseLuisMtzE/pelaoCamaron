@@ -1,38 +1,52 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const Domicilio = (props) => {
-  const domicilio = props.domicilio;
-  console.log(domicilio ? true : false);
+  let domicilio = false;
+
+  if (props.domicilio) {
+    domicilio = true;
+  } else {
+    return '';
+  }
 
   return (
     <div>
       {(domicilio && (
         <div className="Container-ticket">
-          <h4> DOMICILIO </h4>
+          <strong className="Space-span"> DOMICILIO </strong>
           <span className="Space-span">
             {' '}
-            CLIENTE: {domicilio.nombreCliente}
+            CLIENTE: {props.domicilio && props.domicilio.nombreCliente}
           </span>
-          <span className="Space-span"> TELÉFONO: {domicilio.telefono}</span>
-          <span className="Space-span"> CALLE: {domicilio.calle}</span>
+          <span className="Space-span"> TELÉFONO: {}</span>
           <span className="Space-span">
             {' '}
-            NUMERO EXTERIOR: {domicilio.numeroExterior}
-          </span>
-          <span className="Space-span">
-            {' '}
-            NUMERO INTERIOR: {domicilio.numeroInterior}
-          </span>
-          <span className="Space-span"> COLONIA: {domicilio.colonia}</span>
-          <span className="Space-span">
-            {' '}
-            REFERENCIAS: {domicilio.referencia}
+            CALLE: {props.domicilio && props.domicilio.calle}
           </span>
           <span className="Space-span">
             {' '}
-            PAGARÁ CON: ${domicilio.pagaraCon}
+            NUMERO EXTERIOR: {props.domicilio && props.domicilio.numeroExterior}
           </span>
-          <span className="Space-span"> CAMBIO: {domicilio.cambio}</span>
+          <span className="Space-span">
+            {' '}
+            NUMERO INTERIOR: {props.domicilio && props.domicilio.numeroInterior}
+          </span>
+          <span className="Space-span">
+            {' '}
+            COLONIA: {props.domicilio && props.domicilio.colonia}
+          </span>
+          <span className="Space-span">
+            {' '}
+            REFERENCIAS: {props.domicilio && props.domicilio.referencia}
+          </span>
+          <span className="Space-span">
+            {' '}
+            PAGARÁ CON: ${props.domicilio && props.domicilio.pagaraCon}
+          </span>
+          <span className="Space-span">
+            {' '}
+            CAMBIO: {props.domicilio && props.domicilio.cambio}
+          </span>
 
           <br></br>
         </div>
