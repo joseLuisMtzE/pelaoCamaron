@@ -17,7 +17,7 @@ const CategoryList = () => {
                 })}
                 </ul>
             ):(
-                <div className="no-categories">Por ahora no hay ninguna categoria agregada</div>
+                <div className="no-areas">Por ahora no hay ninguna categoria agregada</div>
             )}
            
         </div>
