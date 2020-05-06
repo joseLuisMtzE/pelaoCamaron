@@ -4,7 +4,7 @@ import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 const { confirm } = Modal;
 
-export default function Table({ noMesa, table,deleteTable}) {
+export default function Table({ noMesa, table,deleteTable,_id,editMesasRequest}) {
 
   const options = [ //Cascader options
     {
@@ -23,6 +23,7 @@ export default function Table({ noMesa, table,deleteTable}) {
 
   const onchange = (value) => { //Cascader onChange event
     if (value[0]) table.estado= value[0];
+    editMesasRequest(table._id,table.noMesa,table.estado)
   };
 
   const [visible, setVisible] = useState(false); //Modal state
@@ -51,7 +52,7 @@ export default function Table({ noMesa, table,deleteTable}) {
       cancelText: 'Cancelar',
       okType: 'danger',
       onOk() {
-        deleteTable(noMesa);
+        deleteTable(noMesa,_id);
       },
       onCancel() {},
     });
@@ -99,7 +100,7 @@ export default function Table({ noMesa, table,deleteTable}) {
           <Button onClick={showConfirm} type="primary" danger>
             <DeleteFilled />
           </Button>,
-          <Button key="back" onClick>
+          <Button key="back" onClick={()=>console.log('cancelado xd')}>
             Cancelar platillo
           </Button>,
           <Button key="submit" type="primary" onClick>

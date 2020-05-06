@@ -15,7 +15,7 @@ export default function NewTable({ count , addTable}) {
     const form = new FormData(document.getElementById('form'));
     const data = Object.fromEntries(form);
     data.estado = cascader;
-    data.id = data.numMesa;
+    data._id = data.noMesa;
     setVisible(false);
     addTable(data);
   };
@@ -35,17 +35,17 @@ export default function NewTable({ count , addTable}) {
 
   const options = [
     {
-      value: 'disponible',
-      label: 'Disponible',
+      value: 'Disponible',
+      label: 'Disponible'
     },
     {
-      value: 'ocupada',
-      label: 'Ocupada',
+      value: 'Ocupada',
+      label: 'Ocupada'
     },
     {
-      value: 'reservada',
-      label: 'Reservada',
-    },
+      value: 'Reservada',
+      label: 'Reservada'
+    }
   ];
 
   return (

@@ -4,18 +4,38 @@ import { Input, Button, Col, Row } from 'antd';
 import { AppleFilled } from '@ant-design/icons';
 import url from '../constants/api';
 import axios from 'axios';
+import Dish from '../components/Dishes/Dish.jsx';
+import DishesList from '../components/Dishes/DishesList';
 const { Search } = Input;
 
 const api = axios.create({
   baseURL: url.apiEndPoint,
 });
 
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg2ODg0MzMsImV4cCI6MTU4ODcxNzIzM30.E5UBebL6sgKlFKVptNskC_-iAsA4Zo-g7YtxfCIfnzI';
+
 function AddDishes(props) {
+  const [dishes, setDishes] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
+  const [dishesList, setDishesList] = useState([]);
+
+  const addDishToList = (d) => {
+    let temp = [...dishesList];
+    temp.push(d);
+    setDishesList(temp);
+  };
+
   const retrieveFormMenuDishes = async () => {
     try {
-      let response = await api.get('platillos');
+      let response = await api.get('platillos', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
       let data = response.data.data;
-
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -23,117 +43,105 @@ function AddDishes(props) {
   };
   const retrieveCategorias = async () => {
     try {
-      let response = await api.get('categorias');
+      let response = await api.get('categorias', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      });
       let data = response.data.data;
-
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const initializeState = async () => {
-    const initialState = await retrieveFormMenuDishes();
-    const initCategorias = await retrieveCategorias();
-    setDishes(initialState);
-    setCategorias(initCategorias);
-    console.log(initialState);
-    console.log(props.location.noMesa);
-    // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
-  };
-
   useEffect(() => {
-    initializeState();
+    const initState = async () => {
+      const initialState = await retrieveFormMenuDishes();
+      const initCategorias = await retrieveCategorias();
+      setDishes(initialState);
+      setCategorias(initCategorias);
+    };
+    initState();
   }, []);
 
-  const [dishes, setDishes] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-
   return (
-    <div>
-      <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
-      <header style={{ top: 0, position: 'absolute' }}>
-        <h1
-          style={{
-            color: '#545454',
-            position: 'absolute',
-            left: 20,
-            top: 30,
-            fontWeight: 'bold',
-          }}
-        >
-          Menú
-        </h1>
-        <h3
-          style={{
-            color: '#545454',
-            position: 'absolute',
-            left: 140,
-            top: 10,
-          }}
-        >
-          Mesa{props.location.noMesa}
-        </h3>
-        <div
-          style={{ position: 'absolute', left: 250, top: 35, display: 'block' }}
-        >
-          <Search
-            placeholder="Buscar"
-            onSearch={(value) => console.log(value)}
-            style={{ width: 100, border: 'none' }}
-            size="large"
-          />
-        </div>
-      </header>
-      <div className="scrollmenu" style={{ position: 'relative', top: -95 }}>
-        {categorias.map((categoria) => (
-          <div style={{ display: 'inline-block' }} key={categoria._id}>
-            <Button
-              shape="circle"
-              icon={<AppleFilled />}
-              style={{
-                margin: 12,
-                width: 60,
-                height: 60,
-                border: 'none',
-                boxShadow: '0px 3px 5px 0px grey',
-              }}
+    <Row>
+      <Col xs={24}>
+        <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
+        <header style={{ top: 0, position: 'absolute', width: '100%' }}>
+          <h1
+            style={{
+              color: '#545454',
+              position: 'absolute',
+              left: 20,
+              top: 25,
+              fontWeight: 'bold',
+              fontSize: 25,
+            }}
+          >
+            Menú
+          </h1>
+          <h3
+            style={{
+              color: '#545454',
+              textAlign: 'center',
+              fontSize: 20,
+            }}
+          >
+            Mesa{props.location.noMesa}
+          </h3>
+          <div style={{ float: 'right', marginRight: 20 }}>
+            <Search
+              placeholder="Buscar"
+              onSearch={(value) => setSearchValue(value)}
+              style={{ width: 125, border: 'none' }}
+              size="large"
             />
-            <p style={{ textAlign: 'center' }}>{categoria.nombre}</p>
           </div>
-        ))}
-      </div>
-      <Row style={{ position: 'relative', top: -60 }}>
-        {dishes.map((dish) => (
-          <Col xs={12} md={6} key={dish._id}>
+        </header>
+        <div className="scrollmenu" style={{ position: 'relative', top: -90 }}>
+          {categorias.map((categoria) => (
             <div
-              style={{ margin: 15 }}
-              onClick={() => console.log(dish.nombre)}
+              style={{ display: 'inline-block' }}
+              key={categoria._id}
+              onClick={() => console.log(categoria._id)}
             >
-              <img
-                alt="example"
-                src="https://images.pexels.com/photos/2087748/pexels-photo-2087748.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+              <Button
+                shape="circle"
+                icon={<AppleFilled style={{ fontSize: 25 }} />}
                 style={{
+                  margin: 12,
+                  width: 60,
+                  height: 60,
+                  border: 'none',
                   boxShadow: '0px 3px 5px 0px grey',
-                  width: '100%',
-                  borderRadius: 5,
                 }}
               />
-              <p
-                style={{
-                  textAlign: 'center',
-                  backgroundColor: 'white',
-                  borderBottomRightRadius: '5px',
-                  borderBottomLeftRadius: '5px',
-                }}
-              >
-                {dish.nombre}
-              </p>
+              <p style={{ textAlign: 'center' }}>{categoria.nombre}</p>
             </div>
-          </Col>
-        ))}
-      </Row>
-    </div>
+          ))}
+        </div>
+        <Row style={{ position: 'relative', top: -80 }}>
+          {dishes.map((dish) =>
+            searchValue === '' ? (
+              <Col xs={12} md={6} key={dish._id}>
+                <Dish dish={dish} addDishToList={addDishToList}/>
+              </Col>
+            ) : (
+              dish.nombre.split(' ')[0].toUpperCase() ===
+                searchValue.toUpperCase() && (
+                <Col xs={12} md={6} key={dish._id}>
+                  <Dish dish={dish} addDishToList={addDishToList}/>
+                </Col>
+              )
+            )
+          )}
+        </Row>
+        <DishesList dishesList={dishesList}/>
+      </Col>
+    </Row>
   );
 }
 

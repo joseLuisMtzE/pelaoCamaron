@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Cascader } from 'antd';
-import Table from '../components/tables/Table';
-import { useState } from 'react';
 import axios from 'axios';
+import Table from '../components/tables/Table';
 import url from '../constants/api';
 import NewTable from '../components/tables/NewTable';
 import Background from '../assets/background.png';
@@ -11,10 +10,28 @@ const api = axios.create({
   baseURL: url.apiEndPoint,
 });
 
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg2ODg0MzMsImV4cCI6MTU4ODcxNzIzM30.E5UBebL6sgKlFKVptNskC_-iAsA4Zo-g7YtxfCIfnzI';
+
 export default function Tables() {
+  const [tables, setTables] = useState([]); //Tables
+  const [selectedTables, setSelectedTables] = useState([]); //Result cascader state
+  const [filter, setFilter] = useState('Todas'); //Cascader state
+
+  const onFilterChange = (value) => {
+    //Cascader onchange event
+    setFilter(value[0]);
+  };
+
   const retrieveMesas = async () => {
+    //READ tables from API
     try {
-      let response = await api.get('mesas');
+      let response = await api.get('mesas?isActive=true', {
+        headers: {
+          Authorization:
+            'Bearer ' + token,
+        },
+      });
       let data = response.data.data;
       console.log(data);
       return data;
@@ -22,12 +39,22 @@ export default function Tables() {
       console.log(err);
     }
   };
-  const addCategoryRequest = async (table) => {
+  const addTablesRequest = async (table) => {
+    //ADD tables to API
+    console.log(table); 
     try {
-      let response = await api.post('mesas', table);
-      // console.log(response);
+      let response = await api.post(
+        'mesas',
+        { noMesa: table.noMesa, estado: table.estado },
+        {
+          headers: {
+            Authorization:
+              'Bearer ' + token,
+          },
+        }
+      );
 
-      if (response.status === 201) {
+      if (response.status === 204) {
         console.log(`Categoria ${table} creada correctamente`);
       } else {
         console.log('Hubo un error al añadir la categoria');
@@ -38,68 +65,103 @@ export default function Tables() {
       console.log(err);
     }
   };
-  const [tables, setTables] = useState([]);
 
-  const initializeState = async () => {
-    let data = await retrieveMesas();
-    setTables(data);
+  const deleteMesasRequest = async (id) => {
+    try {
+      let response = await api.delete(`mesas/${id}`,{
+        headers: {
+          'Authorization': 'Bearer '+ token
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('Categoria borrada correctamente');
+      } else {
+        console.log('Hubo un error al borrar la categoria');
+      }
+
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
   };
-  useEffect(() => {
-    initializeState();
-  }, []);
-  const [state, setState] = useState({
-    visible: false,
-    filter: 'todas',
-  });
 
-  const [selectedTables, setSelectedTables] = useState([]);
-  const [filter, setFilter] = useState('todas');
+  const editMesasRequest = async (id,noMesa,estado) => {
+    try {
+      let response = await api.patch(`mesas/${id}`,{
+        'estado': estado,
+        'noMesa':noMesa
+      },{
+        headers: {
+          'Authorization': 'Bearer '+token
+        }
+      });
+
+      if (response.status === 200) {
+        console.log('Categoria editada correctamente');
+      } else {
+        console.log('Hubo un error al editar la categoria');
+      }
+
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const initState = async () => {
+      let data = await retrieveMesas();
+      setTables(data);
+    };
+    initState();
+  },[]);
 
   useEffect(() => {
     let result =
-      filter !== 'todas'
-        ? tables.filter(table => table.estado === filter)
+      filter !== 'Todas'
+        ? tables.filter((table) => table.estado === filter)
         : tables;
 
     setSelectedTables(result);
   }, [tables, filter]);
 
   const filterOptions = [
+    //Cascader options
     {
-      value: 'todas',
-      label: 'Todas'
+      value: 'Todas',
+      label: 'Todas',
     },
     {
-      value: 'disponible',
-      label: 'Disponibles'
+      value: 'Disponible',
+      label: 'Disponibles',
     },
     {
-      value: 'ocupada',
-      label: 'Ocupadas'
+      value: 'Ocupada',
+      label: 'Ocupadas',
     },
     {
-      value: 'reservada',
-      label: 'Reservadas'
-    }
+      value: 'Reservada',
+      label: 'Reservadas',
+    },
   ];
 
-  const addTable = data => {
+  const addTable = (data) => {
     var temp = [...tables];
     temp.push(data);
     setTables(temp);
-    addCategoryRequest(data);
+    addTablesRequest(data);
   };
 
-  const deleteTable = id => {
+  const deleteTable = (noMesa,id) => {
     var temp = [...tables];
     temp.forEach((t, index) => {
-      if (t.id === id) temp.splice(index, 1);
+      if (t.noMesa === noMesa) temp.splice(index, 1);
     });
     setTables(temp);
-  };
-
-  const onFilterChange = value => {
-    setFilter(value[0]);
+    deleteMesasRequest(id);
   };
 
   return (
@@ -112,8 +174,9 @@ export default function Tables() {
               color: '#545454',
               position: 'absolute',
               left: 20,
-              top: 30,
-              fontWeight: 'bold'
+              top: 25,
+              fontSize:25,
+              fontWeight: 'bold',
             }}
           >
             Mesas
@@ -131,12 +194,14 @@ export default function Tables() {
         </Col>
 
         <Row>
-          {selectedTables.map(table => (
-            <Col md={4} xs={8} key={table.id}>
+          {selectedTables.map((table) => (
+            <Col md={4} xs={8} key={table._id}>
               <Table
                 table={table}
-                numMesa={table.numMesa}
+                noMesa={table.noMesa}
+                _id={table._id}
                 deleteTable={deleteTable}
+                editMesasRequest={editMesasRequest}
               />
             </Col>
           ))}
