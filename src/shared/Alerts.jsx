@@ -1,10 +1,14 @@
 import Swal from 'sweetalert2';
 
-export function errorAlert(title, text) {
+export function errorAlert(title, text, callback = function() {}) {
   Swal.fire({
     icon: 'error',
     title: title,
     text: text
+  }).then(result => {
+    if (result.value) {
+      callback();
+    }
   });
 }
 

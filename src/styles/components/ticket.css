@@ -1,3 +1,24 @@
+@media print {
+
+  .ant-layout-sider {
+    display: none !important;
+    margin: 10;
+  }
+
+  @page {
+    padding-top: 15cm;
+    height: 14.6cm;
+    width: 14cm;
+  }
+
+  #Button-print {
+    display: none !important;
+  }
+
+
+}
+
+
 .Container-ticket {
   padding-left: 50px;
 }
