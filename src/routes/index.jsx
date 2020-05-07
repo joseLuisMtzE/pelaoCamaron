@@ -15,6 +15,7 @@ const HomeDelivery = lazy(() => import('../pages/HomeDelivery'));
 const MenuDishes = lazy(() => import('../pages/MenuDishesPage'));
 const KitchenArea = lazy(() => import('../pages/KitchenArea'));
 const Categories = lazy(() => import('../pages/Categories'));
+const OrdersView = lazy(() => import('../pages/OrdersView'));
 
 export default function AppRoutes() {
   return (
@@ -37,6 +38,7 @@ export default function AppRoutes() {
                 component={Categories}
               />
               <Route exact path="/ticket/:id" component={Ticket} />
+              <Route exact path="/OrdersView" component={OrdersView} />
             </Switch>
           </Layout>
         </BrowserRouter>
