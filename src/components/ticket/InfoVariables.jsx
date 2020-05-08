@@ -33,7 +33,9 @@ const infoVariables = (props) => {
 
   return (
     <div className="Container-ticket">
-      <img src={logo} alt="Logo Camaron Pelao" width={250}></img>
+      <div className="LogoCamaron-posicion">
+        <img src={logo} alt="Logo Camaron Pelao" width={250}></img>
+      </div>
       <h4>MARISCOS EL PELAO CAMARON</h4>
       <span className="Space-span">MARIELA SALAS TORRES</span>
       <br></br>

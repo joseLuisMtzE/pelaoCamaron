@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const TablaProductos = (props) => {
   const { comandas } = props;
@@ -23,10 +23,7 @@ const TablaProductos = (props) => {
   );*/
 
   /*comandas.pago && props.comandas.pago.precioTotal */
-  console.log(
-    'comandas',
-    comandas.comandas && comandas.comandas[0].platillo.nombre
-  );
+
   return (
     <div className="Container-ticket">
       <hr></hr>
@@ -45,10 +42,16 @@ const TablaProductos = (props) => {
             props.comandas.comandas.map((comanda) => {
               return (
                 <tr key={comanda._id}>
-                  <td>{comanda.cantidad}</td>
-                  <td>{comanda.platillo.nombre}</td>
-                  <td>${comanda.platillo.precioSinIva}</td>
-                  <td>${comanda.platillo.precioConIva}</td>
+                  <td className="Tabla-tds-comandas">{comanda.cantidad}</td>
+                  <td className="Tabla-tds-comandas">
+                    {comanda.platillo.nombre}
+                  </td>
+                  <td className="Tabla-tds-comandas">
+                    ${comanda.platillo.precioSinIva}
+                  </td>
+                  <td className="Tabla-tds-comandas">
+                    ${comanda.platillo.precioConIva}
+                  </td>
                 </tr>
               );
             })}
