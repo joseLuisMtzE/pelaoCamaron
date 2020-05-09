@@ -7,6 +7,7 @@
 
   @page {
     padding-top: 15cm;
+    padding-left: 167mm;
     height: 14.6cm;
     width: 14cm;
   }
@@ -14,18 +15,21 @@
   #Button-print {
     display: none !important;
   }
-
-
 }
 
+.LogoCamaron-posicion {
+  position: relative;
+  padding-top: .5cm;
+  padding-left: .9cm;
+}
 
 .Container-ticket {
   padding-left: 50px;
+  padding-right: 20mm;
 }
 
 .Space-span {
   display: block;
-
 }
 
 .Table-ticket {
@@ -34,6 +38,11 @@
 
 .Table-ticket thead th {
   padding-right: 15px;
+}
+
+.Tabla-tds-comandas {
+  padding-right: 10px;
+  text-align: center;
 }
 
 .Table-ticket .datos-pago td {

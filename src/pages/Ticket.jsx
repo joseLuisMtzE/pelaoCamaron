@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import InfoVariables from '../components/ticket/InfoVariables';
 import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
 import ConvNumLet from '../components/ticket/ConvNumLet';
 import PrintTicket from '../components/ticket/PrintTicket';
-import { makeRequest } from '../components/Wrapper';
+import { makeRequest } from '../shared/ApiWrapper';
 
 function Ticket(props) {
   const [orden, setOrden] = useState({});
@@ -30,13 +30,13 @@ function Ticket(props) {
   }, []);
 
   return (
-    <>
+    <Fragment>
       <InfoVariables info={orden} />
       <Domicilio domicilio={orden.domicilio} />
       <TablaProductos comandas={orden} />
       <ConvNumLet pago={orden.pago} />
       <PrintTicket />
-    </>
+    </Fragment>
   );
 }
 
