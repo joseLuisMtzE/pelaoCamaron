@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import Background from '../assets/background.png';
 import { Input, Button, Col, Row } from 'antd';
-import { AppleFilled } from '@ant-design/icons';
-import url from '../constants/api';
-import axios from 'axios';
+import { AppleFilled, LoadingOutlined } from '@ant-design/icons';
 import Dish from '../components/Dishes/Dish.jsx';
 import DishesList from '../components/Dishes/DishesList';
+import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
-const api = axios.create({
-  baseURL: url.apiEndPoint,
-});
-
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg2ODg0MzMsImV4cCI6MTU4ODcxNzIzM30.E5UBebL6sgKlFKVptNskC_-iAsA4Zo-g7YtxfCIfnzI';
-
 function AddDishes(props) {
+
   const [dishes, setDishes] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [searchedValue, setSearchedValue] = useState('');
   const [dishesList, setDishesList] = useState([]);
+  const [selectedDishes,setSelectedDishes] = useState([]);
+  const [filter,setFilter] = useState('5e97a2ebeb760c2c382fe55c');//Id de Mariscos
 
   const addDishToList = (d) => {
     let temp = [...dishesList];
@@ -27,29 +22,20 @@ function AddDishes(props) {
     setDishesList(temp);
   };
 
-  const retrieveFormMenuDishes = async () => {
+  const getDishesRequest = async () => {
     try {
-      let response = await api.get('platillos', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
+      let response = await makeRequest('GET','platillos');
       let data = response.data.data;
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
     }
   };
-  const retrieveCategorias = async () => {
+
+  const getCategoriesRequest = async () => {
     try {
-      let response = await api.get('categorias', {
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      });
+      let response = await makeRequest('GET','categorias');
       let data = response.data.data;
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -58,80 +44,66 @@ function AddDishes(props) {
 
   useEffect(() => {
     const initState = async () => {
-      const initialState = await retrieveFormMenuDishes();
-      const initCategorias = await retrieveCategorias();
-      setDishes(initialState);
-      setCategorias(initCategorias);
+      const responseDishes = await getDishesRequest();
+      const responseCategories = await getCategoriesRequest();
+      setDishes(responseDishes);
+      setCategories(responseCategories);
     };
     initState();
   }, []);
 
+  useEffect(()=>{
+    let temp = [];
+    dishes.map((dish)=>{
+      if(dish.categoria!==null)
+        temp.push(dish);
+    })
+    let result = temp.filter((dish)=>dish.categoria._id === filter);
+    setSelectedDishes(result);
+  },[dishes,filter])
+
   return (
     <Row>
       <Col xs={24}>
-        <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
-        <header style={{ top: 0, position: 'absolute', width: '100%' }}>
-          <h1
-            style={{
-              color: '#545454',
-              position: 'absolute',
-              left: 20,
-              top: 25,
-              fontWeight: 'bold',
-              fontSize: 25,
-            }}
-          >
-            Menú
-          </h1>
-          <h3
-            style={{
-              color: '#545454',
-              textAlign: 'center',
-              fontSize: 20,
-            }}
-          >
-            Mesa{props.location.noMesa}
-          </h3>
-          <div style={{ float: 'right', marginRight: 20 }}>
+        <img src={Background} alt="bg" className="bg-img"/>
+        <header className="header">
+          <h1 className="h1">Menú</h1>
+          <h3 className="h3">Mesa{props.location.noMesa}</h3>
+          <h3 className="h3">{props.location._id}</h3>
+          <div className="search-input">
             <Search
               placeholder="Buscar"
-              onSearch={(value) => setSearchValue(value)}
-              style={{ width: 125, border: 'none' }}
+              onSearch={(value) => setSearchedValue(value)}
+              className="search"
               size="large"
             />
           </div>
         </header>
-        <div className="scrollmenu" style={{ position: 'relative', top: -90 }}>
-          {categorias.map((categoria) => (
+        <div className="scrollmenu up">
+          {categories.map((categoria) => (
             <div
-              style={{ display: 'inline-block' }}
+              className="inline-block"
               key={categoria._id}
-              onClick={() => console.log(categoria._id)}
+              onClick={() => setFilter(categoria._id)}
             >
               <Button
                 shape="circle"
-                icon={<AppleFilled style={{ fontSize: 25 }} />}
-                style={{
-                  margin: 12,
-                  width: 60,
-                  height: 60,
-                  border: 'none',
-                  boxShadow: '0px 3px 5px 0px grey',
-                }}
+                icon={<AppleFilled className="normal-size"/>}
+                className="circle"
               />
-              <p style={{ textAlign: 'center' }}>{categoria.nombre}</p>
+              <p className="center">{categoria.nombre}</p>
             </div>
           ))}
         </div>
-        <Row style={{ position: 'relative', top: -80 }}>
-          {dishes.map((dish) =>
-            searchValue === '' ? (
+        <Row className="up">
+          {selectedDishes.map((dish) =>
+            searchedValue === '' ? (
               <Col xs={12} md={6} key={dish._id}>
                 <Dish dish={dish} addDishToList={addDishToList}/>
               </Col>
             ) : (
               dish.nombre.split(' ')[0].toUpperCase() ===
-                searchValue.toUpperCase() && (
+                searchedValue.toUpperCase() && (
                 <Col xs={12} md={6} key={dish._id}>
                   <Dish dish={dish} addDishToList={addDishToList}/>
                 </Col>
@@ -141,6 +113,8 @@ function AddDishes(props) {
         </Row>
         <DishesList dishesList={dishesList}/>
       </Col>
+      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      </div>}
     </Row>
   );
 }

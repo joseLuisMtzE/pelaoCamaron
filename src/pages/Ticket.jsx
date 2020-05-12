@@ -4,7 +4,7 @@ import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
 import ConvNumLet from '../components/ticket/ConvNumLet';
 import PrintTicket from '../components/ticket/PrintTicket';
-import { makeRequest } from '../components/Wrapper';
+import { makeRequest } from '../shared/ApiWrapper';
 
 function Ticket(props) {
   const [orden, setOrden] = useState({});

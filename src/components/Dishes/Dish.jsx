@@ -2,53 +2,38 @@ import React, { useState } from 'react';
 import { Modal, InputNumber, Input, Button } from 'antd';
 const { TextArea } = Input;
 
-export default function Dish({ dish,addDishToList }) {
+export default function Dish({ dish, addDishToList }) {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleOk = (e) => {
-    console.log(e);
-    const form = new FormData(document.getElementById('form'));
-    const d = Object.fromEntries(form);
-    d.nombre = dish.nombre
-    d.precioConIva = dish.precioConIva
-    console.log(d);
+  const handleOk = () => {
+    const form = new FormData(document.getElementById(dish._id));
+    const data = Object.fromEntries(form);
+    data.cantidad = parseInt(data.cantidad);
+    data.nombre = dish.nombre;
+    data.precioConIva = dish.precioConIva * data.cantidad;
+    data._id = dish._id;
+    console.log(data);
     setVisible(false);
-    addDishToList(d);
+    addDishToList(data);
   };
 
   const handleCancel = (e) => {
     setVisible(false);
   };
 
-  const onChange = (e) => {
-    console.log(e);
-  };
   return (
     <div>
-      <div style={{ margin: 15 }} onClick={showModal}>
+      <div className="xs-margin" onClick={showModal}>
         <img
-          alt="example"
+          alt="dish"
           src="https://images.pexels.com/photos/2087748/pexels-photo-2087748.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-          style={{
-            boxShadow: '0px 3px 5px 0px grey',
-            width: '100%',
-            borderRadius: 5,
-          }}
+          className="dish"
         />
-        <p
-          style={{
-            textAlign: 'center',
-            backgroundColor: 'white',
-            borderBottomRightRadius: '5px',
-            borderBottomLeftRadius: '5px',
-          }}
-        >
-          {dish.nombre}
-        </p>
+        <p className="center">{dish.nombre}</p>
       </div>
       <Modal
         title={dish.nombre}
@@ -57,25 +42,18 @@ export default function Dish({ dish,addDishToList }) {
         onCancel={handleCancel}
         footer={[
           <Button type="primary" onClick={handleOk}>
-            Ordenar
-          </Button>,
-          <Button onClick={handleCancel}>Cancelar</Button>,
+            Agregar
+          </Button>
         ]}
       >
-        <form id="form">
+        <form id={dish._id}>
           <img
             src="https://images.pexels.com/photos/2087748/pexels-photo-2087748.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
             alt="platillo"
-            style={{ width: '100%' }}
+            className="modal-dish"
           />
           <h3>Cantidad:</h3>
-          <InputNumber
-            name="cantidad"
-            size="large"
-            onChange={onChange}
-            defaultValue={1}
-          />
-
+          <InputNumber name="cantidad" size="large" defaultValue="1"/>
           <h3>Observaciones:</h3>
           <TextArea name="observaciones" />
         </form>

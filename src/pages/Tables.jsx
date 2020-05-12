@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Cascader } from 'antd';
-import axios from 'axios';
+import { Row, Col, Cascader} from 'antd';
 import Table from '../components/tables/Table';
-import url from '../constants/api';
 import NewTable from '../components/tables/NewTable';
 import Background from '../assets/background.png';
+import {makeRequest} from '../shared/ApiWrapper';
+import { LoadingOutlined } from '@ant-design/icons';
 
-const api = axios.create({
-  baseURL: url.apiEndPoint,
-});
-
-
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg2ODg0MzMsImV4cCI6MTU4ODcxNzIzM30.E5UBebL6sgKlFKVptNskC_-iAsA4Zo-g7YtxfCIfnzI';
 
 export default function Tables() {
   const [tables, setTables] = useState([]); //Tables
@@ -19,19 +13,12 @@ export default function Tables() {
   const [filter, setFilter] = useState('Todas'); //Cascader state
 
   const onFilterChange = (value) => {
-    //Cascader onchange event
     setFilter(value[0]);
   };
 
-  const retrieveMesas = async () => {
-    //READ tables from API
+  const getTablesRequest = async () => {
     try {
-      let response = await api.get('mesas?isActive=true', {
-        headers: {
-          Authorization:
-            'Bearer ' + token,
-        },
-      });
+      let response = await makeRequest('GET','mesas?isActive=true');
       let data = response.data.data;
       console.log(data);
       return data;
@@ -40,24 +27,14 @@ export default function Tables() {
     }
   };
   const addTablesRequest = async (table) => {
-    //ADD tables to API
     console.log(table); 
     try {
-      let response = await api.post(
-        'mesas',
-        { noMesa: table.noMesa, estado: table.estado },
-        {
-          headers: {
-            Authorization:
-              'Bearer ' + token,
-          },
-        }
-      );
+      let response = await makeRequest('POST','mesas',{ noMesa: table.noMesa})
 
-      if (response.status === 204) {
-        console.log(`Categoria ${table} creada correctamente`);
+      if (response.status === 201) {
+        console.log('mesa creada correctamente');
       } else {
-        console.log('Hubo un error al añadir la categoria');
+        console.log('Hubo un error al crear la mesa');
       }
       let data = response.data.data;
       return data;
@@ -66,18 +43,14 @@ export default function Tables() {
     }
   };
 
-  const deleteMesasRequest = async (id) => {
+  const deleteTablesrequest = async (id) => {
     try {
-      let response = await api.delete(`mesas/${id}`,{
-        headers: {
-          'Authorization': 'Bearer '+ token
-        }
-      });
+      let response = await makeRequest('DELETE',`mesas/${id}`)
 
-      if (response.status === 200) {
-        console.log('Categoria borrada correctamente');
+      if (response.status === 201) {
+        console.log('Mesa borrada correctamente');
       } else {
-        console.log('Hubo un error al borrar la categoria');
+        console.log('Hubo un error al borrar la Mesa');
       }
 
       let data = response.data.data;
@@ -87,21 +60,17 @@ export default function Tables() {
     }
   };
 
-  const editMesasRequest = async (id,noMesa,estado) => {
+  const editTablesRequest = async (id,noMesa,estado) => {
     try {
-      let response = await api.patch(`mesas/${id}`,{
+      let response = await makeRequest('PATCH',`mesas/${id}`,{
         'estado': estado,
         'noMesa':noMesa
-      },{
-        headers: {
-          'Authorization': 'Bearer '+token
-        }
-      });
+      })
 
-      if (response.status === 200) {
-        console.log('Categoria editada correctamente');
+      if (response.status === 201) {
+        console.log('Mesa editada correctamente');
       } else {
-        console.log('Hubo un error al editar la categoria');
+        console.log('Hubo un error al editar la mesa');
       }
 
       let data = response.data.data;
@@ -113,7 +82,7 @@ export default function Tables() {
 
   useEffect(() => {
     const initState = async () => {
-      let data = await retrieveMesas();
+      let data = await getTablesRequest();
       setTables(data);
     };
     initState();
@@ -128,8 +97,7 @@ export default function Tables() {
     setSelectedTables(result);
   }, [tables, filter]);
 
-  const filterOptions = [
-    //Cascader options
+  const options = [
     {
       value: 'Todas',
       label: 'Todas',
@@ -161,38 +129,26 @@ export default function Tables() {
       if (t.noMesa === noMesa) temp.splice(index, 1);
     });
     setTables(temp);
-    deleteMesasRequest(id);
+    deleteTablesrequest(id);
   };
 
   return (
     <Row>
       <Col md={24} xs={24}>
-        <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
-        <header style={{ top: 0, position: 'absolute' }}>
-          <h1
-            style={{
-              color: '#545454',
-              position: 'absolute',
-              left: 20,
-              top: 25,
-              fontSize:25,
-              fontWeight: 'bold',
-            }}
-          >
-            Mesas
-          </h1>
+        <img src={Background} alt="bg" className="bg-img"/>
+        <header className="header">
+          <h1 className="h1">Mesas</h1>
         </header>
       </Col>
       <Col md={24} xs={24}>
         <Col xs={12}>
           <Cascader
             size="large"
-            options={filterOptions}
+            options={options}
             onChange={onFilterChange}
             placeholder="Filtrar por..."
           />
         </Col>
-
         <Row>
           {selectedTables.map((table) => (
             <Col md={4} xs={8} key={table._id}>
@@ -201,15 +157,19 @@ export default function Tables() {
                 noMesa={table.noMesa}
                 _id={table._id}
                 deleteTable={deleteTable}
-                editMesasRequest={editMesasRequest}
+                editTablesRequest={editTablesRequest}
               />
             </Col>
           ))}
           <Col xs={8} md={4}>
+            {tables.length!==0 && 
             <NewTable count={tables.length} addTable={addTable} />
+            }
           </Col>
         </Row>
       </Col>
+      {tables.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      </div>}
     </Row>
   );
 }
