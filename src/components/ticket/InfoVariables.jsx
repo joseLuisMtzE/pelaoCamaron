@@ -5,32 +5,16 @@ const infoVariables = (props) => {
   const { info } = props;
   let fechaActual = new Date();
 
-  var diasSemana = [
-    'Domingo',
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-  ];
-  var meses = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre',
-  ];
-  //console.log('info', info.numPersonas);
-  //console.log('props', props);
+  let fecha = new Date(info.fecha);
 
+  /*console.log(
+    `${fecha.getDate()}/${fecha.getMonth()}/${fecha.getFullYear()} ${fecha.toLocaleString(
+      'en-US',
+      { hour: 'numeric', minute: 'numeric', hour12: true }
+    )}`
+  );*/
+
+  console.log(fecha);
   return (
     <div className="Container-ticket">
       <div className="LogoCamaron-posicion">
@@ -54,16 +38,21 @@ const infoVariables = (props) => {
       <span className="Space-span">TELÉFONO:312 323 66 76</span>
       <br></br>
       <strong className="Space-span">FOLIO TICKET #{info.folio}</strong>
+      <span className="Space-span">MESA: {info.mesa && info.mesa.noMesa}</span>
+      <span className="Space-span">PERSONAS: {info.numPersonas} </span>
       <span className="Space-span">
-        MESA: {info.mesa && info.mesa.noMesa} PERSONAS: {info.numPersonas}{' '}
-        GENERAL
+        FECHA VENTA:{' '}
+        {`${fecha.getDate()}/${fecha.getMonth()}/${fecha.getFullYear()} ${fecha.toLocaleString(
+          'en-US',
+          { hour: 'numeric', minute: 'numeric', hour12: true }
+        )}`}
       </span>
-      <span className="Space-span">FECHA VENTA: {info.fecha}</span>
       <span className="Space-span">
         FECHA REIMPRESIÓN:{' '}
-        {`${diasSemana[fechaActual.getDay()]}, ${fechaActual.getDate()} de ${
-          meses[fechaActual.getMonth()]
-        } del ${fechaActual.getFullYear()} ${fechaActual.getHours()}:${fechaActual.getMinutes()}:${fechaActual.getSeconds()}`}
+        {`${fechaActual.getDate()}/${fechaActual.getMonth()}/${fechaActual.getFullYear()} ${fechaActual.toLocaleString(
+          'en-US',
+          { hour: 'numeric', minute: 'numeric', hour12: true }
+        )}`}
       </span>
       <br></br>
     </div>

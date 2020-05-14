@@ -1,18 +1,42 @@
 import React from 'react';
 
-var decena,
-  unidad,
-  centenas,
-  decenas,
-  cientos,
-  resto,
-  letras,
-  divisor,
-  strMiles,
-  strCentenas,
-  strMillones;
+const ConvertidorNumLetras = (props) => {
+  const { comandas } = props;
+  var decena,
+    unidad,
+    centenas,
+    decenas,
+    cientos,
+    resto,
+    letras,
+    divisor,
+    strMiles,
+    strCentenas,
+    strMillones, //variables conversion
+    decimales = 0,
+    sindecimales = 0,
+    precioTotal = 0,
+    descuentoPorcentaje =
+      comandas.comandas && comandas.pago.porcentajeDescuento,
+    descuentoCantidad = 0;
 
-const ConvNumLet = (props) => {
+  //Para obtejer subtotal, impuestos y precioTotal
+  comandas.comandas &&
+    props.comandas.comandas.map((comanda) => {
+      precioTotal += comanda.cantidad * comanda.platillo.precioConIva;
+    });
+
+  //Calcular descuento
+  descuentoCantidad = (precioTotal * descuentoPorcentaje) / 100;
+  precioTotal = precioTotal - descuentoCantidad;
+  //Obtener decimales
+  decimales = precioTotal - Math.floor(precioTotal);
+  //Conversión del numero decimal a numero entero
+  decimales *= 100;
+  decimales = Math.round(decimales);
+  sindecimales = Math.trunc(decimales);
+  precioTotal = precioTotal.toFixed(2);
+
   function Unidades(num) {
     switch (num) {
       case 1:
@@ -166,50 +190,25 @@ const ConvNumLet = (props) => {
     //return Seccion(num, divisor, "UN MILLON", "MILLONES") + " " + Miles(resto);
   } //Millones()
 
-  function NumeroALetras(num, centavos) {
+  function NumeroALetras(num) {
     var data = {
       numero: num,
       enteros: Math.floor(num),
-      centavos: Math.round(num * 100) - Math.floor(num) * 100,
       letrasCentavos: '',
     };
-    if (centavos == undefined || centavos == false) {
-      data.letrasMonedaPlural = 'PESOS';
-      data.letrasMonedaSingular = 'PESO';
-    } else {
-      data.letrasMonedaPlural = 'CENTAVOS';
-      data.letrasMonedaSingular = 'CENTAVO';
-    }
 
-    if (data.centavos > 0)
-      data.letrasCentavos = 'CON ' + NumeroALetras(data.centavos, true);
+    data.letrasMonedaPlural = 'PESOS';
+    data.letrasMonedaSingular = 'PESO';
 
-    if (data.enteros == 0)
-      return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+    if (data.enteros == 0) return 'CERO ' + data.letrasMonedaPlural;
     if (data.enteros == 1)
-      return (
-        Millones(data.enteros) +
-        ' ' +
-        data.letrasMonedaSingular +
-        ' ' +
-        data.letrasCentavos
-      );
-    else
-      return (
-        Millones(data.enteros) +
-        ' ' +
-        data.letrasMonedaPlural +
-        ' ' +
-        data.letrasCentavos
-      );
+      return Millones(data.enteros) + ' ' + data.letrasMonedaSingular;
+    else return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ';
   } //NumeroALetras()
-
-  //console.log('precioTotal', props.pago && props.pago.precioTotal);
-  //console.log('convNumeroALetras2', props.pago);
   return (
     <div className="Container-ticket">
-      <h3>({NumeroALetras(props.pago && props.pago.precioTotal)})</h3>
+      <h3>({NumeroALetras(precioTotal) + sindecimales}/100 MXN)</h3>
     </div>
   );
 };
-export default ConvNumLet;
+export default ConvertidorNumLetras;
