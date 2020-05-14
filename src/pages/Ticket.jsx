@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import InfoVariables from '../components/ticket/InfoVariables';
 import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
-import ConvNumLet from '../components/ticket/ConvNumLet';
+import ConvertidorNumLetras from '../components/ticket/ConvertidorNumLetras';
 import PrintTicket from '../components/ticket/PrintTicket';
 import { makeRequest } from '../shared/ApiWrapper';
 
@@ -34,7 +34,7 @@ function Ticket(props) {
       <InfoVariables info={orden} />
       <Domicilio domicilio={orden.domicilio} />
       <TablaProductos comandas={orden} />
-      <ConvNumLet pago={orden.pago} />
+      <ConvertidorNumLetras comandas={orden} />
       <PrintTicket />
     </Fragment>
   );
