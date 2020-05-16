@@ -1,0 +1,43 @@
+.img-Fondo {
+  background-image: url('../../assets/fondoAzul');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  width: 100%;
+}
+
+.img-Fondo {
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+
+.Texto-condicional {
+  text-align: center;
+  color: darkgrey;
+  font-size: 30px;
+}
+
+.Tabla-VistaGeneral-Ordenes {
+  border-spacing: 0 0.5em;
+  width: 100%;
+  font: normal 13px Arial;
+  text-align: center;
+  border-collapse: collapse;
+  position: absolute;
+
+}
+
+.Tabla-VistaGeneral-Ordenes thead th {
+  font: bold 22px Arial;
+}
+
+.Tabla-tds-ordenes {
+  background-color: rgb(246, 246, 246);
+  text-align: center;
+}
+
+.TablaOrdenes {
+  position: relative;
+}
