@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Modal, InputNumber } from 'antd';
+import { Button, Modal } from 'antd';
 import { FormOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
 import {makeRequest} from '../../shared/ApiWrapper';
+import {alertSuccess,alertError} from '../../shared/Alert';
 
 export default function DishesList({ dishesList }) {
 
-  const FakeID = '123141321321';
+  const id = localStorage.getItem('orderID');
   const [visible, setVisible] = useState(false);
   const [total, setTotal] = useState(0);
   const [cantidad,setCantidadd] = useState(0);
@@ -26,7 +27,7 @@ export default function DishesList({ dishesList }) {
       setCantidadd(cTemp);
     });
   };
-  const handleOk = (e) => {
+  const handleOk = () => {
     setVisible(false);
     dishesList.forEach((dish) => {
       addComandasRequest(dish);
@@ -40,12 +41,12 @@ export default function DishesList({ dishesList }) {
 
   const addComandasRequest = async (dish) => {
     try {
-      let response = await makeRequest('POST',`ordenes/${FakeID}/comandas`,{ platillo: dish._id,cantidad: dish.cantidad,observaciones:dish.observaciones})
+      let response = await makeRequest('POST',`ordenes/${id}/comandas`,{ platillo: dish._id,estado: 'En proceso',cantidad: dish.cantidad,observaciones:dish.observaciones})
 
       if (response.status === 201) {
-        console.log('comanda creada correctamente');
+        alertSuccess('Comanda creada correctamente');
       } else {
-        console.log('Hubo un error al crear la comanda');
+        alertError('Hubo un error al crear la comanda');
       }
       let data = response.data.data;
       return data;
@@ -53,6 +54,7 @@ export default function DishesList({ dishesList }) {
       console.log(err);
     }
   };
+
   useEffect(()=>{ 
     /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
     for(let i =0;i<dishesList.length;i++){
@@ -80,9 +82,13 @@ export default function DishesList({ dishesList }) {
         onOk={handleOk}
         onCancel={handleCancel}
         footer={[
-          <Button type="primary" onClick={handleOk}>
-            Ordenar
-          </Button>
+          dishesList.length !== 0 ?
+            <Button type="primary" onClick={handleOk}>
+              Ordenar
+            </Button>:
+            <Button type="primary" onClick={handleCancel}>
+              Ok
+            </Button>
         ]}
       >
         {dishesList.length !== 0 ? (

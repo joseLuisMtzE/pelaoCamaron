@@ -15,6 +15,7 @@ function AddDishes(props) {
   const [dishesList, setDishesList] = useState([]);
   const [selectedDishes,setSelectedDishes] = useState([]);
   const [filter,setFilter] = useState('5e97a2ebeb760c2c382fe55c');//Id de Mariscos
+  const noMesa = localStorage.getItem('noMesa');
 
   const addDishToList = (d) => {
     let temp = [...dishesList];
@@ -24,7 +25,7 @@ function AddDishes(props) {
 
   const getDishesRequest = async () => {
     try {
-      let response = await makeRequest('GET','platillos');
+      let response = await makeRequest('GET','platillos?isActive=true');
       let data = response.data.data;
       return data;
     } catch (err) {
@@ -34,7 +35,7 @@ function AddDishes(props) {
 
   const getCategoriesRequest = async () => {
     try {
-      let response = await makeRequest('GET','categorias');
+      let response = await makeRequest('GET','categorias?isActive=true');
       let data = response.data.data;
       return data;
     } catch (err) {
@@ -68,8 +69,7 @@ function AddDishes(props) {
         <img src={Background} alt="bg" className="bg-img"/>
         <header className="header">
           <h1 className="h1">Menú</h1>
-          <h3 className="h3">Mesa{props.location.noMesa}</h3>
-          <h3 className="h3">{props.location._id}</h3>
+          <h3 className="h3">Mesa{noMesa}</h3>
           <div className="search-input">
             <Search
               placeholder="Buscar"

@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Card, Modal, Cascader, Button, InputNumber } from 'antd';
-import { DeleteFilled, ExclamationCircleOutlined,LoadingOutlined } from '@ant-design/icons';
+import {
+  DeleteFilled,
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
-import {makeRequest} from '../../shared/ApiWrapper';
+import { makeRequest, getRol } from '../../shared/ApiWrapper';
 const { confirm } = Modal;
 
-export default function Table({table,deleteTable,editTablesRequest}) {
+export default function Table({ table, deleteTable, editTablesRequest }) {
   const options = [
     {
       value: 'Disponible',
@@ -25,23 +29,32 @@ export default function Table({table,deleteTable,editTablesRequest}) {
   const tipoOrdenOptions = [
     {
       value: 'Local',
-      label: 'Local'
-    }
-  ]
+      label: 'Local',
+    },
+    {
+      value: 'Para llevar',
+      label: 'Para llevar',
+    },
+  ];
 
   const onOrdenchange = (value) => {
-    if (value[0]) 
-      setOrderType(value[0])
+    if (value[0]) setOrderType(value[0]);
   };
 
   const onchange = (value) => {
     if (value[0]) table.estado = value[0];
-    editTablesRequest(table._id, table.noMesa, table.estado);
+    if (value[0] !== 'Reservada') {
+      editTablesRequest(table._id, table.noMesa, table.estado);
+      setReservada(false);
+      setVisible(false);
+    } else setReservada(true);
+    
   };
 
-  const [visible, setVisible] = useState(false); 
-  const [orderType,setOrderType] = useState('');
-  const [order,setOrder] = useState({});
+  const [visible, setVisible] = useState(false);
+  const [orderType, setOrderType] = useState('');
+  const [order, setOrder] = useState({});
+  const [reservada, setReservada] = useState(false);
 
   const showModal = () => {
     setVisible(true);
@@ -55,7 +68,7 @@ export default function Table({table,deleteTable,editTablesRequest}) {
     setVisible(false);
   };
 
-  const handleClick = async ()=>{
+  const handleClick = async () => {
     const form = new FormData(document.getElementById('form'));
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
@@ -63,11 +76,17 @@ export default function Table({table,deleteTable,editTablesRequest}) {
     const newOrder = await crearOrden(data);
     setOrder(newOrder);
     console.log(newOrder);
-  }
+    await localStorage.setItem('orderID', newOrder._id);
+    await localStorage.setItem('noMesa', table.noMesa);
+  };
 
   const crearOrden = async (order) => {
     try {
-      let response = await makeRequest('POST',`mesas/${table._id}/ordenes`,{ numPersonas: order.numPersonas, tipoOrden: order.tipoOrden,observaciones:order.observaciones })
+      let response = await makeRequest('POST', `mesas/${table._id}/ordenes`, {
+        numPersonas: order.numPersonas,
+        tipoOrden: order.tipoOrden,
+        observaciones: order.observaciones,
+      });
 
       if (response.status === 201) {
         console.log('Orden creada correctamente');
@@ -97,69 +116,121 @@ export default function Table({table,deleteTable,editTablesRequest}) {
     });
   };
 
+  const getOrderID =  async () => {
+    try {
+      let response = await makeRequest('GET',`mesas/${table._id}/ordenes`);
+      let data = response.data.data;
+      localStorage.setItem('orderID',data[0]._id);
+      localStorage.setItem('noMesa',data[0].mesa.noMesa);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+  const reservar = ()=>{
+    const form = new FormData(document.getElementById(table._id));
+    const data = Object.fromEntries(form);
+    if(data.detalles===undefined || data.detalles==='')
+      data.detalles = ' ';
+    editTablesRequest(table._id, table.noMesa, table.estado,data.detalles);
+    setVisible(false);
+  }
+
   var title = `Mesa ${table.noMesa}`;
   var modalTitle = `Mesa ${table.noMesa} - ${table.estado}`;
   return (
     <div>
-      <Card
-        size="small"
-        onClick={showModal}
-        title={title}
-        className="card"
-      >
+      <Card size="small" onClick={showModal} title={title} className="card">
         <p>{`Mesa ${table.estado}`}</p>
-        {table.estado==='Disponible' ? <div className="disponible"></div>:table.estado === 'Ocupada' ? <div className="ocupada"></div>: <div className="reservada"></div>}
-        
+        {table.estado === 'Disponible' ? (
+          <div className="disponible"></div>
+        ) : table.estado === 'Ocupada' ? (
+          <div className="ocupada"></div>
+        ) : (
+          <div className="reservada"></div>
+        )}
       </Card>
       <Modal
         title={modalTitle}
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={table.estado==='Disponible'?[
-          <form id="form">
-            <strong>Abrir cuenta</strong>
-            <p>¿Cuántas personas?</p>
-            <InputNumber
-              placeholder="0"
-              name="numPersonas"/>
-            <p>Tipo de orden: </p>
-            <Cascader
-              name="tipoOrden"
-              options={tipoOrdenOptions}
-              onChange={onOrdenchange}
-              placeholder="Tipo de orden..."
-            />
-            <p>Observaciones: </p>
-            <TextArea
-              name="observaciones"
-              placeholder="Agregar observaciones..."
-            />
-            <Button key="submit" type="primary" className="margin">
-              <Link
-                onClick={handleClick}
-                to={{
-                  pathname: '/agregar-platillos',
-                  noMesa: table.noMesa,
-                  idOrder: order._id,
-                }}
-              >
-                Abrir cuenta
-              </Link>
-            </Button>
-          </form>
-        ]:[<strong>Orden en proceso...</strong>,<br/>,<LoadingOutlined />,<br/>,<Button type="primary" className="margin">Ver orden</Button>]}
+        footer={
+          table.estado === 'Disponible'
+            ? [
+              <form id="form">
+                <strong>Abrir cuenta</strong>
+                <p>¿Cuántas personas?</p>
+                <InputNumber required placeholder="0" name="numPersonas" />
+                <p>Tipo de orden: </p>
+                <Cascader
+                  required
+                  name="tipoOrden"
+                  options={tipoOrdenOptions}
+                  onChange={onOrdenchange}
+                  placeholder="Tipo de orden..."
+                />
+                <p>Observaciones: </p>
+                <TextArea
+                  name="observaciones"
+                  placeholder="Agregar observaciones..."
+                />
+                <Button key="submit" type="primary" className="margin">
+                  <Link
+                    onClick={handleClick}
+                    to={{
+                      pathname: '/agregar-platillos',
+                      noMesa: table.noMesa,
+                      idOrder: order._id,
+                    }}
+                  >
+                    Abrir cuenta
+                  </Link>
+                </Button>
+              </form>,
+            ]
+            : [
+              <strong>Orden en proceso...</strong>,
+              <br />,
+              <LoadingOutlined />,
+              <br />,
+              <Button type="primary" className="margin" onClick={getOrderID}>
+                <Link
+                  to={{
+                    pathname: '/ver-orden',
+                    idOrder: order._id,
+                  }}
+                >
+                  Ver orden
+                </Link>
+              </Button>,
+            ]
+        }
       >
         <strong>Editar</strong>
-        <br/>
+        <br />
         <Cascader
           options={options}
           onChange={onchange}
           placeholder="Estado de la mesa..."
         />
-        <Button onClick={showConfirm} type="primary" danger>
-          <DeleteFilled />
-        </Button>
+        {getRol() === 'Dueño' ? (
+          <Button onClick={showConfirm} type="primary" danger>
+            <DeleteFilled />
+          </Button>
+        ) : null}
+        {reservada && (
+          <form id={table._id}>
+            <TextArea
+              name="detalles"
+              placeholder="Observaciones de la reservación..."
+              className="margin-top"
+            ></TextArea>
+            <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
+          </form>
+        )}
       </Modal>
     </div>
   );

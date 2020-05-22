@@ -5,6 +5,8 @@ import NewTable from '../components/tables/NewTable';
 import Background from '../assets/background.png';
 import {makeRequest} from '../shared/ApiWrapper';
 import { LoadingOutlined } from '@ant-design/icons';
+import {alertSuccess,alertError} from '../shared/Alert';
+
 
 
 export default function Tables() {
@@ -18,7 +20,7 @@ export default function Tables() {
 
   const getTablesRequest = async () => {
     try {
-      let response = await makeRequest('GET','mesas?isActive=true');
+      let response = await makeRequest('GET','mesas?isActive=true&&limit=100');
       let data = response.data.data;
       console.log(data);
       return data;
@@ -32,9 +34,9 @@ export default function Tables() {
       let response = await makeRequest('POST','mesas',{ noMesa: table.noMesa})
 
       if (response.status === 201) {
-        console.log('mesa creada correctamente');
+        alertSuccess(`Mesa ${table.noMesa} creada correctamente`);
       } else {
-        console.log('Hubo un error al crear la mesa');
+        alertError('Hubo un error al crear la mesa');
       }
       let data = response.data.data;
       return data;
@@ -47,10 +49,10 @@ export default function Tables() {
     try {
       let response = await makeRequest('DELETE',`mesas/${id}`)
 
-      if (response.status === 201) {
-        console.log('Mesa borrada correctamente');
+      if (response.status === 204) {
+        alertSuccess('Mesa borrada correctamente');
       } else {
-        console.log('Hubo un error al borrar la Mesa');
+        alertError('Hubo un error al borrar la Mesa');
       }
 
       let data = response.data.data;
@@ -60,17 +62,22 @@ export default function Tables() {
     }
   };
 
-  const editTablesRequest = async (id,noMesa,estado) => {
+  const editTablesRequest = async (id,noMesa,estado,detalles) => {
     try {
       let response = await makeRequest('PATCH',`mesas/${id}`,{
         'estado': estado,
-        'noMesa':noMesa
+        'noMesa':noMesa,
+        'reservaciones': {
+          'detalles': detalles
+        }
       })
 
-      if (response.status === 201) {
-        console.log('Mesa editada correctamente');
+      if (response.status === 200) {
+        detalles===undefined?
+          alertSuccess('Mesa editada correctamente'):
+          alertSuccess('Mesa reservada correctamente');
       } else {
-        console.log('Hubo un error al editar la mesa');
+        alertError('Hubo un error al editar la mesa');
       }
 
       let data = response.data.data;

@@ -32,7 +32,7 @@ export default function NewTable({addTable}) {
           type="link"
           size="large"
           icon={<PlusOutlined className="big-size"/>}
-          className="add-btn"
+          className="add-btn-2"
         ></Button>
       </Card>
       <Modal
