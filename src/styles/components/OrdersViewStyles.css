@@ -1,16 +1,25 @@
-.img-Fondo {
+/*.img-Fondo {
   background-image: url('../../assets/fondoAzul');
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
   width: 100%;
+}*/
+
+.wrapper {
+  background: url('../../assets/donfoAmarillo') top,
+    url('../../assets/fondoAzul') bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  min-height: 100vh;
 }
 
-.img-Fondo {
-  height: 100%;
-  width: 100%;
-  background-size: cover;
+@media only screen and (min-width: 800px) {
+  .wrapper {
+    background-size: 100% 200px;
+  }
 }
 
 .Texto-condicional {
@@ -20,24 +29,36 @@
 }
 
 .Tabla-VistaGeneral-Ordenes {
-  border-spacing: 0 0.5em;
+  overflow: auto;
   width: 100%;
   font: normal 13px Arial;
   text-align: center;
   border-collapse: collapse;
   position: absolute;
-
+  margin: 50px auto 0px;
 }
 
 .Tabla-VistaGeneral-Ordenes thead th {
   font: bold 22px Arial;
+  padding-bottom: 15px;
+}
+
+.tr-white {
+  font: bold 15px Arial;
+  background-color: white;
+  border-radius: 15px;
+  padding: 30px;
+  margin: 10px;
+  box-shadow: 0px 0px 3px 3px grey;
 }
 
 .Tabla-tds-ordenes {
-  background-color: rgb(246, 246, 246);
   text-align: center;
+
+  height: 70px;
 }
 
-.TablaOrdenes {
-  position: relative;
+.Center-Tabla-Ordenes {
+  width: 85% !important;
+
 }
