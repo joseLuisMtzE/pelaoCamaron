@@ -22,7 +22,6 @@ export default function Tables() {
     try {
       let response = await makeRequest('GET','mesas?isActive=true&&limit=100');
       let data = response.data.data;
-      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -90,7 +89,9 @@ export default function Tables() {
   useEffect(() => {
     const initState = async () => {
       let data = await getTablesRequest();
-      setTables(data);
+      console.log(data);
+      if(data)
+        setTables(data);
     };
     initState();
   },[]);
@@ -123,11 +124,11 @@ export default function Tables() {
     },
   ];
 
-  const addTable = (data) => {
+  const addTable = async(data) => {
+    let respuesta = await addTablesRequest(data);
     var temp = [...tables];
-    temp.push(data);
+    temp.push(respuesta);
     setTables(temp);
-    addTablesRequest(data);
   };
 
   const deleteTable = (noMesa,id) => {

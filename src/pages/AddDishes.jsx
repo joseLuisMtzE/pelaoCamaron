@@ -7,7 +7,7 @@ import DishesList from '../components/Dishes/DishesList';
 import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
-function AddDishes(props) {
+function AddDishes() {
 
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);

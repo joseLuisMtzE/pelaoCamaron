@@ -12,14 +12,32 @@ import {
 import { Link } from 'react-router-dom';
 
 export default function OrderView() {
-  const [orders, setOrders] = useState([]);
-  const id = localStorage.getItem('orderID');
 
-  const getOrdersRequest = async () => {
+  const mesaID = localStorage.getItem('mesaID');
+  const noMesa = localStorage.getItem('noMesa');
+
+  const [orders, setOrders] = useState([]);
+
+  const getOrderID =  async () => {
     try {
-      let response = await makeRequest('GET', `ordenes/${id}`);
+      let response = await makeRequest('GET',`mesas/${mesaID}/ordenes`);
+      let data = response.data.data;
+      console.log(response.status);
+      console.log(data[0]);
+      if(response.status===200)
+        await getOrdersRequest(data[0]._id);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getOrdersRequest = async (orderID) => {
+    try {
+      let response = await makeRequest('GET', `ordenes/${orderID}`);
       let data = response.data.data.comandas;
       console.log(data);
+      setOrders(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -27,8 +45,7 @@ export default function OrderView() {
   };
   useEffect(() => {
     const initState = async () => {
-      let data = await getOrdersRequest();
-      setOrders(data);
+      await getOrderID();
     };
     initState();
   }, []);
@@ -38,8 +55,7 @@ export default function OrderView() {
       <Row>
         <Col xs={24}>
           <img src={BackgroundYellow} alt="bg" className="bg-img" />
-
-          <h1 className="h1">Orden</h1>
+          <h1 className="h1">Orden - Mesa {noMesa}</h1>
         </Col>
         <Col xs={24} md={18}>
           <section

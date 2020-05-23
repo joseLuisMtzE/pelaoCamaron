@@ -69,15 +69,14 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
   };
 
   const handleClick = async () => {
-    const form = new FormData(document.getElementById('form'));
+    const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
     console.log(data);
     const newOrder = await crearOrden(data);
+    localStorage.setItem('noMesa', table.noMesa);
     setOrder(newOrder);
     console.log(newOrder);
-    await localStorage.setItem('orderID', newOrder._id);
-    await localStorage.setItem('noMesa', table.noMesa);
   };
 
   const crearOrden = async (order) => {
@@ -90,6 +89,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
 
       if (response.status === 201) {
         console.log('Orden creada correctamente');
+        localStorage.setItem('orderID', response.data.data._id);
       } else {
         console.log('Hubo un error al crear la orden');
       }
@@ -116,19 +116,6 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     });
   };
 
-  const getOrderID =  async () => {
-    try {
-      let response = await makeRequest('GET',`mesas/${table._id}/ordenes`);
-      let data = response.data.data;
-      localStorage.setItem('orderID',data[0]._id);
-      localStorage.setItem('noMesa',data[0].mesa.noMesa);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-
   const reservar = ()=>{
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
@@ -136,6 +123,11 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       data.detalles = ' ';
     editTablesRequest(table._id, table.noMesa, table.estado,data.detalles);
     setVisible(false);
+  }
+
+  const setLocalStorage = () =>{
+    localStorage.setItem('noMesa',table.noMesa);
+    localStorage.setItem('mesaID',table._id);
   }
 
   var title = `Mesa ${table.noMesa}`;
@@ -160,7 +152,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         footer={
           table.estado === 'Disponible'
             ? [
-              <form id="form">
+              <form id={table._id}>
                 <strong>Abrir cuenta</strong>
                 <p>¿Cuántas personas?</p>
                 <InputNumber required placeholder="0" name="numPersonas" />
@@ -181,9 +173,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   <Link
                     onClick={handleClick}
                     to={{
-                      pathname: '/agregar-platillos',
-                      noMesa: table.noMesa,
-                      idOrder: order._id,
+                      pathname: '/agregar-platillos'
                     }}
                   >
                     Abrir cuenta
@@ -196,11 +186,11 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
               <br />,
               <LoadingOutlined />,
               <br />,
-              <Button type="primary" className="margin" onClick={getOrderID}>
+              <Button type="primary" className="margin">
                 <Link
+                  onClick={setLocalStorage}
                   to={{
-                    pathname: '/ver-orden',
-                    idOrder: order._id,
+                    pathname: '/ver-orden'
                   }}
                 >
                   Ver orden
