@@ -47,13 +47,13 @@
     margin:10px;
 }*/
 
-.btnModal{
-    display:scroll;
-    bottom:60px;
-    right:5px;
-    z-index: 40;
-    position:fixed;
-    padding-top: 10px;
+ .btnModal{
+    display:scroll !important;
+    bottom:35px !important;
+    right:5px !important;
+    z-index: 40 !important;
+    position:fixed !important;
+    padding-top: 10px !important;
 }
 .no-areas {
     color: red;
