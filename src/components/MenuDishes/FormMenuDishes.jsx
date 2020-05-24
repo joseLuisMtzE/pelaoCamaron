@@ -62,6 +62,8 @@ const areaOptions= areas.map((area) => {
   }
 }  )
 
+
+
 //console.log(categoryOptions)
 
   const onFinish = (values) => {
@@ -134,7 +136,7 @@ const areaOptions= areas.map((area) => {
             },
           ]}
         >
-          <Input className="inputs" />
+          <Input type='number'  className="inputs" />
         </Form.Item>
         <Form.Item
           label="Precio sin IVA"
@@ -146,10 +148,10 @@ const areaOptions= areas.map((area) => {
             },
           ]}
         >
-          <Input className="inputs" />
+          <Input className="inputs"/>
         </Form.Item>
         <Form.Item
-          label="Peso"
+          label="Peso (gramos)"
           name="peso"
           rules={[
             {
@@ -158,7 +160,8 @@ const areaOptions= areas.map((area) => {
             },
           ]}
         >
-          <Input className="inputs" />
+          
+          <Input className="inputs"  />
         </Form.Item>
         <Form.Item
           label="Descripcion"
@@ -173,7 +176,7 @@ const areaOptions= areas.map((area) => {
           <Input className="inputs" />
         </Form.Item>
         <Form.Item
-          label="Tiempo de preparación"
+          label="Tiempo de preparación (minutos)"
           name="tiempoPreparación"
           rules={[
             {

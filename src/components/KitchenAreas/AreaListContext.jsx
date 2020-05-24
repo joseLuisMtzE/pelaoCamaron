@@ -17,7 +17,7 @@ const AreaListContextProvider = props => {
   const [editItem, setEditItem] = useState(null);
   const retrieveAreas = async () => {
     try {
-      let response = await makeRequest('GET', 'areas');
+      let response = await makeRequest('GET', 'areas?isActive=true');
       let data = response.data.data;
       console.log(getRol());
       return data;

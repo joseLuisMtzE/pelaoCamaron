@@ -3,9 +3,9 @@ import url from '../constants/api';
 import jwt_decode from 'jwt-decode';
 import { errorAlert } from './Alerts';
 
-// const token =
-//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg0NzEwNTcsImV4cCI6MTU4ODQ5OTg1N30.TgKuInjR7dVehna-0xT7j_BqT8ojCmUCs75VxtHe6zI';
-// localStorage.setItem('token', token);
+const token =
+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1OTAyODY0NTcsImV4cCI6MTU5MDMxNTI1N30.OKTlVA5RH058_ijDchGgimDSg-Bos5_Kd8z390RkUtk';
+ localStorage.setItem('token', token);
 
 function getToken() {
   if (localStorage.getItem('token')) {

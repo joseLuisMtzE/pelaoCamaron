@@ -1,6 +1,8 @@
 import React, { createContext } from 'react';
 import axios from 'axios';
 import url from '../../constants/api';
+import { makeRequest } from '../../shared/ApiWrapper';
+import { alertError, alertSuccess } from '../../shared/Alert';
 
 export const DishesContext = createContext();
 
@@ -9,18 +11,13 @@ const MenuDishesContext = props => {
     baseURL: url.apiEndPoint
   });
   const token =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg3Mzk3NjUsImV4cCI6MTU4ODc2ODU2NX0.QCGp77zS0p3WWlSPqaRmsoYu5ooETPO6MUSHA9KmWQ8';
-
+  localStorage.getItem('token')
   //------GET
   const retrieveFormMenuDishes = async () => {
     try {
-      let response = await api.get('platillos', {
-        headers: {
-          Authorization: token
-        }
-      });
+      let response = await makeRequest('GET', 'platillos?isActive=true');
       let data = response.data.data;
-
+      console.log(data)
       return data;
     } catch (err) {
       console.log(err);
@@ -29,11 +26,7 @@ const MenuDishesContext = props => {
 
   const retrieveAreas = async () => {
     try {
-      let response = await api.get('areas', {
-        headers: {
-          Authorization: token
-        }
-      });
+      let response = await makeRequest('GET', 'areas?isActive=true');
       let data = response.data.data;
 
       return data;
@@ -44,11 +37,7 @@ const MenuDishesContext = props => {
 
   const retrieveCategories = async () => {
     try {
-      let response = await api.get('categorias', {
-        headers: {
-          Authorization: token
-        }
-      });
+      let response = await makeRequest('GET', 'categorias?isActive=true');
       let data = response.data.data;
 
       return data;
@@ -60,43 +49,23 @@ const MenuDishesContext = props => {
   //------POST
 
   const addDishesRequest = async values => {
-    /* console.log({
-          "nombre":values.nombre,
-          "area":values.area[0],
-          "categoria": values.categoria[0],
-          "precioConIva": parseInt(values.precioConIva),
-          "precioSinIva": parseInt(values.precioSinIva),
-          "peso": parseInt(values.peso),
-          "descripcion": values.descripcion,
-          "tiempoPreparación": parseInt(values.tiempoPreparación),
-          "imagen": values.imagen
-
-        })*/
-    try {
-      let response = await api.post(
-        'platillos',
-        {
-          nombre: values.nombre,
-          area: values.area[0],
-          categoria: values.categoria[0],
-          precioConIva: parseFloat(values.precioConIva),
-          precioSinIva: parseFloat(values.precioSinIva),
-          peso: parseFloat(values.peso),
-          descripcion: values.descripcion,
-          tiempoPreparación: parseInt(values.tiempoPreparación),
-          imagen: values.imagen
-        },
-        {
-          headers: {
-            Authorization: token
-          }
-        }
-      );
-
+      try {
+      let response = await makeRequest('POST', 'platillos',{
+        nombre: values.nombre,
+        area: values.area[0],
+        categoria: values.categoria[0],
+        precioConIva: parseFloat(values.precioConIva),
+        precioSinIva: parseFloat(values.precioSinIva),
+        peso: parseFloat(values.peso),
+        descripcion: values.descripcion,
+        tiempoPreparación: parseInt(values.tiempoPreparación),
+        imagen: values.imagen
+      });
+       
       if (response.status === 201) {
-        console.log(`Platillo ${values.nombre} creado correctamente`);
+        alertSuccess(`Platillo ${values.nombre} creado correctamente`);
       } else {
-        console.log('Hubo un error al añadir el platillo');
+        alertError('Hubo un error al añadir el platillo');
       }
       let data = response.data.data;
       return data;
@@ -105,26 +74,64 @@ const MenuDishesContext = props => {
     }
   };
 
-  //-----toEdit
-  const editDishes = async (id, nombre) => {
-    console.log(id, nombre);
-    /*try {
-      let response = await api.patch(`platillos/${id}`, {
-        "nombre": nombre,
+  //-----toEdit  PUT
+  const editDishes = async (id,values) => {
+    console.log("EDIT DISHES",{nombre: values.nombre,
+      area: values.area,
+      categoria: values.categoria,
+      precioConIva: parseFloat(values.precioConIva),
+      precioSinIva: parseFloat(values.precioSinIva),
+      peso: parseFloat(values.peso),
+      descripcion: values.descripcion,
+      tiempoPreparación: parseInt(values.tiempoPreparación),
+      imagen: values.imagen})
+    try {
+      let response = await makeRequest('PUT', `platillos/${id}`,{
+        nombre: values.nombre,
+        area: values.area,
+        categoria: values.categoria,
+        precioConIva: parseFloat(values.precioConIva),
+        precioSinIva: parseFloat(values.precioSinIva),
+        peso: parseFloat(values.peso),
+        descripcion: values.descripcion,
+        tiempoPreparación: parseInt(values.tiempoPreparación),
+        imagen: values.imagen
       });
 
+      console.log(response)
       if (response.status === 200) {
-        console.log(`Platillo ${nombre} editada correctamente`);
+        alertSuccess(`Platillo ${values.nombre} editada correctamente`);
       } else {
-        alert(`Hubo un error al editar la categoria`);
+        alertError(`Hubo un error al editar la categoria`);
       }
+
 
       let data = response.data.data;
       return data;
     } catch (err) {
       console.log(err);
-    }*/
+    }
   };
+
+  const deleteDishes = async (id) => {
+    try {
+      let response = await makeRequest('DELETE', `platillos/${id}`);
+      // console.log(response);
+
+      if (response.status === 204) {
+        alertSuccess(`Platillo borrado correctamente`);
+      } else {
+        alertError(`Hubo un error al borrar el platillo`);
+      }
+
+      let data = response.data.data;
+      //console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   return (
     <div>
@@ -134,7 +141,8 @@ const MenuDishesContext = props => {
           addDishesRequest,
           retrieveCategories,
           retrieveAreas,
-          editDishes
+          editDishes,
+          deleteDishes
         }}
       >
         {props.children}

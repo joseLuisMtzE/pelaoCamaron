@@ -1,9 +1,9 @@
 .login-form-content{
- width: 80%;
- margin: 0 auto ;
- padding: 10px;
- margin-top: 10px;
- border-radius: 10px;
+ width: 80% !important;
+ margin: 0 auto !important;
+ padding: 10px !important;
+ margin-top: 10px !important;
+ border-radius: 10px !important ;
 
 
 -webkit-box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
@@ -12,18 +12,18 @@ box-shadow: 0px 0px 43px 0px rgba(0,0,0,0.75);
 }
 
 .imgLogo{
-    margin: 15px;
-    padding: 5px;
+    margin: 15px !important;
+    padding: 5px !important;
 }
     
 
 .login-container{
-    height:100%; 
-    width:100%;
-    background-image: url(../../assets/backgroundWood2.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+    height:100% !important; 
+    width:100% !important;
+    background-image: url(../../assets/backgroundWood2.jpg) !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
         
 }
 

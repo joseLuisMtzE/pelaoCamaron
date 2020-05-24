@@ -8,6 +8,7 @@ import axios from 'axios';
 import url from '../../constants/api';
 import { DishesContext } from './MenuDishesContext';
 import ScrollMenu from './ScrollMenu';
+import {getRol} from '../../shared/ApiWrapper'
 const { Search } = Input;
 
 const api = axios.create({
@@ -28,20 +29,33 @@ function MenuDishes() {
     const initialState = await retrieveFormMenuDishes();
     const initCategories = await retrieveCategories();
     const initAreas = await retrieveAreas();
-    console.log(initialState);
+    //console.log(initialState);
     setDishes(initialState);
     setCategories(initCategories);
     setAreas(initAreas);
-    console.log(initAreas);
+    //console.log(initAreas);
   };
-  useEffect(() => {
-    initializeState();
-  }, []);
-
+  
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
+  
+  const[filter,setFilter] = useState('5ec74cb7d3f47700040080db') //categoria inicial
+  const [selectedDishes,setSelectedDishes] = useState([])
+  useEffect(()=>{
+    initializeState();
 
+  },[])
+
+  useEffect(() => {
+    let temp = [];
+    dishes.map((dish)=>{
+      if(dish.categoria!==null)
+        temp.push(dish);
+    })
+    let result = temp.filter((dish)=>dish.categoria._id === filter);
+    setSelectedDishes(result);
+  }, [dishes,filter]);
   return (
     <>
       <div style={{ display: 'block' }} className="header">
@@ -90,21 +104,25 @@ function MenuDishes() {
             style={{ display: 'inline-block', margin: '5px' }}
             key={category._id}
           >
-            <ScrollMenu category={category} />
+
+            <ScrollMenu category={category} setFilter={setFilter} />
           </div>
         ))}
         <div
           className="centerContent"
           style={{ display: 'inline-block', margin: '5px' }}
         >
-          <ModalMenuDishes />
+          {getRol() === 'Dueño' ? (
+            console.log("Acceso Concedido ", getRol()),
+            <ModalMenuDishes />
+            ) : null}
 
           {/*<p style={{ textAlign: 'center' }}>Agregar</p>*/}
         </div>
       </div>
 
       <Row>
-        {dishes.map((dish, index) => (
+        {selectedDishes.map((dish, index) => (
           <Col key={index} className="gutter-row" xs={12} md={6} lg={4}>
             <MenuGallery
               nombre={dish.nombre}
@@ -116,6 +134,7 @@ function MenuDishes() {
               precioSinIva={dish.precioSinIva}
               peso={dish.peso}
               tiempoPreparación={dish.tiempoPreparación}
+              dish={dish}
             />
           </Col>
         ))}

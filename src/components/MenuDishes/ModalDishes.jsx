@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Modal, Button, Row, Col, Typography } from 'antd';
 import { DishesContext } from './MenuDishesContext';
 import EditFormMenuDishes from './EditFormMenuDishes';
+import {getRol} from '../../shared/ApiWrapper'
 
 const { Title } = Typography;
 
@@ -18,8 +19,13 @@ function ModalDishes({
   visible,
   handleOk,
   handleCancel,
-  categories
+  categories,
+  dish
 }) {
+ 
+  //console.log(categoria.nombre)
+  //console.log(peso)
+
   const [editModal, setEditModal] = useState({ visible: false });
   // console.log('ModalDishes, Area: ', area);
   const showEditModal = () => {
@@ -39,11 +45,15 @@ function ModalDishes({
     setEditModal({ visible: false });
   };
 
-  const { editDishes } = useContext(DishesContext);
-  const click = () => {
-    editDishes(112, 'taco de perro');
-    console.log('click Editar');
-  };
+  const { editDishes,deleteDishes } = useContext(DishesContext);
+  
+  const deleteClick = () => {
+    //console.log(dish._id)
+    deleteDishes(dish._id)
+  }
+
+
+
   return (
     <div>
       <Modal
@@ -64,6 +74,8 @@ function ModalDishes({
           tiempoPreparación={tiempoPreparación}
           categoria={categoria}
           area={area}
+          dish={dish}
+          
         />
       </Modal>
 
@@ -98,19 +110,25 @@ function ModalDishes({
               {nombre}
             </Title>
             <Row>
-              <Col span={8}>categorias</Col>
-              <Col span={8}>tiempo</Col>
-              <Col span={8}>precio</Col>
+          <Col span={8}>{categoria.nombre}</Col>
+          <Col span={8}>{tiempoPreparación} min</Col>
+          <Col span={8}>${precioSinIva}</Col>
             </Row>
             <Row>
-              <Col span={12}>peso</Col>
-              <Col span={12}>iva</Col>
+              <Col span={12}>{peso} gr</Col>
+          <Col span={12}>${precioConIva}</Col>
             </Row>
           </div>
 
+            
           <div className="centerContent">
             <label style={{ fontSize: '20px' }}>Descripcion</label>
             <p htmlFor="">{descripcion}</p>
+            
+            
+{/*VAlIDACION DE PERMISOS DE USUARIO*/}
+          {getRol() === 'Dueño' ? (
+            
             <Button
               onClick={showEditModal}
               type="primary"
@@ -123,8 +141,10 @@ function ModalDishes({
                 border: 'none',
                 boxShadow: '0px 3px 5px 0px grey'
               }}
-            />
+            />) : null}
+             {getRol() === 'Dueño' ? (
             <Button
+            onClick={deleteClick}
               type="primary"
               shape="circle"
               icon={'X'}
@@ -136,7 +156,8 @@ function ModalDishes({
                 boxShadow: '0px 3px 5px 0px grey'
               }}
               danger
-            />
+            />) : null}
+            
           </div>
         </div>
       </Modal>

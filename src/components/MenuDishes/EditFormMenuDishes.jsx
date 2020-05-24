@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Input, Button, Cascader } from 'antd';
-import url from '../../constants/api';
-import axios from 'axios';
 import { DishesContext } from './MenuDishesContext';
-
-const api = axios.create({
-  baseURL: url.apiEndPoint
-});
 
 const layout = {
   labelCol: {
@@ -37,14 +31,16 @@ const EditFormMenuDishes = ({
   peso,
   tiempoPreparación,
   categoria,
-  area
+  area,
+  dish
 }) => {
-  console.log('Edit, Area: ', area);
+  //console.log('Edit, Area: ', area);
   const {
     retrieveFormMenuDishes,
     addDishesRequest,
     retrieveCategories,
-    retrieveAreas
+    retrieveAreas,
+    editDishes
   } = useContext(DishesContext);
 
   const [dishes, setDishes] = useState([]);
@@ -65,6 +61,7 @@ const EditFormMenuDishes = ({
   // console.log(dishes);
   useEffect(() => {
     initialize();
+    //llenar inputs con informacion original
     form.setFieldsValue({
       nombre: nombre,
       precioConIva: precioConIva,
@@ -72,29 +69,29 @@ const EditFormMenuDishes = ({
       peso: peso,
       descripcion: descripcion,
       tiempoPreparación: tiempoPreparación,
-      imagen: { imagen }
-      // categoria: categoryOptionsxd[0].label,
-      // area: areaOptionsxd[0].label
+      imagen:  imagen ,
+      categoria: [categoryOptionOriginal[0].value],
+      area: [areaOptionsOriginal[0].value]
     });
     // console.log(categoria, area);
   }, []);
 
   //console.log(dishes.nombre)
 
-  const categoryOptionsxd = [
+  const categoryOptionOriginal = [
     {
       value: categoria._id,
       label: categoria.nombre
     }
   ];
-  const areaOptionsxd = [
+  const areaOptionsOriginal = [
     {
       value: area._id,
       label: area.nombre
     }
   ];
 
-  // console.log(categoryOptionsxd, areaOptionsxd);
+  // console.log(categoryOptionOriginal, areaOptionsxd);
   const categoriesOptions = categories.map(category => {
     return {
       value: category._id,
@@ -108,11 +105,24 @@ const EditFormMenuDishes = ({
     };
   });
 
-  // console.log(categoryOptionsxd[0].value);
+  // console.log(categoryOptionOriginal[0].value);
   //console.log(categoryOptions)
 
+    const [cat,setCat]=useState([categoryOptionOriginal[0].value]);
+    const [aria,setAria]=useState([areaOptionsOriginal[0].value]);
+
+    console.log('Edit, Area: ', aria);
+    console.log('Edit, Cat: ', cat);
+
+
+
+
   const onFinish = values => {
-    addDishesRequest(values);
+    //console.log(dish._id)
+    
+    values.categoria=cat
+    values.area=aria
+    editDishes(dish._id,values);
     console.log('Success:', values);
   };
 
@@ -155,10 +165,13 @@ const EditFormMenuDishes = ({
               }
             ]}
           >
+            
             <Cascader
               options={categoriesOptions}
-              defaultValue={[categoryOptionsxd[0].value]}
-              placeholder=""
+              defaultValue={[categoryOptionOriginal[0].value]}
+              placeholder={""}
+              onChange={(value)=> setAria(value[0])}
+
             />
           </Form.Item>
           <Form.Item
@@ -171,11 +184,12 @@ const EditFormMenuDishes = ({
               }
             ]}
           >
-            {console.log(areaOptionsxd[0].value)}
+            
             <Cascader
               options={areaOptions}
-              defaultValue={[areaOptionsxd[0].value]}
+              defaultValue={[areaOptionsOriginal[0].value]}
               placeholder={''}
+              onChange={(value)=> setCat(value[0])}
             />
           </Form.Item>
           <Form.Item
@@ -271,7 +285,7 @@ const EditFormMenuDishes = ({
               htmlType="submit"
               onClick={onOk}
             >
-              Confirmar
+              Editar
             </Button>
           </Form.Item>
         </Form>

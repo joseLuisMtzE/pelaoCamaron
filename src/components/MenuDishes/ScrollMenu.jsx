@@ -1,10 +1,15 @@
 import React from 'react';
 import { Button} from 'antd';
 
-function ScrollMenu({category}) {
+function ScrollMenu({category, setFilter}) {
+
+  
+
+
   return (
     <>
       <Button
+      onClick={()=> setFilter(category._id)}
         shape="circle"
         icon={'xD'}
         size={''}

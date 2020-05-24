@@ -21,7 +21,8 @@ function MenuGallery({
   peso,
   tiempoPreparación,
   categoria,
-  area
+  area,
+  dish
 }) {
   //const [state, setState] = useState({ visible: false, loading:false });
   // console.log('MenuGallery, Area: ', area);
@@ -57,6 +58,8 @@ function MenuGallery({
           setVisible={setVisible}
           handleOk={handleOk}
           handleCancel={handleCancel}
+          dish={dish}
+        
         />
       </div>
       <div>
