@@ -39,8 +39,8 @@ function MenuDishes() {
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
-  
-  const[filter,setFilter] = useState('5ec74cb7d3f47700040080db') //categoria inicial
+                                            //karen pipipopo
+  const[filter,setFilter] = useState('5ec753f2d3f47700040080e4') //categoria inicial
   const [selectedDishes,setSelectedDishes] = useState([])
   useEffect(()=>{
     initializeState();
@@ -123,6 +123,7 @@ function MenuDishes() {
 
       <Row>
         {selectedDishes.map((dish, index) => (
+          
           <Col key={index} className="gutter-row" xs={12} md={6} lg={4}>
             <MenuGallery
               nombre={dish.nombre}

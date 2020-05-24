@@ -170,7 +170,7 @@ const EditFormMenuDishes = ({
               options={categoriesOptions}
               defaultValue={[categoryOptionOriginal[0].value]}
               placeholder={""}
-              onChange={(value)=> setAria(value[0])}
+              onChange={(value)=> setCat(value[0])}
 
             />
           </Form.Item>
@@ -189,7 +189,7 @@ const EditFormMenuDishes = ({
               options={areaOptions}
               defaultValue={[areaOptionsOriginal[0].value]}
               placeholder={''}
-              onChange={(value)=> setCat(value[0])}
+              onChange={(value)=> setAria(value[0])}
             />
           </Form.Item>
           <Form.Item
