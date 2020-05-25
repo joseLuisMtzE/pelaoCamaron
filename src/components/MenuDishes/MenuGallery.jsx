@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Card, Modal } from 'antd';
 import ModalDishes from './ModalDishes';
 //const style = {padding: '8px 0', borderRadius:"15px"  };
 //const { Meta } = Card;

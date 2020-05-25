@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Input, Button, Col, Row, Divider } from 'antd';
+import { Input, Col, Row } from 'antd';
 import ModalMenuDishes from '../MenuDishes/ModalMenuDishes';
 import Background from '../../assets/background.png';
-import { DownloadOutlined } from '@ant-design/icons';
 import MenuGallery from './MenuGallery';
 import axios from 'axios';
 import url from '../../constants/api';
@@ -11,11 +10,6 @@ import ScrollMenu from './ScrollMenu';
 import {getRol} from '../../shared/ApiWrapper'
 const { Search } = Input;
 
-const api = axios.create({
-  baseURL: url.apiEndPoint
-});
-
-//const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg1Njg0NzAsImV4cCI6MTU4ODU5NzI3MH0.e7uNW8Pd2UrlxseottDQo63dZiFN0gu7xiCpZdTGsno';
 
 function MenuDishes() {
   const {

@@ -1,17 +1,11 @@
 import React, { createContext } from 'react';
-import axios from 'axios';
-import url from '../../constants/api';
 import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 
 export const DishesContext = createContext();
 
 const MenuDishesContext = props => {
-  const api = axios.create({
-    baseURL: url.apiEndPoint
-  });
-  const token =
-  localStorage.getItem('token')
+  
   //------GET
   const retrieveFormMenuDishes = async () => {
     try {

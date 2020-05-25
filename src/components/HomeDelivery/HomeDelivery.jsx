@@ -35,7 +35,6 @@ function HomeDelivery() {
 
         <div className="centerContent" style={{ padding: '1px' }} />
       </div>
-      <div className="footer-home-delivery" />
     </>
   );
 }
