@@ -28,6 +28,7 @@ const FormHomeDelivery = () => {
     console.log('Failed:', errorInfo);
   };
   return (
+    <>
     <Form
       className="form-home-delivery"
       {...layout}
@@ -121,7 +122,6 @@ const FormHomeDelivery = () => {
       >
         <Input />
       </Form.Item>
-      <div className="footer-home-delivery" >
         <Form.Item
           label="Pagara con..."
           name="pagaraCon"
@@ -152,9 +152,11 @@ const FormHomeDelivery = () => {
             Confirmar
           </Button>
         </Form.Item>
-      </div>
     </Form>
-  );
+        <div className="footer-home-delivery" >
+      </div>
+</>
+);
 };
 
 export default FormHomeDelivery;

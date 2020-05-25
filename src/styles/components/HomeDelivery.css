@@ -1,14 +1,18 @@
 .form-home-delivery{
-    
+    margin: 0 auto !important;
+    width: 80% !important;
 
 }
 
 .margin-0-home-delivery{
+    margin: 0 auto ;
 }
 
 .footer-home-delivery{
     background-color:#CB5F5F;
     padding:20px;
+    ;
+    ;
 }
 
 .header-home-delivery {
