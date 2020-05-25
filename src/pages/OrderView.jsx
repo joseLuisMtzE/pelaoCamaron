@@ -12,20 +12,17 @@ import {
 import { Link } from 'react-router-dom';
 
 export default function OrderView() {
-
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  const getOrderID =  async () => {
+  const getOrderID = async () => {
     try {
-      let response = await makeRequest('GET',`mesas/${mesaID}/ordenes`);
+      let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
-      console.log(response.status);
-      console.log(data[0]);
-      if(response.status===200)
-        await getOrdersRequest(data[0]._id);
+      if (response.status === 200) await getOrdersRequest(data[0]._id);
       return data;
     } catch (err) {
       console.log(err);
@@ -34,6 +31,7 @@ export default function OrderView() {
 
   const getOrdersRequest = async (orderID) => {
     try {
+      localStorage.setItem('orderID', orderID);
       let response = await makeRequest('GET', `ordenes/${orderID}`);
       let data = response.data.data.comandas;
       console.log(data);
@@ -49,6 +47,29 @@ export default function OrderView() {
     };
     initState();
   }, []);
+
+  useEffect(() => {
+    /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
+    let totaltemp = 0;
+    let temp = [...orders];
+    for (let i = 0; i < temp.length; i++) {
+      for (let y = 0; y < temp.length; y++) {
+        console.log(i, temp[i]);
+        if (temp[i] && temp[i].platillo._id === temp[y].platillo._id && i !== y) {
+          temp[i].cantidad += temp[y].cantidad;
+          temp[i].platillo.precioConIva += temp[y].platillo.precioConIva;
+          temp[i].platillo.precioSinIva += temp[y].platillo.precioSinIva;
+          temp.splice(y, 1);
+          setOrders(temp);
+        }
+      }
+    }
+    temp.forEach((order) => {
+      totaltemp += order.platillo.precioConIva;
+      setTotal(totaltemp);
+    });
+    console.log(totaltemp);
+  }, [orders]);
 
   return (
     <div>
@@ -86,47 +107,50 @@ export default function OrderView() {
               </tbody>
             </table>
           </section>
+          <section
+            style={{
+              background: 'white',
+              padding: 15,
+              borderRadius: 15,
+              marginTop: 20,
+            }}
+          >
+            <h3 style={{ textAlign: 'center' }}>
+              Subtotal: ${total.toFixed(2)}
+            </h3>
+            <h3 style={{ textAlign: 'center' }}>
+              Total: <span className="total">${total.toFixed(2)}</span>
+            </h3>
+          </section>
         </Col>
         <Col xs={24} md={6}>
-          <div className="center">
-            <Button
-              shape="circle"
-              className="add-btn"
-            >
-              <Link to='/agregar-platillos'>
-                <PlusOutlined className="normal-size"/>
+          <div className="center margin-top">
+            <Button shape="circle" className="add-btn">
+              <Link to="/agregar-platillos">
+                <PlusOutlined className="normal-size" />
               </Link>
             </Button>
             <p>Agregar platillo</p>
           </div>
           <div className="center">
-            <Button
-              shape="circle"
-              className="close-btn"
-            >
-              <Link to='/cerrar-orden-salas-creo'>
+            <Button shape="circle" className="close-btn">
+              <Link to="/cerrar-orden-salas-creo">
                 <CloseOutlined className="normal-size" />
               </Link>
             </Button>
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button
-              shape="circle"
-              className="discount-btn"
-            >
-              <Link to='/agregar-descuento-karen'>
+            <Button shape="circle" className="discount-btn">
+              <Link to="/agregar-descuento-karen">
                 <DollarCircleOutlined className="normal-size" />
               </Link>
             </Button>
             <p>Agregar descuento</p>
           </div>
-          <div className="center">
-            <Button
-              shape="circle"
-              className="print-btn"
-            >
-              <Link to='/imprimir-ticket-mariana'>
+          <div className="center alot-margin-bottom">
+            <Button shape="circle" className="print-btn">
+              <Link to="/imprimir-ticket-mariana">
                 <PrinterOutlined className="normal-size" />
               </Link>
             </Button>

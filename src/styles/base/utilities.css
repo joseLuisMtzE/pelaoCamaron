@@ -3,6 +3,10 @@
   margin-bottom: 30px;
 }
 
+.alot-margin-bottom {
+  margin-bottom: 200px;
+}
+
 div.scrollmenu {
   overflow: auto;
   white-space: nowrap;
@@ -60,7 +64,7 @@ div.scrollmenu a:hover {
 }
 .bottom{
   position: fixed;
-  bottom: 0px;
+  bottom: 0;
 }
 .h1{
   color: #545454;
@@ -211,6 +215,8 @@ div.scrollmenu a:hover {
 
 .table{
   width: 100%;
+  border-spacing: 5px;
+  border-collapse:separate; 
 }
 
 .total{

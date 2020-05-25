@@ -31,16 +31,19 @@ export default function Tables() {
     console.log(table); 
     try {
       let response = await makeRequest('POST','mesas',{ noMesa: table.noMesa})
-
+      let data = response.data.data;
       if (response.status === 201) {
+        var temp = [...tables];
+        temp.push(data);
+        setTables(temp);
         alertSuccess(`Mesa ${table.noMesa} creada correctamente`);
       } else {
         alertError('Hubo un error al crear la mesa');
       }
-      let data = response.data.data;
       return data;
     } catch (err) {
       console.log(err);
+      alertError(`La mesa número ${table.noMesa} ya existe. Intenta con otro número`);
     }
   };
 
@@ -125,10 +128,7 @@ export default function Tables() {
   ];
 
   const addTable = async(data) => {
-    let respuesta = await addTablesRequest(data);
-    var temp = [...tables];
-    temp.push(respuesta);
-    setTables(temp);
+    await addTablesRequest(data);
   };
 
   const deleteTable = (noMesa,id) => {

@@ -14,7 +14,7 @@ function AddDishes() {
   const [searchedValue, setSearchedValue] = useState('');
   const [dishesList, setDishesList] = useState([]);
   const [selectedDishes,setSelectedDishes] = useState([]);
-  const [filter,setFilter] = useState('5e97a2ebeb760c2c382fe55c');//Id de Mariscos
+  const [filter,setFilter] = useState('');
   const noMesa = localStorage.getItem('noMesa');
 
   const addDishToList = (d) => {
@@ -37,6 +37,7 @@ function AddDishes() {
     try {
       let response = await makeRequest('GET','categorias?isActive=true');
       let data = response.data.data;
+      setFilter(data[0]._id);
       return data;
     } catch (err) {
       console.log(err);
@@ -111,7 +112,7 @@ function AddDishes() {
             )
           )}
         </Row>
-        <DishesList dishesList={dishesList}/>
+        <DishesList dishesList={dishesList} setDishesList={setDishesList}/>
       </Col>
       {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
       </div>}

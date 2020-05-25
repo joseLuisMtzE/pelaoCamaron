@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
 import { makeRequest, getRol } from '../../shared/ApiWrapper';
+import {alertSuccess,alertError} from '../../shared/Alert';
 const { confirm } = Modal;
 
 export default function Table({ table, deleteTable, editTablesRequest }) {
@@ -32,8 +33,8 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       label: 'Local',
     },
     {
-      value: 'Para llevar',
-      label: 'Para llevar',
+      value: 'Domicilio',
+      label: 'Domicilio',
     },
   ];
 
@@ -91,12 +92,15 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         console.log('Orden creada correctamente');
         localStorage.setItem('orderID', response.data.data._id);
       } else {
-        console.log('Hubo un error al crear la orden');
+        window.location.href = '/mesas';
+        alertError('Hubo un error al crear la orden');
       }
       let data = response.data.data;
       return data;
     } catch (err) {
       console.log(err);
+      window.location.href = '/mesas'
+      alertError('Hubo un error al crear la orden')
     }
   };
 
