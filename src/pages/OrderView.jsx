@@ -50,26 +50,29 @@ export default function OrderView() {
 
   useEffect(() => {
     /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
-    let totaltemp = 0;
-    let temp = [...orders];
-    for (let i = 0; i < temp.length; i++) {
-      for (let y = 0; y < temp.length; y++) {
-        console.log(i, temp[i]);
-        if (temp[i] && temp[i].platillo._id === temp[y].platillo._id && i !== y) {
-          temp[i].cantidad += temp[y].cantidad;
-          temp[i].platillo.precioConIva += temp[y].platillo.precioConIva;
-          temp[i].platillo.precioSinIva += temp[y].platillo.precioSinIva;
-          temp.splice(y, 1);
-          setOrders(temp);
+    orders.map((x)=>{
+      orders.map((y,index)=>{
+        if (
+          x &&
+          x.platillo._id === y.platillo._id &&
+          x !== y
+        ) {
+          x.cantidad += y.cantidad;
+          orders.splice(index, 1);
         }
-      }
-    }
-    temp.forEach((order) => {
+      })
+    })
+    orders.map((order)=>{
+      order.platillo.precioConIva *= order.cantidad;
+      order.platillo.precioSinIva *= order.cantidad;
+    })
+    let totaltemp = 0;
+    orders.map((order) => {
       totaltemp += order.platillo.precioConIva;
       setTotal(totaltemp);
     });
-    console.log(totaltemp);
   }, [orders]);
+
 
   return (
     <div>
