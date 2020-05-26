@@ -1,180 +1,183 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Cascader } from 'antd';
+import { Row, Col, Cascader} from 'antd';
 import Table from '../components/tables/Table';
 import NewTable from '../components/tables/NewTable';
 import Background from '../assets/background.png';
+import {makeRequest} from '../shared/ApiWrapper';
+import { LoadingOutlined } from '@ant-design/icons';
+import {alertSuccess,alertError} from '../shared/Alert';
+
+
 
 export default function Tables() {
-  const [tables, setTables] = useState([
-    {
-      id: 1,
-      numMesa: 1,
-      estado: 'disponible'
-    },
-    {
-      id: 2,
-      numMesa: 2,
-      estado: 'ocupada'
-    },
-    {
-      id: 3,
-      numMesa: 3,
-      estado: 'disponible'
-    },
-    {
-      id: 4,
-      numMesa: 4,
-      estado: 'reservada'
-    },
-    {
-      id: 5,
-      numMesa: 5,
-      estado: 'disponible'
-    },
-    {
-      id: 6,
-      numMesa: 6,
-      estado: 'disponible'
-    },
-    {
-      id: 7,
-      numMesa: 7,
-      estado: 'disponible'
-    },
-    {
-      id: 8,
-      numMesa: 8,
-      estado: 'ocupada'
-    },
-    {
-      id: 9,
-      numMesa: 9,
-      estado: 'reservada'
-    },
-    {
-      id: 10,
-      numMesa: 10,
-      estado: 'disponible'
-    },
-    {
-      id: 11,
-      numMesa: 11,
-      estado: 'disponible'
-    },
-    {
-      id: 12,
-      numMesa: 12,
-      estado: 'disponible'
-    },
-    {
-      id: 13,
-      numMesa: 13,
-      estado: 'reservada'
-    },
-    {
-      id: 14,
-      numMesa: 14,
-      estado: 'disponible'
-    },
-    {
-      id: 15,
-      numMesa: 15,
-      estado: 'ocupada'
-    }
-  ]);
+  const [tables, setTables] = useState([]); //Tables
+  const [selectedTables, setSelectedTables] = useState([]); //Result cascader state
+  const [filter, setFilter] = useState('Todas'); //Cascader state
 
-  const [selectedTables, setSelectedTables] = useState([]);
-  const [filter, setFilter] = useState('todas');
+  const onFilterChange = (value) => {
+    setFilter(value[0]);
+  };
+
+  const getTablesRequest = async () => {
+    try {
+      let response = await makeRequest('GET','mesas?isActive=true&&limit=100');
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const addTablesRequest = async (table) => {
+    console.log(table); 
+    try {
+      let response = await makeRequest('POST','mesas',{ noMesa: table.noMesa})
+      let data = response.data.data;
+      if (response.status === 201) {
+        var temp = [...tables];
+        temp.push(data);
+        setTables(temp);
+        alertSuccess(`Mesa ${table.noMesa} creada correctamente`);
+      } else {
+        alertError('Hubo un error al crear la mesa');
+      }
+      return data;
+    } catch (err) {
+      console.log(err);
+      alertError(`La mesa número ${table.noMesa} ya existe. Intenta con otro número`);
+    }
+  };
+
+  const deleteTablesrequest = async (id) => {
+    try {
+      let response = await makeRequest('DELETE',`mesas/${id}`)
+
+      if (response.status === 204) {
+        alertSuccess('Mesa borrada correctamente');
+      } else {
+        alertError('Hubo un error al borrar la Mesa');
+      }
+
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const editTablesRequest = async (id,noMesa,estado,detalles) => {
+    try {
+      let response = await makeRequest('PATCH',`mesas/${id}`,{
+        'estado': estado,
+        'noMesa':noMesa,
+        'reservaciones': {
+          'detalles': detalles
+        }
+      })
+
+      if (response.status === 200) {
+        detalles===undefined?
+          alertSuccess('Mesa editada correctamente'):
+          alertSuccess('Mesa reservada correctamente');
+      } else {
+        alertError('Hubo un error al editar la mesa');
+      }
+
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const initState = async () => {
+      let data = await getTablesRequest();
+      console.log(data);
+      if(data)
+        setTables(data);
+    };
+    initState();
+  },[]);
 
   useEffect(() => {
     let result =
-      filter !== 'todas'
-        ? tables.filter(table => table.estado === filter)
+      filter !== 'Todas'
+        ? tables.filter((table) => table.estado === filter)
         : tables;
 
     setSelectedTables(result);
   }, [tables, filter]);
 
-  const filterOptions = [
+  const options = [
     {
-      value: 'todas',
-      label: 'Todas'
+      value: 'Todas',
+      label: 'Todas',
     },
     {
-      value: 'disponible',
-      label: 'Disponibles'
+      value: 'Disponible',
+      label: 'Disponibles',
     },
     {
-      value: 'ocupada',
-      label: 'Ocupadas'
+      value: 'Ocupada',
+      label: 'Ocupadas',
     },
     {
-      value: 'reservada',
-      label: 'Reservadas'
-    }
+      value: 'Reservada',
+      label: 'Reservadas',
+    },
   ];
 
-  const addTable = data => {
-    var temp = [...tables];
-    temp.push(data);
-    setTables(temp);
+  const addTable = async(data) => {
+    await addTablesRequest(data);
   };
 
-  const deleteTable = id => {
+  const deleteTable = (noMesa,id) => {
     var temp = [...tables];
     temp.forEach((t, index) => {
-      if (t.id === id) temp.splice(index, 1);
+      if (t.noMesa === noMesa) temp.splice(index, 1);
     });
     setTables(temp);
-  };
-
-  const onFilterChange = value => {
-    setFilter(value[0]);
+    deleteTablesrequest(id);
   };
 
   return (
     <Row>
       <Col md={24} xs={24}>
-        <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
-        <header style={{ top: 0, position: 'absolute' }}>
-          <h1
-            style={{
-              color: '#545454',
-              position: 'absolute',
-              left: 20,
-              top: 30,
-              fontWeight: 'bold'
-            }}
-          >
-            Mesas
-          </h1>
+        <img src={Background} alt="bg" className="bg-img"/>
+        <header className="header">
+          <h1 className="h1">Mesas</h1>
         </header>
       </Col>
       <Col md={24} xs={24}>
         <Col xs={12}>
           <Cascader
             size="large"
-            options={filterOptions}
+            options={options}
             onChange={onFilterChange}
             placeholder="Filtrar por..."
           />
         </Col>
-
         <Row>
-          {selectedTables.map(table => (
-            <Col md={4} xs={8} key={table.id}>
+          {selectedTables.map((table) => (
+            <Col md={4} xs={8} key={table._id}>
               <Table
                 table={table}
-                numMesa={table.numMesa}
+                noMesa={table.noMesa}
+                _id={table._id}
                 deleteTable={deleteTable}
+                editTablesRequest={editTablesRequest}
               />
             </Col>
           ))}
           <Col xs={8} md={4}>
+            {tables.length!==0 && 
             <NewTable count={tables.length} addTable={addTable} />
+            }
           </Col>
         </Row>
       </Col>
+      {tables.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      </div>}
     </Row>
   );
 }

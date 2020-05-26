@@ -26,7 +26,7 @@ const FormLogin = () => {
   let history = useHistory();
   const [form] = Form.useForm();
 
-  form.setFieldsValue({ correo: 'jsolis@gmail.mx', contrasena: '321321' });
+  form.setFieldsValue({ correo: 'jsolis@gmail.mx', contrasena: '123123' });
 
   const onFinish = async values => {
     // localStorage.setItem(LSKEY, JSON.stringify(values));
