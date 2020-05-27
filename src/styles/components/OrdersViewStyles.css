@@ -1,12 +1,3 @@
-/*.img-Fondo {
-  background-image: url('../../assets/fondoAzul');
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  width: 100%;
-}*/
-
 .wrapper {
   background: url('../../assets/donfoAmarillo') top,
     url('../../assets/fondoAzul') bottom;
@@ -16,9 +7,17 @@
   min-height: 100vh;
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (max-width: 900px) {
   .wrapper {
-    background-size: 100% 200px;
+    background-size: 100% 100%;
+  }
+
+  .ant-layout-sider {
+    display: none !important;
+  }
+
+  .Tabla-VistaGeneral-Ordenes {
+    overflow: scroll;
   }
 }
 
@@ -29,7 +28,7 @@
 }
 
 .Tabla-VistaGeneral-Ordenes {
-  overflow: auto;
+  overflow: scroll;
   width: 100%;
   font: normal 13px Arial;
   text-align: center;
@@ -54,11 +53,9 @@
 
 .Tabla-tds-ordenes {
   text-align: center;
-
   height: 70px;
 }
 
 .Center-Tabla-Ordenes {
   width: 85% !important;
-
 }

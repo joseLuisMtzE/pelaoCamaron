@@ -5,21 +5,12 @@ import { Row, Col } from 'antd';
 const VistaGeneral = (props) => {
   const { ordenes } = props;
   let renderizarTabla = true;
-  var fecha = '';
 
   if (ordenes.lenght == 0) {
     renderizarTabla = false;
   } else {
     renderizarTabla = true;
   }
-  {
-    ordenes.map &&
-      ordenes.map((orden) => {
-        fecha = new Date(orden.fecha);
-      });
-  }
-
-  console.log('ordenes', ordenes[0] && ordenes[0].estado);
 
   /*idOrden, idMesa, N de personas
 Fecha, Estado, TipoDescuento, Descuento 
@@ -40,13 +31,14 @@ Observaciones */
                     <th>Mesa</th>
                     <th>Fecha</th>
                     <th>Estado</th>
+                    <th>Detalles</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {ordenes.map &&
                     ordenes.map((orden) => (
-                      <Orden orden={orden} fecha={fecha} />
+                      <Orden orden={orden} ordenes={ordenes} />
                     ))}
                 </tbody>
               </table>
