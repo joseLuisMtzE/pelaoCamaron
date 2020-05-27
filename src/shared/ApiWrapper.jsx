@@ -44,6 +44,13 @@ export const makeRequest = async (metodo, complement, payload) => {
         () => (window.location.href = '/login')
       );
     }
+    if (err && err.response && err.response.status === 400) {
+      return err;
+    }
+    if (err && err.response && err.response.status === 500) {
+      errorAlert('Oops...', 'Hubo un error');
+      return err;
+    }
     console.log('ERROR', err);
   }
 };
