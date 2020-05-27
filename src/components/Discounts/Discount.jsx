@@ -9,7 +9,7 @@ const Discount = (props) => {
   const [total, setTotal] = useState(0);
   const [subTotal,setSubTotal]= useState(0);
   const id = props.match.params.id;
-  //5ec46ddbf79d82000415dc8f
+  //5ecc7e7ef1dd0a0004a6b938
   const [form] = Form.useForm();
 
 //funciones para la modal
