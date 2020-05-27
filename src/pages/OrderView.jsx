@@ -6,8 +6,7 @@ import { makeRequest } from '../shared/ApiWrapper';
 import {
   PlusOutlined,
   CloseOutlined,
-  PrinterOutlined,
-  DollarCircleOutlined
+  PrinterOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Discount from '../components/Discounts/Discount';
@@ -19,10 +18,6 @@ const OrderView = props => {
   const [orders, setOrders] = useState([]);
   const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
-
-  //refs
-  // const discountComponent = useRef(null);
-  const discountComponent = React.createRef();
 
   const getOrderID = async () => {
     try {
@@ -51,7 +46,6 @@ const OrderView = props => {
   };
   useEffect(() => {
     const initState = async () => {
-      console.log('Component ref: ', discountComponent);
       await getOrderID();
     };
     initState();
@@ -77,11 +71,6 @@ const OrderView = props => {
       setTotal(totaltemp);
     });
   }, [orders]);
-
-  const handleAddDiscount = () => {
-    console.log('Hola perro');
-    discountComponent.current.showModal();
-  };
 
   return (
     <div>
@@ -153,17 +142,7 @@ const OrderView = props => {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button
-              shape="circle"
-              className="discount-btn"
-              onClick={handleAddDiscount}
-            >
-              {/* <Link to="/descuento/:id"> */}
-              <DollarCircleOutlined className="normal-size" />
-              {/* </Link> */}
-              <Discount id={orderId} ref={discountComponent} />
-            </Button>
-            <p>Agregar descuento</p>
+            <Discount orderId={orderId} total={total} />
           </div>
           <div className="center alot-margin-bottom">
             <Button shape="circle" className="print-btn">

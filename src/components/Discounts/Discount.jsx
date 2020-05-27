@@ -3,12 +3,15 @@ import { Modal, Button, Input, Form } from 'antd';
 import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 
-const Discount = React.forwardRef((props, ref) => {
+//icon
+import { DollarCircleOutlined } from '@ant-design/icons';
+
+const Discount = ({ orderId, total }) => {
   const [state, setState] = useState({ visible: false });
   const [porDiscount, setporDiscount] = useState(0);
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
-  const id = props.id;
+  const id = orderId;
 
   //5ecc7e7ef1dd0a0004a6b938
   const [form] = Form.useForm();
@@ -49,22 +52,22 @@ const Discount = React.forwardRef((props, ref) => {
   }, [porDiscount]);
 
   useEffect(() => {
-    console.log('REFERENCE DISCOUNT COMPONENT', ref);
-    getTotal();
+    // getTotal();
+    console.log('Re render');
   }, []);
 
   //peticion para obtener el total
-  const getTotal = async () => {
-    try {
-      let response = await makeRequest('GET', `ordenes/${id}`);
-      let data = response.data.data.pago.precioTotal;
-      setTotal(data);
-      console.log(data);
-      //return data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getTotal = async () => {
+  //   try {
+  //     let response = await makeRequest('GET', `ordenes/${id}`);
+  //     let data = response.data.data.pago.precioTotal;
+  //     setTotal(data);
+  //     console.log(data);
+  //     //return data;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   //peticion para hacer la actualizacion del porcentaje descuento
   const sendDiscount = async discount => {
@@ -90,6 +93,10 @@ const Discount = React.forwardRef((props, ref) => {
   return (
     <div>
       <div>
+        <Button shape="circle" className="discount-btn" onClick={showModal}>
+          <DollarCircleOutlined className="normal-size" />
+        </Button>
+        <p>Agregar descuento</p>
         {/* <Button type="primary" onClick={showModal}>
           Descuento
         </Button> */}
@@ -145,6 +152,6 @@ const Discount = React.forwardRef((props, ref) => {
       </div>
     </div>
   );
-});
+};
 
 export default Discount;
