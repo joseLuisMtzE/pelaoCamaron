@@ -7,16 +7,22 @@ import {
   PlusOutlined,
   CloseOutlined,
   PrinterOutlined,
-  DollarCircleOutlined,
+  DollarCircleOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import Discount from '../components/Discounts/Discount';
 
-export default function OrderView() {
+const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
+  const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
+
+  //refs
+  // const discountComponent = useRef(null);
+  const discountComponent = React.createRef();
 
   const getOrderID = async () => {
     try {
@@ -29,9 +35,11 @@ export default function OrderView() {
     }
   };
 
-  const getOrdersRequest = async (orderID) => {
+  const getOrdersRequest = async orderID => {
     try {
       localStorage.setItem('orderID', orderID);
+      setOrderId(orderID);
+
       let response = await makeRequest('GET', `ordenes/${orderID}`);
       let data = response.data.data.comandas;
       console.log(data);
@@ -43,6 +51,7 @@ export default function OrderView() {
   };
   useEffect(() => {
     const initState = async () => {
+      console.log('Component ref: ', discountComponent);
       await getOrderID();
     };
     initState();
@@ -50,29 +59,29 @@ export default function OrderView() {
 
   useEffect(() => {
     /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
-    orders.map((x)=>{
-      orders.map((y,index)=>{
-        if (
-          x &&
-          x.platillo._id === y.platillo._id &&
-          x !== y
-        ) {
+    orders.map(x => {
+      orders.map((y, index) => {
+        if (x && x.platillo._id === y.platillo._id && x !== y) {
           x.cantidad += y.cantidad;
           orders.splice(index, 1);
         }
-      })
-    })
-    orders.map((order)=>{
+      });
+    });
+    orders.map(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
-    })
+    });
     let totaltemp = 0;
-    orders.map((order) => {
+    orders.map(order => {
       totaltemp += order.platillo.precioConIva;
       setTotal(totaltemp);
     });
   }, [orders]);
 
+  const handleAddDiscount = () => {
+    console.log('Hola perro');
+    discountComponent.current.showModal();
+  };
 
   return (
     <div>
@@ -86,7 +95,7 @@ export default function OrderView() {
             style={{
               background: 'white',
               padding: 25,
-              borderRadius: 15,
+              borderRadius: 15
             }}
           >
             <table style={{ width: '100%' }}>
@@ -98,8 +107,8 @@ export default function OrderView() {
                   <th>Sub-total</th>
                   <th>Precio</th>
                 </tr>
-                {orders.map((order) => (
-                  <tr style={{ padding: 20 }}>
+                {orders.map(order => (
+                  <tr style={{ padding: 20 }} key={order._id}>
                     <td>{order.platillo.nombre}</td>
                     <td>{order.cantidad}</td>
                     <td>{order.estado}</td>
@@ -115,7 +124,7 @@ export default function OrderView() {
               background: 'white',
               padding: 15,
               borderRadius: 15,
-              marginTop: 20,
+              marginTop: 20
             }}
           >
             <h3 style={{ textAlign: 'center' }}>
@@ -144,10 +153,15 @@ export default function OrderView() {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button shape="circle" className="discount-btn">
-              <Link to="/descuento/:id">
-                <DollarCircleOutlined className="normal-size" />
-              </Link>
+            <Button
+              shape="circle"
+              className="discount-btn"
+              onClick={handleAddDiscount}
+            >
+              {/* <Link to="/descuento/:id"> */}
+              <DollarCircleOutlined className="normal-size" />
+              {/* </Link> */}
+              <Discount id={orderId} ref={discountComponent} />
             </Button>
             <p>Agregar descuento</p>
           </div>
@@ -166,4 +180,5 @@ export default function OrderView() {
       </Row>
     </div>
   );
-}
+};
+export default OrderView;

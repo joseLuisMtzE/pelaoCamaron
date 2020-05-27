@@ -3,12 +3,13 @@ import { Modal, Button, Input, Form } from 'antd';
 import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 
-const Discount = props => {
+const Discount = React.forwardRef((props, ref) => {
   const [state, setState] = useState({ visible: false });
   const [porDiscount, setporDiscount] = useState(0);
   const [total, setTotal] = useState(0);
   const [subTotal, setSubTotal] = useState(0);
-  const id = props.match.params.id;
+  const id = props.id;
+
   //5ecc7e7ef1dd0a0004a6b938
   const [form] = Form.useForm();
 
@@ -48,6 +49,7 @@ const Discount = props => {
   }, [porDiscount]);
 
   useEffect(() => {
+    console.log('REFERENCE DISCOUNT COMPONENT', ref);
     getTotal();
   }, []);
 
@@ -88,9 +90,9 @@ const Discount = props => {
   return (
     <div>
       <div>
-        <Button type="primary" onClick={showModal}>
+        {/* <Button type="primary" onClick={showModal}>
           Descuento
-        </Button>
+        </Button> */}
         <Modal
           title="Descuento"
           visible={state.visible}
@@ -143,6 +145,6 @@ const Discount = props => {
       </div>
     </div>
   );
-};
+});
 
 export default Discount;
