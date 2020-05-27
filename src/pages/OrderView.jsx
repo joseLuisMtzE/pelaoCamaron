@@ -145,7 +145,7 @@ export default function OrderView() {
           </div>
           <div className="center">
             <Button shape="circle" className="discount-btn">
-              <Link to="/agregar-descuento-karen">
+              <Link to="/descuento/:id">
                 <DollarCircleOutlined className="normal-size" />
               </Link>
             </Button>
