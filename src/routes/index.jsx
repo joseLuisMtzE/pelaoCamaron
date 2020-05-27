@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 //Este es de prueba y solo ilustrativo de un spinner para mostrar mienstras los componenntes cargan
 import Spinner from '../shared/ejemplo_spinner';
 const Layout = lazy(() => import('../pages/Layout/Sidernav'));
-
 const Tables = lazy(() => import('../pages/Tables'));
 const AddDishes = lazy(() => import('../pages/AddDishes'));
 const Home = lazy(() => import('../pages/Home'));
@@ -18,6 +17,8 @@ const Categories = lazy(() => import('../pages/Categories'));
 const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
 const Pedidos = lazy(() => import('../pages/Pedidos'));
+
+const OrderView = lazy(() => import('../pages/OrderView'));
 
 export default function AppRoutes() {
   return (
@@ -41,6 +42,7 @@ export default function AppRoutes() {
               />
               <Route exact path="/ticket/:id" component={Ticket} />
               <Route exact path="/OrdersView" component={OrdersView} />
+              <Route exact path="/ver-orden" component={OrderView} />
               <Route exact path="/descuento/:id" component={Discount} />
               <Route exact path="/Pedidos" component={Pedidos} />
             </Switch>
