@@ -7,14 +7,14 @@ import DishesList from '../components/Dishes/DishesList';
 import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
-function AddDishes() {
+function AddDishes(props) {
 
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchedValue, setSearchedValue] = useState('');
   const [dishesList, setDishesList] = useState([]);
   const [selectedDishes,setSelectedDishes] = useState([]);
-  const [filter,setFilter] = useState('');
+  const [filter,setFilter] = useState('todas');
   const noMesa = localStorage.getItem('noMesa');
 
   const addDishToList = (d) => {
@@ -37,7 +37,6 @@ function AddDishes() {
     try {
       let response = await makeRequest('GET','categorias?isActive=true');
       let data = response.data.data;
-      setFilter(data[0]._id);
       return data;
     } catch (err) {
       console.log(err);
@@ -60,7 +59,7 @@ function AddDishes() {
       if(dish.categoria!==null)
         temp.push(dish);
     })
-    let result = temp.filter((dish)=>dish.categoria._id === filter);
+    let result = filter !== 'todas' ? temp.filter((dish)=>dish.categoria._id === filter) : temp;
     setSelectedDishes(result);
   },[dishes,filter])
 
@@ -81,6 +80,18 @@ function AddDishes() {
           </div>
         </header>
         <div className="scrollmenu up">
+          {categories.length!==0 &&
+          <div
+            className="inline-block"
+            onClick={() => setFilter('todas')}
+          >
+            <Button
+              shape="circle"
+              icon={<AppleFilled className="normal-size"/>}
+              className="circle"
+            />
+            <p className="center">Todas</p>
+          </div>}
           {categories.map((categoria) => (
             <div
               className="inline-block"

@@ -21,6 +21,13 @@ export default function NewTable({addTable}) {
     setVisible(false);
   };
 
+  const handleKeyPress = (event)=>{
+    if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57)
+    {
+      event.preventDefault();
+    }
+  }
+
   return (
     <div>
       <Card
@@ -48,9 +55,9 @@ export default function NewTable({addTable}) {
         <form id="form">
           <p>Número de mesa:</p>
           <InputNumber
+            type="text"
             name="noMesa"
             size="large"
-            placeholder="0"
           />
         </form>
       </Modal>

@@ -4,7 +4,7 @@ import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 
 const Discount = (props) => {
-  const [state, setState] = useState({ visible: false});
+  const [state, setState] = useState({ visible: true});
   const [porDiscount,setporDiscount]=useState(0);
   const [total, setTotal] = useState(0);
   const [subTotal,setSubTotal]= useState(0);
