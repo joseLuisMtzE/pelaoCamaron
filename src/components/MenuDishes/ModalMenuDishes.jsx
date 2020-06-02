@@ -13,6 +13,7 @@ function ModalMenuDishes({token}) {
   };
 
   const handleOk = () => {
+    //function validateFields(){}
     
     setState({ loading: true });
     setTimeout(() => {

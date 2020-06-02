@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Input, Col, Row } from 'antd';
+import { Input, Col, Row, Button } from 'antd';
 import ModalMenuDishes from '../MenuDishes/ModalMenuDishes';
 import Background from '../../assets/background.png';
 import MenuGallery from './MenuGallery';
@@ -7,16 +7,15 @@ import axios from 'axios';
 import url from '../../constants/api';
 import { DishesContext } from './MenuDishesContext';
 import ScrollMenu from './ScrollMenu';
-import {getRol} from '../../shared/ApiWrapper'
+import { getRol } from '../../shared/ApiWrapper';
 const { Search } = Input;
-
 
 function MenuDishes() {
   const {
     retrieveFormMenuDishes,
     retrieveCategories,
     retrieveAreas,
-    addDishesRequest
+    addDishesRequest,
   } = useContext(DishesContext);
 
   const initializeState = async () => {
@@ -29,27 +28,24 @@ function MenuDishes() {
     setAreas(initAreas);
     //console.log(initAreas);
   };
-  
+
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
-                                            //karen pipipopo
-  const[filter,setFilter] = useState('5ec753f2d3f47700040080e4') //categoria inicial
-  const [selectedDishes,setSelectedDishes] = useState([])
-  useEffect(()=>{
+  //karen pipipopo
+  const [filter, setFilter] = useState('todas'); //categoria inicial
+  const [selectedDishes, setSelectedDishes] = useState([]);
+  useEffect(() => {
     initializeState();
-
-  },[])
+  }, []);
 
   useEffect(() => {
     let temp = [];
-    dishes.map((dish)=>{
-      if(dish.categoria!==null)
-        temp.push(dish);
-    })
-    let result = temp.filter((dish)=>dish.categoria._id === filter);
-    setSelectedDishes(result);
-  }, [dishes,filter]);
+    dishes.map((dish) => {
+      if (dish.categoria !== null) temp.push(dish);
+    });
+    let result = filter !== 'todas' ? temp.filter((dish)=>dish.categoria._id === filter) : temp;    setSelectedDishes(result);
+  }, [dishes, filter]);
   return (
     <>
       <div style={{ display: 'block' }} className="header">
@@ -64,18 +60,18 @@ function MenuDishes() {
               position: 'relative',
               top: '20px',
               left: '10px',
-              fontSize: '8vw'
+              fontSize: '8vw',
             }}
           >
             MENÚ
             <Search
               placeholder="Buscar"
-              onSearch={value => console.log(value)}
+              onSearch={(value) => console.log(value)}
               style={{
                 width: 100,
                 border: 'none',
                 float: 'right',
-                marginRight: '20px'
+                marginRight: '20px',
               }}
               size="large"
             />
@@ -89,27 +85,46 @@ function MenuDishes() {
             height: 40,
             border: 'none',
             //boxShadow: '0px 3px 5px 0px grey',
-            display: 'inline-block'
+            display: 'inline-block',
           }}
         />
-        {categories.map(category => (
+        <div
+          className="centerContent"
+          style={{ display: 'inline-block', margin: '5px' }}
+        >
+          <Button
+            onClick={() => setFilter('todas')}
+            shape="circle"
+            icon={'xD'}
+            size={''}
+            style={{
+              margin: 6,
+              width: 60,
+              height: 60,
+              border: 'none',
+              boxShadow: '0px 3px 5px 0px grey',
+            }}
+          />
+          <p style={{ textAlign: 'center' }}>{'Todo'}</p>
+        </div>
+        {categories.map((category) => (
           <div
             className="centerContent"
             style={{ display: 'inline-block', margin: '5px' }}
             key={category._id}
           >
-
             <ScrollMenu category={category} setFilter={setFilter} />
           </div>
         ))}
+
         <div
           className="centerContent"
           style={{ display: 'inline-block', margin: '5px' }}
         >
-          {getRol() === 'Dueño' ? (
-            console.log("Acceso Concedido ", getRol()),
-            <ModalMenuDishes />
-            ) : null}
+          {getRol() === 'Dueño'
+            ? (console.log('Acceso Concedido ', getRol()),
+              (<ModalMenuDishes />))
+            : null}
 
           {/*<p style={{ textAlign: 'center' }}>Agregar</p>*/}
         </div>
@@ -117,7 +132,6 @@ function MenuDishes() {
 
       <Row>
         {selectedDishes.map((dish, index) => (
-          
           <Col key={index} className="gutter-row" xs={12} md={6} lg={4}>
             <MenuGallery
               nombre={dish.nombre}

@@ -48,7 +48,6 @@ const MenuDishesContext = props => {
         nombre: values.nombre,
         area: values.area[0],
         categoria: values.categoria[0],
-        precioConIva: parseFloat(values.precioConIva),
         precioSinIva: parseFloat(values.precioSinIva),
         peso: parseFloat(values.peso),
         descripcion: values.descripcion,

@@ -3,11 +3,9 @@ import { Button} from 'antd';
 
 function ScrollMenu({category, setFilter}) {
 
-  
-
-
   return (
     <>
+    
       <Button
       onClick={()=> setFilter(category._id)}
         shape="circle"
