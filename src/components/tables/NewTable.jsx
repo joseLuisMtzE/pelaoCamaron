@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal, InputNumber, Cascader } from 'antd';
+import { Card, Button, Modal, Input, Cascader } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 export default function NewTable({addTable}) {
@@ -54,10 +54,10 @@ export default function NewTable({addTable}) {
       >
         <form id="form">
           <p>Número de mesa:</p>
-          <InputNumber
-            type="text"
+          <Input
             name="noMesa"
             size="large"
+            style={{width:'25%'}}
           />
         </form>
       </Modal>

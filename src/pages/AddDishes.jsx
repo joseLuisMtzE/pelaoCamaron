@@ -7,7 +7,7 @@ import DishesList from '../components/Dishes/DishesList';
 import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
-function AddDishes(props) {
+export default function AddDishes() {
 
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -65,7 +65,7 @@ function AddDishes(props) {
 
   return (
     <Row>
-      <Col xs={24}>
+      <Col xs={24} md={24}>
         <img src={Background} alt="bg" className="bg-img"/>
         <header className="header">
           <h1 className="h1">Menú</h1>
@@ -125,10 +125,10 @@ function AddDishes(props) {
         </Row>
         <DishesList dishesList={dishesList} setDishesList={setDishesList}/>
       </Col>
-      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />
       </div>}
     </Row>
   );
 }
 
-export default AddDishes;
+
