@@ -14,6 +14,7 @@ const HomeDelivery = lazy(() => import('../pages/HomeDelivery'));
 const MenuDishes = lazy(() => import('../pages/MenuDishesPage'));
 const KitchenArea = lazy(() => import('../pages/KitchenArea'));
 const Categories = lazy(() => import('../pages/Categories'));
+const usersView = lazy(() => import('../pages/Userview'));
 
 export default function AppRoutes() {
   return (
@@ -34,7 +35,8 @@ export default function AppRoutes() {
                 exact
                 path="/categorias-alimentos"
                 component={Categories}
-              />
+              />  
+              <Route exact path="/vista-usuarios" component={usersView} />
             </Switch>
           </Layout>
         </BrowserRouter>

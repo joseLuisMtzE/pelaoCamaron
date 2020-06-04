@@ -6,6 +6,7 @@
     "@ant-design/colors": "^4.0.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
+    "@mdi/font": "^5.3.45",
     "@mdi/js": "^5.1.45",
     "@mdi/react": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
