@@ -4,7 +4,7 @@ import { mdiAccountHeartOutline } from '@mdi/js';
 import { mdiPlusThick } from '@mdi/js';
 import Icon from '@mdi/react';
 import { Input } from 'antd';
-import { Modal, Button,Card } from 'antd';
+import { Modal, Button, Card } from 'antd';
 //! Constants
 //import { makeRequest } from '../../shared/ApiWrapper';
 //! Libraries
@@ -15,123 +15,125 @@ const UsersViewPage1 = () => {
 
   const { TextArea } = Input;
   const [modalVisible, setModalVisible] = useState({ visible: false });;
-  
 
- const showModal = () => {
-      setModalVisible({
-        visible: true,
-      });
-    };
 
-    const handleOk = () => {
-      setTimeout(() => {
-        setModalVisible({ visible: false });
-      }, 1000);
-    };
+  const showModal = () => {
+    setModalVisible({
+      visible: true,
+    });
+  };
 
-    const handleCancel = () => {
+  const handleOk = () => {
+    setTimeout(() => {
       setModalVisible({ visible: false });
-    };
+    }, 1000);
+  };
+
+  const handleCancel = () => {
+    setModalVisible({ visible: false });
+  };
 
 
-    return (
-      <Fragment>
-   
-    <div className="site-card-border-less-wrapper espacio">
-    <Card title="Luis Alexandro Salas Chávez" bordered={false} style={{ width: 300 }}>
-    <center>
-    <div>
-   <Icon path={mdiAccountHeartOutline} title="Usuario" size={3} color="#000" />
-   </div>
-    </center>
-   
-    <div>
-    <p>Soy un mesero facherita</p>
-    </div>
-    </Card>
-  </div>
+  return (
+    <Fragment>
 
-  <div className="site-card-border-less-wrapper espacio">
-    <Card title="Agregar un nuevo usuario" bordered={false} style={{ width: 300 }}>
-    <center>
-    <div>
-    <button 
-    type="primary"
-    onClick={showModal}>
-    <Icon path={mdiPlusThick} title="agregar" size={3} color="#000" />
-    </button>
-   </div>
-    </center>
-    </Card>
-  </div>
-  <div>
- 
-  <Modal
-    title="Datos generales"
-     visible={modalVisible.visible}
-     onCancel={handleCancel}
-     onOk={handleOk}
-      footer={[]}
-  >
-  <div className="mitad espacio">
+      <div className="site-card-border-less-wrapper espacio">
+        <Card title="Luis Alexandro Salas Chávez" bordered={false} style={{ width: 300 }}>
+          <center>
+            <div>
+              <Icon path={mdiAccountHeartOutline} title="Usuario" size={3} color="#000" />
+            </div>
+          </center>
 
-  <p>Nombre:</p><br></br>
-  <Input placeholder="Nombre" />
+          <div>
+            <p>Soy un mesero facherita</p>
+          </div>
+        </Card>
+      </div>
 
-  <p>Apellido:</p><br></br>
-  <Input placeholder="Apellido" /> 
-  </div>
+      <div className="site-card-border-less-wrapper espacio">
+        <Card title="Agregar un nuevo usuario" bordered={false} style={{ width: 300 }}>
+          <center>
+            <div>
+              <button
+                type="primary"
+                className="boto"
+                onClick={showModal}>
+                <Icon path={mdiPlusThick} title="agregar" size={3} color="#000" />
+              </button>
+            </div>
+          </center>
+        </Card>
+      </div>
+      <div>
 
-  <br/>
+        <Modal
+          title="Datos generales"
+          visible={modalVisible.visible}
+          onCancel={handleCancel}
+          onOk={handleOk}
+          footer={[]}
+        >
+          <div className="mitad espacio">
 
-  <div className="mitad">
-<p>Correo:</p><br></br>
-<Input placeholder="correo" />
+            <p>Nombre:</p><br></br>
+            <Input placeholder="Nombre" />
 
-<p>Telefono Móvil:</p><br></br>
-<Input placeholder="Telefono" />
-</div>
+            <p>Apellido:</p><br></br>
+            <Input placeholder="Apellido" />
+          </div>
 
-<h2>
-  Contacto secundario
+          <br />
+
+          <div className="mitad">
+            <p>Correo:</p><br></br>
+            <Input placeholder="correo" />
+
+            <p>Telefono Móvil:</p><br></br>
+            <Input placeholder="Telefono" />
+          </div>
+
+          <h2>
+            Contacto secundario
 </h2>
-  <div className="mitad">
+          <div className="mitad">
 
-<p>Nombre completo:</p><br></br>
-<Input placeholder="Nombre" />
+            <p>Nombre completo:</p><br></br>
+            <Input placeholder="Nombre" />
 
-<p>Telefono:</p><br></br>
-<Input type="number"  max="10" placeholder="Telefono" />
-</div>
+            <p>Telefono:</p><br></br>
+            <Input type="number" max="10" placeholder="Telefono" />
+          </div>
 
-<br></br>
-<div className="mitad">
-<h2>
- Detalles
+          <br></br>
+          <div className="mitad">
+            <h2>
+              Detalles
 </h2>
-<br></br>
+            <br></br>
 
-</div>
-<TextArea rows={4}  placeholder="add details"/>
- <br></br>
+          </div>
+          <TextArea rows={4} placeholder="add details" />
+          <br></br>
 
- <div className="mitad">
- 
- <Button type="primary" danger>
-      Primary
+          <div className="">
+
+            <Button type="primary" danger
+              onClick={handleCancel}  >
+              Cancelar
     </Button>
-    <Button type="primary" >
-      Primary
+            <Button type="primary" >
+              Guardar
     </Button>
 
- </div>
+          </div>
 
-  </Modal>
-</div>
+        </Modal>
+      </div>
 
 
 
-      </Fragment>
-      );
-    };
+    </Fragment>
+  );
+};
 export default UsersViewPage1;

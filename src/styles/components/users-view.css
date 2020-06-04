@@ -6,7 +6,13 @@
 }
 .mitad{
     
-    display:flex;
-    margin: 5%;
+    display:inline-flex ;
+    margin: 3%;
 
+}
+
+.boto{
+    background-color: #fff;
+    border-radius: 100%;
+    margin: 1rem;
 }
