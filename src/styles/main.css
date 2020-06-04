@@ -22,5 +22,7 @@
 @import './components/AreaForm.css';
 @import './components/users-view.css';
 
+@import './components/ticket.css';
+
 /* Estilos de cotenedores pages */
 @import './pages/home.css';

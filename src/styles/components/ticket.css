@@ -1,0 +1,51 @@
+@media print {
+
+  .ant-layout-sider {
+    display: none !important;
+    margin: 10;
+  }
+
+  @page {
+    padding-top: 15cm;
+    padding-left: 167mm;
+    height: 14.6cm;
+    width: 14cm;
+  }
+
+  #Button-print {
+    display: none !important;
+  }
+}
+
+.LogoCamaron-posicion {
+  position: relative;
+  padding-top: .5cm;
+  padding-left: .9cm;
+}
+
+.Container-ticket {
+  padding-left: 50px;
+  padding-right: 20mm;
+}
+
+.Space-span {
+  display: block;
+}
+
+.Table-ticket {
+  border-spacing: 0 0.5em;
+}
+
+.Table-ticket thead th {
+  padding-right: 15px;
+}
+
+.Tabla-tds-comandas {
+  padding-right: 10px;
+  text-align: center;
+}
+
+.Table-ticket .datos-pago td {
+  padding-top: 20px;
+  border-top: 1px solid black;
+}

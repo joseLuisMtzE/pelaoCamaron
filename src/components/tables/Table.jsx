@@ -1,149 +1,234 @@
-import React, { useState } from 'react';
-import { Card, Modal, Cascader, Button } from 'antd';
-import { DeleteFilled, ExclamationCircleOutlined } from '@ant-design/icons';
+import React, { useState,useEffect } from 'react';
+import { Card, Modal, Cascader, Button, InputNumber } from 'antd';
+import {
+  DeleteFilled,
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import TextArea from 'antd/lib/input/TextArea';
+import { makeRequest, getRol } from '../../shared/ApiWrapper';
+import {alertSuccess,alertError} from '../../shared/Alert';
 const { confirm } = Modal;
 
-export default function Table({ numMesa, table,deleteTable}) {
-  const [visible, setVisible] = useState(false);
-
-  const waiterOptions = [
+export default function Table({ table, deleteTable, editTablesRequest }) {
+  const options = [
     {
-      value: 'Jose Luis',
-      label: 'Jose Luis',
-    },
-    {
-      value: 'Erick Noel',
-      label: 'Erick Noel',
-    },
-    {
-      value: 'Mariana Fajardo',
-      label: 'Mariana Fajardo',
-    },
-    {
-      value: 'Karen Robles',
-      label: 'Karen Robles',
-    },
-  ];
-  const stateOptions = [
-    {
-      value: 'disponible',
+      value: 'Disponible',
       label: 'Disponible',
     },
     {
-      value: 'ocupada',
+      value: 'Ocupada',
       label: 'Ocupada',
     },
     {
-      value: 'reservada',
+      value: 'Reservada',
       label: 'Reservada',
     },
   ];
 
-  const onWaiterChange = (value) => {
-    if (value[0]) console.log(value[0]);
+  const tipoOrdenOptions = [
+    {
+      value: 'Local',
+      label: 'Local',
+    },
+    {
+      value: 'Domicilio',
+      label: 'Domicilio',
+    },
+  ];
+
+  const onOrdenchange = (value) => {
+    if (value[0]) setOrderType(value[0]);
   };
-  const onStateChange = (value) => {
-    if (value[0]) table.estado= value[0];
+
+  const onchange = (value) => {
+    if (value[0]) table.estado = value[0];
+    if (value[0] !== 'Reservada') {
+      editTablesRequest(table._id, table.noMesa, table.estado);
+      setReservada(false);
+      setVisible(false);
+    } else setReservada(true);
+    
   };
+
+  const [visible, setVisible] = useState(false);
+  const [orderType, setOrderType] = useState('');
+  const [order, setOrder] = useState({});
+  const [reservada, setReservada] = useState(false);
 
   const showModal = () => {
     setVisible(true);
   };
 
-  const handleOk = (e) => {
-    console.log(e);
+  const handleOk = () => {
     setVisible(false);
   };
 
-  const handleCancel = (e) => {
-    console.log(e);
+  const handleCancel = () => {
     setVisible(false);
   };
 
-  const showConfirm = ()=> {
+  const handleClick = async () => {
+    const form = new FormData(document.getElementById(table._id));
+    const data = Object.fromEntries(form);
+    data.tipoOrden = orderType;
+    console.log(data);
+    localStorage.setItem('noMesa', table.noMesa);
+    if(orderType==='Local'){
+      const newOrder = await crearOrden(data);
+      setOrder(newOrder);
+      console.log(newOrder);
+    }
+  };
+
+  const crearOrden = async (order) => {
+    try {
+      let response = await makeRequest('POST', `mesas/${table._id}/ordenes`, {
+        numPersonas: order.numPersonas,
+        tipoOrden: order.tipoOrden,
+        observaciones: order.observaciones,
+      });
+
+      if (response.status === 201) {
+        console.log('Orden creada correctamente');
+        window.history.replaceState(null,null,'http://localhost:3000/agregar-platillos/'+response.data.data._id) 
+
+      } else {
+        window.location.href = '/mesas';
+        alertError('Hubo un error al crear la orden');
+      }
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+      window.location.href = '/mesas'
+      alertError('Hubo un error al crear la orden')
+    }
+  };
+
+  const showConfirm = () => {
     setVisible(false);
     confirm({
-      title: `¿Quieres eliminar la mesa ${numMesa}?` ,
+      title: `¿Quieres eliminar la mesa ${table.noMesa}?`,
       icon: <ExclamationCircleOutlined />,
-      content: `La mesa ${numMesa} será eliminada de la lista de mesas.`,
+      content: `La mesa ${table.noMesa} será eliminada de la lista de mesas.`,
       okText: 'Eliminar',
       cancelText: 'Cancelar',
       okType: 'danger',
       onOk() {
-        deleteTable(numMesa);
+        deleteTable(table.noMesa, table._id);
       },
       onCancel() {},
     });
+  };
+
+  const reservar = ()=>{
+    const form = new FormData(document.getElementById(table._id));
+    const data = Object.fromEntries(form);
+    if(data.detalles===undefined || data.detalles==='')
+      data.detalles = ' ';
+    editTablesRequest(table._id, table.noMesa, table.estado,data.detalles);
+    setVisible(false);
   }
 
-  var title = `Mesa ${numMesa}`;
-  var modalTitle = `Mesa ${numMesa} - ${table.estado}`;
+  const setLocalStorage = () =>{
+    localStorage.setItem('noMesa',table.noMesa);
+    localStorage.setItem('mesaID',table._id);
+  }
+
+  var title = `Mesa ${table.noMesa}`;
+  var modalTitle = `Mesa ${table.noMesa} - ${table.estado}`;
   return (
     <div>
-      <Card
-        size="small"
-        onClick={showModal}
-        title={title}
-        style={{
-          margin: 10,
-          borderRadius: 15,
-          height: 130,
-          backgroundColor: '#FFFFFF',
-        }}
-      >
+      <Card size="small" onClick={showModal} title={title} className="card">
         <p>{`Mesa ${table.estado}`}</p>
-        <div
-          style={{
-            borderRadius: '100%',
-            background:
-              table.estado === 'disponible'
-                ? '#95D362'
-                : table.estado === 'ocupada'
-                  ? '#DC7171'
-                  : '#FED154',
-            height: 25,
-            width: 25,
-            right: 10,
-            bottom: 10,
-            position: 'absolute',
-          }}
-        ></div>
+        {table.estado === 'Disponible' ? (
+          <div className="disponible"></div>
+        ) : table.estado === 'Ocupada' ? (
+          <div className="ocupada"></div>
+        ) : (
+          <div className="reservada"></div>
+        )}
       </Card>
       <Modal
         title={modalTitle}
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
-        footer={[
-          <Button onClick={showConfirm} type="primary" danger>
-            <DeleteFilled />
-          </Button>,
-          <Button key="back" onClick>
-            Cancelar platillo
-          </Button>,
-          <Button key="submit" type="primary" onClick>
-            <Link to={{
-              pathname:'/agregar-platillos',
-              numMesa: numMesa
-            }}>Ordenar</Link>
-          </Button>,
-        ]}
+        footer={
+          table.estado === 'Disponible'
+            ? [
+              <form id={table._id}>
+                <strong>Abrir cuenta</strong>
+                <p>¿Cuántas personas?</p>
+                <InputNumber required placeholder="0" name="numPersonas" />
+                <p>Tipo de orden: </p>
+                <Cascader
+                  required
+                  name="tipoOrden"
+                  options={tipoOrdenOptions}
+                  onChange={onOrdenchange}
+                  placeholder="Tipo de orden..."
+                />
+                <p>Observaciones: </p>
+                <TextArea
+                  name="observaciones"
+                  placeholder="Agregar observaciones..."
+                />
+                <Button key="submit" type="primary" className="margin">
+                  <Link
+                    onClick={handleClick}
+                    to={{
+                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery/'
+                    }}
+                  >
+                    Abrir cuenta
+                  </Link>
+                </Button>
+              </form>,
+            ]
+            : [
+              <Button type="primary" className="margin">
+                <Link
+                  onClick={setLocalStorage}
+                  to={{
+                    pathname: '/ver-orden/:id'
+                  }}
+                >
+                  Ver orden
+                </Link>
+              </Button>
+            ]
+        }
       >
-        <p>Mesero: </p>
-        <Cascader
-          size="large"
-          options={waiterOptions}
-          onChange={onWaiterChange}
-          placeholder="Mesero..."
-        />
-        <p>Estado: </p>
-        <Cascader
-          size="large"
-          options={stateOptions}
-          onChange={onStateChange}
-          placeholder="Estado..."
-        />
+        {table.estado!== 'Ocupada' ?<div>
+          <strong>Editar</strong>
+          <br />
+          <Cascader
+            options={options}
+            onChange={onchange}
+            placeholder="Estado de la mesa..."
+          />
+          {getRol() === 'Dueño' ? (
+            <Button onClick={showConfirm} type="primary" danger>
+              <DeleteFilled />
+            </Button>
+          ) : null}
+          {reservada && (
+            <form id={table._id}>
+              <TextArea
+                name="detalles"
+                placeholder="Observaciones de la reservación..."
+                className="margin-top"
+              ></TextArea>
+              <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
+            </form>
+          )}
+        </div>: <div><strong>Orden en proceso...</strong>
+          <br />
+          <LoadingOutlined />
+          <br /></div>}
       </Modal>
     </div>
   );
