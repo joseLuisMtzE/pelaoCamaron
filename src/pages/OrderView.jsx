@@ -17,33 +17,28 @@ export default function OrderView() {
 
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState(0);
+  const [id,setId] = useState('');
 
-  const getOrderID = async () => {
+  const getOrders = async () => {
     try {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
-      if (response.status === 200) await getOrdersRequest(data[0]._id);
+      setOrders(data[0].comandas);
+      setTotal(data[0].pago)
+      if (response.status === 200) {
+        // localStorage.setItem('orderID',data[0]._id);
+        setId(data[0]._id);
+        window.history.replaceState(null,null,'http://localhost:3000/ver-orden/'+data[0]._id) 
+      }
       return data;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getOrdersRequest = async (orderID) => {
-    try {
-      localStorage.setItem('orderID', orderID);
-      let response = await makeRequest('GET', `ordenes/${orderID}`);
-      let data = response.data.data.comandas;
-      console.log(data);
-      setOrders(data);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
   useEffect(() => {
     const initState = async () => {
-      await getOrderID();
+      await getOrders();
     };
     initState();
   }, []);
@@ -66,13 +61,7 @@ export default function OrderView() {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
     })
-    let totaltemp = 0;
-    orders.map((order) => {
-      totaltemp += order.platillo.precioConIva;
-      setTotal(totaltemp);
-    });
   }, [orders]);
-
 
   return (
     <div>
@@ -119,17 +108,17 @@ export default function OrderView() {
             }}
           >
             <h3 style={{ textAlign: 'center' }}>
-              Subtotal: ${total.toFixed(2)}
+              Subtotal: ${total.subTotal}
             </h3>
             <h3 style={{ textAlign: 'center' }}>
-              Total: <span className="total">${total.toFixed(2)}</span>
+              Total: <span className="total">${total.precioTotal}</span>
             </h3>
           </section>
         </Col>
         <Col xs={24} md={6}>
           <div className="center margin-top">
             <Button shape="circle" className="add-btn">
-              <Link to="/agregar-platillos">
+              <Link to={`/agregar-platillos/${id}`}>
                 <PlusOutlined className="normal-size" />
               </Link>
             </Button>

@@ -74,10 +74,12 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
     console.log(data);
-    const newOrder = await crearOrden(data);
     localStorage.setItem('noMesa', table.noMesa);
-    setOrder(newOrder);
-    console.log(newOrder);
+    if(orderType==='Local'){
+      const newOrder = await crearOrden(data);
+      setOrder(newOrder);
+      console.log(newOrder);
+    }
   };
 
   const crearOrden = async (order) => {
@@ -90,7 +92,8 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
 
       if (response.status === 201) {
         console.log('Orden creada correctamente');
-        localStorage.setItem('orderID', response.data.data._id);
+        window.history.replaceState(null,null,'http://localhost:3000/agregar-platillos/'+response.data.data._id) 
+
       } else {
         window.location.href = '/mesas';
         alertError('Hubo un error al crear la orden');
@@ -177,7 +180,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   <Link
                     onClick={handleClick}
                     to={{
-                      pathname: '/agregar-platillos'
+                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery/'
                     }}
                   >
                     Abrir cuenta
@@ -186,45 +189,46 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
               </form>,
             ]
             : [
-              <strong>Orden en proceso...</strong>,
-              <br />,
-              <LoadingOutlined />,
-              <br />,
               <Button type="primary" className="margin">
                 <Link
                   onClick={setLocalStorage}
                   to={{
-                    pathname: '/ver-orden'
+                    pathname: '/ver-orden/:id'
                   }}
                 >
                   Ver orden
                 </Link>
-              </Button>,
+              </Button>
             ]
         }
       >
-        <strong>Editar</strong>
-        <br />
-        <Cascader
-          options={options}
-          onChange={onchange}
-          placeholder="Estado de la mesa..."
-        />
-        {getRol() === 'Dueño' ? (
-          <Button onClick={showConfirm} type="primary" danger>
-            <DeleteFilled />
-          </Button>
-        ) : null}
-        {reservada && (
-          <form id={table._id}>
-            <TextArea
-              name="detalles"
-              placeholder="Observaciones de la reservación..."
-              className="margin-top"
-            ></TextArea>
-            <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
-          </form>
-        )}
+        {table.estado!== 'Ocupada' ?<div>
+          <strong>Editar</strong>
+          <br />
+          <Cascader
+            options={options}
+            onChange={onchange}
+            placeholder="Estado de la mesa..."
+          />
+          {getRol() === 'Dueño' ? (
+            <Button onClick={showConfirm} type="primary" danger>
+              <DeleteFilled />
+            </Button>
+          ) : null}
+          {reservada && (
+            <form id={table._id}>
+              <TextArea
+                name="detalles"
+                placeholder="Observaciones de la reservación..."
+                className="margin-top"
+              ></TextArea>
+              <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
+            </form>
+          )}
+        </div>: <div><strong>Orden en proceso...</strong>
+          <br />
+          <LoadingOutlined />
+          <br /></div>}
       </Modal>
     </div>
   );

@@ -7,7 +7,9 @@ import {alertSuccess,alertError} from '../../shared/Alert';
 
 export default function DishesList({ dishesList,setDishesList }) {
 
-  const id = localStorage.getItem('orderID');
+  // const id = localStorage.getItem('orderID');
+  var url = new URL(window.location.href);
+  var id = url.pathname.split('/agregar-platillos/')[1];
   const [visible, setVisible] = useState(false);
   const [total, setTotal] = useState(0);
   const [cantidad,setCantidadd] = useState(0);

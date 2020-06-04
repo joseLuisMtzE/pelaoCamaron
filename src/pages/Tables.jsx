@@ -159,7 +159,7 @@ export default function Tables() {
         </Col>
         <Row>
           {selectedTables.map((table) => (
-            <Col md={4} xs={8} key={table._id}>
+            <Col lg={4} md={6} xs={8} key={table._id}>
               <Table
                 table={table}
                 noMesa={table.noMesa}
@@ -169,14 +169,14 @@ export default function Tables() {
               />
             </Col>
           ))}
-          <Col xs={8} md={4}>
+          <Col lg={4} md={6} xs={8}>
             {tables.length!==0 && 
             <NewTable count={tables.length} addTable={addTable} />
             }
           </Col>
         </Row>
       </Col>
-      {tables.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      {tables.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />
       </div>}
     </Row>
   );
