@@ -10,7 +10,7 @@ const CategoryList = () => {
     return (
 
         <div>
-            {categories.length ? (
+            { categories && categories.length ? (
                 <ul className="listKitchen">
                 {categories.map((category)=>{
                     return <Category category={category} key={category._id}/>

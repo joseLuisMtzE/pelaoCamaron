@@ -16,7 +16,7 @@ const OrderView = props => {
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
-  const [orderId, setOrderId] = useState('');
+ // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
   const [id,setId] = useState('');
 
@@ -130,7 +130,7 @@ const OrderView = props => {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Discount orderId={orderId} total={total} />
+            <Discount orderId={id} total={total.precioTotal} />
           </div>
           <div className="center alot-margin-bottom">
             <Button shape="circle" className="print-btn">

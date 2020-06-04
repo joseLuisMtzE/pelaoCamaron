@@ -49,12 +49,13 @@ const Discount = ({ orderId, total }) => {
 
   useEffect(() => {
     result(porDiscount);
+   // console.log(orderId);
   }, [porDiscount]);
 
-  useEffect(() => {
+ /* useEffect(() => {
     // getTotal();
     console.log('Re render');
-  }, []);
+  }, []);*/
 
   //peticion para obtener el total
   // const getTotal = async () => {
@@ -87,6 +88,7 @@ const Discount = ({ orderId, total }) => {
       form.setFieldsValue({ porcentaje: 0 });
     } catch (err) {
       console.log(err);
+      alertError(err.error);
     }
   };
 
