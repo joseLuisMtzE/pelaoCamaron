@@ -18,6 +18,7 @@ const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
 const Pedidos = lazy(() => import('../pages/Pedidos'));
 
+
 const OrderView = lazy(() => import('../pages/OrderView'));
 
 export default function AppRoutes() {
@@ -45,6 +46,7 @@ export default function AppRoutes() {
               <Route exact path="/ver-orden" component={OrderView} />
               <Route exact path="/descuento/:id" component={Discount} />
               <Route exact path="/Pedidos" component={Pedidos} />
+
             </Switch>
           </Layout>
         </BrowserRouter>

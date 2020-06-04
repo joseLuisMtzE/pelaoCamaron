@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { makeRequest } from '../shared/ApiWrapper';
 import Comandas from '../components/Pedidos/Comandas';
 import '../styles/components/Pedidos.css';
+import socketIOClient from "socket.io-client";
 
 function Pedidos(props) {
   const [comandas, setComanda] = useState({});
@@ -44,9 +45,9 @@ function Pedidos(props) {
   // <VistaGeneral comandaes={comanda} />
 
   return (
-    <>
+    <Fragment>
       <Comandas comandas={comandas} areas={areas} />
-    </>
+    </Fragment>
   );
 }
 

@@ -21,7 +21,7 @@ const Comandas = ({ comandas, areas }) => {
 
   function onChange(value) {
     console.log(value);
-    if (value == 'En proceso') {
+    if (value === 'En proceso') {
       estadoCerrada = false;
     } else {
       estadoCerrada = true;
@@ -73,7 +73,7 @@ const Comandas = ({ comandas, areas }) => {
         {comandas.map &&
           comandas.map((comanda) => (
             <div className="card-comanda">
-              {comanda.estado == 'En proceso' ? (
+              {comanda.estado === 'En proceso' ? (
                 <div className="card-containr-comanda">
                   {' '}
                   <Comanda comanda={comanda} onChange={onChange} />
