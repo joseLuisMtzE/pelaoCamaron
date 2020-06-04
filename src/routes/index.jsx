@@ -30,7 +30,7 @@ export default function AppRoutes() {
             <Switch>
               <Route exact path="/cerrar-orden" component={CloseOrderPage} />
               <Route exact path="/mesas" component={Tables} />
-              <Route exact path="/agregar-platillos" component={AddDishes} />
+              <Route exact path="/agregar-platillos/:id" component={AddDishes} />
               <Route exact path="/" component={Home} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/home-delivery" component={HomeDelivery} />
@@ -43,7 +43,7 @@ export default function AppRoutes() {
               />
               <Route exact path="/ticket/:id" component={Ticket} />
               <Route exact path="/OrdersView" component={OrdersView} />
-              <Route exact path="/ver-orden" component={OrderView} />
+              <Route exact path="/ver-orden/:id" component={OrderView} />
               <Route exact path="/descuento/:id" component={Discount} />
               <Route exact path="/Pedidos" component={Pedidos} />
 

@@ -7,14 +7,14 @@ import DishesList from '../components/Dishes/DishesList';
 import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
-function AddDishes() {
+export default function AddDishes() {
 
   const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchedValue, setSearchedValue] = useState('');
   const [dishesList, setDishesList] = useState([]);
   const [selectedDishes,setSelectedDishes] = useState([]);
-  const [filter,setFilter] = useState('');
+  const [filter,setFilter] = useState('todas');
   const noMesa = localStorage.getItem('noMesa');
 
   const addDishToList = (d) => {
@@ -37,7 +37,6 @@ function AddDishes() {
     try {
       let response = await makeRequest('GET','categorias?isActive=true');
       let data = response.data.data;
-      setFilter(data[0]._id);
       return data;
     } catch (err) {
       console.log(err);
@@ -60,13 +59,13 @@ function AddDishes() {
       if(dish.categoria!==null)
         temp.push(dish);
     })
-    let result = temp.filter((dish)=>dish.categoria._id === filter);
+    let result = filter !== 'todas' ? temp.filter((dish)=>dish.categoria._id === filter) : temp;
     setSelectedDishes(result);
   },[dishes,filter])
 
   return (
     <Row>
-      <Col xs={24}>
+      <Col xs={24} md={24}>
         <img src={Background} alt="bg" className="bg-img"/>
         <header className="header">
           <h1 className="h1">Menú</h1>
@@ -81,6 +80,18 @@ function AddDishes() {
           </div>
         </header>
         <div className="scrollmenu up">
+          {categories.length!==0 &&
+          <div
+            className="inline-block"
+            onClick={() => setFilter('todas')}
+          >
+            <Button
+              shape="circle"
+              icon={<AppleFilled className="normal-size"/>}
+              className="circle"
+            />
+            <p className="center">Todas</p>
+          </div>}
           {categories.map((categoria) => (
             <div
               className="inline-block"
@@ -114,10 +125,10 @@ function AddDishes() {
         </Row>
         <DishesList dishesList={dishesList} setDishesList={setDishesList}/>
       </Col>
-      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />;
+      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />
       </div>}
     </Row>
   );
 }
 
-export default AddDishes;
+
