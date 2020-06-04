@@ -249,3 +249,7 @@ div.scrollmenu a:hover {
 .inline-block{
   display: inline-block;
 }
+
+.text-bold{
+  font-weight: bold;
+}
