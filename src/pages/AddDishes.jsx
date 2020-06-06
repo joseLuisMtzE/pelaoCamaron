@@ -1,168 +1,134 @@
-import React,{useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import Background from '../assets/background.png';
 import { Input, Button, Col, Row } from 'antd';
-import { DownloadOutlined} from '@ant-design/icons';
+import { AppleFilled, LoadingOutlined } from '@ant-design/icons';
+import Dish from '../components/Dishes/Dish.jsx';
+import DishesList from '../components/Dishes/DishesList';
+import {makeRequest} from '../shared/ApiWrapper';
 const { Search } = Input;
 
+export default function AddDishes() {
 
-function AddDishes(props) {
+  const [dishes, setDishes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [searchedValue, setSearchedValue] = useState('');
+  const [dishesList, setDishesList] = useState([]);
+  const [selectedDishes,setSelectedDishes] = useState([]);
+  const [filter,setFilter] = useState('todas');
+  const noMesa = localStorage.getItem('noMesa');
+
+  const addDishToList = (d) => {
+    let temp = [...dishesList];
+    temp.push(d);
+    setDishesList(temp);
+  };
+
+  const getDishesRequest = async () => {
+    try {
+      let response = await makeRequest('GET','platillos?isActive=true');
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCategoriesRequest = async () => {
+    try {
+      let response = await makeRequest('GET','categorias?isActive=true');
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    console.log(props.location.numMesa);
-  })
-  return (
-    <div>
-      <img src={Background} alt="bg" style={{ width: '100%', height: 180 }} />
-      <header style={{ top: 0, position: 'absolute' }}>
-        <h1
-          style={{
-            color: '#545454',
-            position: 'absolute',
-            left: 20,
-            top: 30,
-            fontWeight: 'bold',
-          }}
-        >
-          Menú
-        </h1>
+    const initState = async () => {
+      const responseDishes = await getDishesRequest();
+      const responseCategories = await getCategoriesRequest();
+      setDishes(responseDishes);
+      setCategories(responseCategories);
+    };
+    initState();
+  }, []);
 
-        <div
-          style={{ position: 'absolute', left: 250, top: 35, display: 'block' }}
-        >
-          <Search
-            placeholder="Buscar"
-            onSearch={(value) => console.log(value)}
-            style={{ width: 100, border: 'none' }}
-            size="large"
-          />
+  useEffect(()=>{
+    let temp = [];
+    dishes.map((dish)=>{
+      if(dish.categoria!==null)
+        temp.push(dish);
+    })
+    let result = filter !== 'todas' ? temp.filter((dish)=>dish.categoria._id === filter) : temp;
+    setSelectedDishes(result);
+  },[dishes,filter])
+
+  return (
+    <Row>
+      <Col xs={24} md={24}>
+        <img src={Background} alt="bg" className="bg-img"/>
+        <header className="header">
+          <h1 className="h1">Menú</h1>
+          <h3 className="h3">Mesa{noMesa}</h3>
+          <div className="search-input">
+            <Search
+              placeholder="Buscar"
+              onSearch={(value) => setSearchedValue(value)}
+              className="search"
+              size="large"
+            />
+          </div>
+        </header>
+        <div className="scrollmenu up">
+          {categories.length!==0 &&
+          <div
+            className="inline-block"
+            onClick={() => setFilter('todas')}
+          >
+            <Button
+              shape="circle"
+              icon={<AppleFilled className="normal-size"/>}
+              className="circle"
+            />
+            <p className="center">Todas</p>
+          </div>}
+          {categories.map((categoria) => (
+            <div
+              className="inline-block"
+              key={categoria._id}
+              onClick={() => setFilter(categoria._id)}
+            >
+              <Button
+                shape="circle"
+                icon={<AppleFilled className="normal-size"/>}
+                className="circle"
+              />
+              <p className="center">{categoria.nombre}</p>
+            </div>
+          ))}
         </div>
-      </header>
-      <div className="scrollmenu" style={{ position: 'relative', top: -95 }}>
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-        <Button
-          shape="circle"
-          icon={<DownloadOutlined/>}
-          style={{
-            margin: 12,
-            width: 60,
-            height: 60,
-            border: 'none',
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-        />
-      </div>
-      <Row style={{position:'relative',top:-60}}>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-        <Col xs={12} md={6} xl={4}>
-          <div style={{ margin: 15 }}>
-            <img
-              alt="example"
-              src="https://images.pexels.com/photos/2410606/pexels-photo-2410606.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-              style={{ boxShadow: '0px 3px 5px 0px grey', width: '100%' }}
-            />
-          </div>
-        </Col>
-      </Row>
-    </div>
+        <Row className="up">
+          {selectedDishes.map((dish) =>
+            searchedValue === '' ? (
+              <Col xs={12} md={6} key={dish._id}>
+                <Dish dish={dish} addDishToList={addDishToList}/>
+              </Col>
+            ) : (
+              dish.nombre.split(' ')[0].toUpperCase() ===
+                searchedValue.toUpperCase() && (
+                <Col xs={12} md={6} key={dish._id}>
+                  <Dish dish={dish} addDishToList={addDishToList}/>
+                </Col>
+              )
+            )
+          )}
+        </Row>
+        <DishesList dishesList={dishesList} setDishesList={setDishesList}/>
+      </Col>
+      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />
+      </div>}
+    </Row>
   );
 }
 
-export default AddDishes;
+
