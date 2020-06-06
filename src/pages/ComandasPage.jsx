@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { makeRequest } from '../shared/ApiWrapper';
-import Comandas from '../components/Pedidos/Comandas';
-import '../styles/components/Pedidos.css';
+import Comandas from '../components/Comandas/Comandas';
+import ComandasTodas from '../components/Comandas/ComandasTodas';
 
-function Pedidos(props) {
+function ComandasPage(props) {
   const [comandas, setComanda] = useState({});
-  const [areas, setArea] = useState({});
+
+  const [areas, setArea] = useState([]);
+
+  const [verTodas, setVerTodas] = useState(false);
+
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   const obtenerComandas = async () => {
     try {
-      let response = await makeRequest('GET', 'comandas');
+      let response = await makeRequest('GET', 'comandas?estado=En proceso');
       let data = response.data.data;
       //console.log('data', data);
       return data;
@@ -41,13 +45,17 @@ function Pedidos(props) {
     inicializarState();
   }, []);
 
-  // <VistaGeneral comandaes={comanda} />
+  //console.log('areas', areas);
 
   return (
     <>
-      <Comandas comandas={comandas} areas={areas} />
+      {verTodas ? (
+        <ComandasTodas areas={areas} />
+      ) : (
+        <Comandas comandas={comandas} areas={areas} setVerTodas={setVerTodas} />
+      )}
     </>
   );
 }
 
-export default Pedidos;
+export default ComandasPage;

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { Card, Modal, Cascader, Button, InputNumber } from 'antd';
 import {
   DeleteFilled,
@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
 import { makeRequest, getRol } from '../../shared/ApiWrapper';
-import {alertSuccess,alertError} from '../../shared/Alert';
+import { alertError } from '../../shared/Alert';
 const { confirm } = Modal;
 
 export default function Table({ table, deleteTable, editTablesRequest }) {
@@ -49,7 +49,6 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       setReservada(false);
       setVisible(false);
     } else setReservada(true);
-    
   };
 
   const [visible, setVisible] = useState(false);
@@ -99,8 +98,8 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       return data;
     } catch (err) {
       console.log(err);
-      window.location.href = '/mesas'
-      alertError('Hubo un error al crear la orden')
+      window.location.href = '/mesas';
+      alertError('Hubo un error al crear la orden');
     }
   };
 
@@ -120,19 +119,19 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     });
   };
 
-  const reservar = ()=>{
+  const reservar = () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
-    if(data.detalles===undefined || data.detalles==='')
+    if (data.detalles === undefined || data.detalles === '')
       data.detalles = ' ';
-    editTablesRequest(table._id, table.noMesa, table.estado,data.detalles);
+    editTablesRequest(table._id, table.noMesa, table.estado, data.detalles);
     setVisible(false);
-  }
+  };
 
-  const setLocalStorage = () =>{
-    localStorage.setItem('noMesa',table.noMesa);
-    localStorage.setItem('mesaID',table._id);
-  }
+  const setLocalStorage = () => {
+    localStorage.setItem('noMesa', table.noMesa);
+    localStorage.setItem('mesaID', table._id);
+  };
 
   var title = `Mesa ${table.noMesa}`;
   var modalTitle = `Mesa ${table.noMesa} - ${table.estado}`;
@@ -156,51 +155,51 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         footer={
           table.estado === 'Disponible'
             ? [
-              <form id={table._id}>
-                <strong>Abrir cuenta</strong>
-                <p>¿Cuántas personas?</p>
-                <InputNumber required placeholder="0" name="numPersonas" />
-                <p>Tipo de orden: </p>
-                <Cascader
-                  required
-                  name="tipoOrden"
-                  options={tipoOrdenOptions}
-                  onChange={onOrdenchange}
-                  placeholder="Tipo de orden..."
-                />
-                <p>Observaciones: </p>
-                <TextArea
-                  name="observaciones"
-                  placeholder="Agregar observaciones..."
-                />
-                <Button key="submit" type="primary" className="margin">
+                <form id={table._id}>
+                  <strong>Abrir cuenta</strong>
+                  <p>¿Cuántas personas?</p>
+                  <InputNumber required placeholder="0" name="numPersonas" />
+                  <p>Tipo de orden: </p>
+                  <Cascader
+                    required
+                    name="tipoOrden"
+                    options={tipoOrdenOptions}
+                    onChange={onOrdenchange}
+                    placeholder="Tipo de orden..."
+                  />
+                  <p>Observaciones: </p>
+                  <TextArea
+                    name="observaciones"
+                    placeholder="Agregar observaciones..."
+                  />
+                  <Button key="submit" type="primary" className="margin">
+                    <Link
+                      onClick={handleClick}
+                      to={{
+                        pathname: '/agregar-platillos',
+                      }}
+                    >
+                      Abrir cuenta
+                    </Link>
+                  </Button>
+                </form>,
+              ]
+            : [
+                <strong>Orden en proceso...</strong>,
+                <br />,
+                <LoadingOutlined />,
+                <br />,
+                <Button type="primary" className="margin">
                   <Link
-                    onClick={handleClick}
+                    onClick={setLocalStorage}
                     to={{
-                      pathname: '/agregar-platillos'
+                      pathname: '/ver-orden',
                     }}
                   >
-                    Abrir cuenta
+                    Ver orden
                   </Link>
-                </Button>
-              </form>,
-            ]
-            : [
-              <strong>Orden en proceso...</strong>,
-              <br />,
-              <LoadingOutlined />,
-              <br />,
-              <Button type="primary" className="margin">
-                <Link
-                  onClick={setLocalStorage}
-                  to={{
-                    pathname: '/ver-orden'
-                  }}
-                >
-                  Ver orden
-                </Link>
-              </Button>,
-            ]
+                </Button>,
+              ]
         }
       >
         <strong>Editar</strong>
@@ -222,7 +221,9 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
               placeholder="Observaciones de la reservación..."
               className="margin-top"
             ></TextArea>
-            <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
+            <Button className="margin-top reservar-btn" onClick={reservar}>
+              Reservar
+            </Button>
           </form>
         )}
       </Modal>

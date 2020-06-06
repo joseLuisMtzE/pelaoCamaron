@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal, InputNumber, Cascader } from 'antd';
+import { Card, Button, Modal, InputNumber } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-export default function NewTable({addTable}) {
+export default function NewTable({ addTable }) {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -23,15 +23,11 @@ export default function NewTable({addTable}) {
 
   return (
     <div>
-      <Card
-        onClick={showModal}
-        size="small"
-        className="card"
-      >
+      <Card onClick={showModal} size="small" className="card">
         <Button
           type="link"
           size="large"
-          icon={<PlusOutlined className="big-size"/>}
+          icon={<PlusOutlined className="big-size" />}
           className="add-btn-2"
         ></Button>
       </Card>
@@ -42,16 +38,12 @@ export default function NewTable({addTable}) {
         footer={[
           <Button type="primary" onClick={handleOk}>
             Agregar
-          </Button>
+          </Button>,
         ]}
       >
         <form id="form">
           <p>Número de mesa:</p>
-          <InputNumber
-            name="noMesa"
-            size="large"
-            placeholder="0"
-          />
+          <InputNumber name="noMesa" size="large" placeholder="0" />
         </form>
       </Modal>
     </div>

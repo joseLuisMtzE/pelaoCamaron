@@ -16,9 +16,11 @@ const KitchenArea = lazy(() => import('../pages/KitchenArea'));
 const Categories = lazy(() => import('../pages/Categories'));
 const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
-const Pedidos = lazy(() => import('../pages/Pedidos'));
+const ComandasPage = lazy(() => import('../pages/ComandasPage'));
 
 const OrderView = lazy(() => import('../pages/OrderView'));
+/*
+              <Route exact path="/comandas-todas" component={ComandasTodas} /> */
 
 export default function AppRoutes() {
   return (
@@ -41,10 +43,14 @@ export default function AppRoutes() {
                 component={Categories}
               />
               <Route exact path="/ticket/:id" component={Ticket} />
-              <Route exact path="/OrdersView" component={OrdersView} />
+              <Route
+                exact
+                path="/ordenes-vista-general"
+                component={OrdersView}
+              />
               <Route exact path="/ver-orden" component={OrderView} />
               <Route exact path="/descuento/:id" component={Discount} />
-              <Route exact path="/Pedidos" component={Pedidos} />
+              <Route exact path="/comandas" component={ComandasPage} />
             </Switch>
           </Layout>
         </BrowserRouter>
