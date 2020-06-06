@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 //import icons
-import { mdiAccountHeartOutline } from '@mdi/js';
-import Icon from '@mdi/react';
 import { Input } from 'antd';
-import { Modal, Button, Card } from 'antd';
+import { Modal, Button } from 'antd';
 import { Tabs } from 'antd';
 import UserCard from './UserCard';
+import { Link } from 'react-router-dom';
 
 //! Constants
 import { makeRequest } from '../../shared/ApiWrapper';
@@ -75,64 +74,9 @@ const UsersViewPage1 = () => {
                   />
                 );
               })}
-              <UserAdd showModal={showModal} />
-            </div>
-            <div>
-              <Modal
-                title="Datos generales"
-                visible={modalVisible.visible}
-                onCancel={handleCancel}
-                onOk={handleOk}
-                footer={[]}
-              >
-                <div className="mitad espacio">
-                  <p>Nombre:</p>
-                  <br></br>
-                  <Input placeholder="Nombre" />
-
-                  <p>Apellido:</p>
-                  <br></br>
-                  <Input placeholder="Apellido" />
-                </div>
-
-                <br />
-
-                <div className="mitad">
-                  <p>Correo:</p>
-                  <br></br>
-                  <Input placeholder="correo" />
-
-                  <p>Telefono Móvil:</p>
-                  <br></br>
-                  <Input placeholder="Telefono" />
-                </div>
-
-                <h2>Contacto secundario</h2>
-                <div className="mitad">
-                  <p>Nombre completo:</p>
-                  <br></br>
-                  <Input placeholder="Nombre" />
-
-                  <p>Telefono:</p>
-                  <br></br>
-                  <Input type="number" max="10" placeholder="Telefono" />
-                </div>
-
-                <br></br>
-                <div className="mitad">
-                  <h2>Detalles</h2>
-                  <br></br>
-                </div>
-                <TextArea rows={4} placeholder="add details" />
-                <br></br>
-
-                <div className="">
-                  <Button type="primary" danger onClick={handleCancel}>
-                    Cancelar
-                  </Button>
-                  <Button type="primary">Guardar</Button>
-                </div>
-              </Modal>
+              <Link className="nav-text" to="/Editar-usuario">
+                <UserAdd/>
+              </Link>
             </div>
           </TabPane>
         </Tabs>

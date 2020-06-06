@@ -86,3 +86,24 @@
     border-color: #fff;
     background: #fff;
   }
+
+  /* Estilos de UserEdit*/
+  .UserTextInput{
+    max-width: 350px;
+    padding: 0.5em;
+    margin: 0.5em;  
+  }
+
+  .userDiv{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 0.5em;
+    
+  }
+
+  .buttonWrapper{
+    display: flex;
+    margin: 1em;
+    justify-content: space-around;
+
+  }

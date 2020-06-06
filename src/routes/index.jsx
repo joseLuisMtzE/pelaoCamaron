@@ -18,6 +18,7 @@ const usersView = lazy(() => import('../pages/Userview'));
 const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
 const Pedidos = lazy(() => import('../pages/Pedidos'));
+const usersEdit = lazy(() => import('../components/UsersView/UserEdit'));
 
 const OrderView = lazy(() => import('../pages/OrderView'));
 
@@ -36,17 +37,14 @@ export default function AppRoutes() {
               <Route exact path="/home-delivery" component={HomeDelivery} />
               <Route exact path="/menu-dishes" component={MenuDishes} />
               <Route exact path="/areas-cocina" component={KitchenArea} />
-              <Route
-                exact
-                path="/categorias-alimentos"
-                component={Categories}
-              />  
+              <Route exact path="/categorias-alimentos" component={Categories} />  
               <Route exact path="/vista-usuarios" component={usersView} />
               <Route exact path="/ticket/:id" component={Ticket} />
               <Route exact path="/OrdersView" component={OrdersView} />
               <Route exact path="/ver-orden/:id" component={OrderView} />
               <Route exact path="/descuento/:id" component={Discount} />
               <Route exact path="/Pedidos" component={Pedidos} />
+              <Route exact path="/Editar-usuario" component={usersEdit} />
             </Switch>
           </Layout>
         </BrowserRouter>
