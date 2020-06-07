@@ -13,7 +13,7 @@ const TablaProductos = (props) => {
     descuentoCantidad = 0;
 
   //Para el renderizado condicional
-  if (comandas.estado == 'En proceso') {
+  if (comandas.estado === 'En proceso') {
     enProceso = true;
   } else {
     enProceso = false;
