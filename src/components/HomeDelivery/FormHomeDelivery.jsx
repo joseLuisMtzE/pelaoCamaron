@@ -15,11 +15,12 @@ const tailLayout = {
     span: 16,
   },
 };
+
 const LSKEY = 'address-home-delivery';
 
 const FormHomeDelivery = () => {
   const onFinish = (values) => {
-    localStorage.setItem(LSKEY,JSON.stringify(values))
+    localStorage.setItem(LSKEY, JSON.stringify(values));
     console.log('Success:', values);
   };
 
@@ -27,7 +28,9 @@ const FormHomeDelivery = () => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <Form className="form-home-delivery"
+    <>
+    <Form
+      className="form-home-delivery"
       {...layout}
       name="basic"
       initialValues={{
@@ -46,7 +49,7 @@ const FormHomeDelivery = () => {
           },
         ]}
       >
-        <Input className="inputs"/>
+        <Input className="inputs" />
       </Form.Item>
 
       <Form.Item
@@ -119,39 +122,41 @@ const FormHomeDelivery = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="Pagara con..."
-        name="pagaraCon"
-        rules={[
-          {
-            required: true,
-            message: 'Introduzca con cuanto se pagara la orden',
-          },
-        ]}
-      >
-        <InputNumber className="inputs" />
-      </Form.Item>
-      <Form.Item
-        label="Cambio"
-        name="cambio"
-        rules={[
-          {
-            required: true,
-            message: 'Introduzca el cambio',
-          },
-        ]}
-      >
-        <InputNumber className="inputs" />
-      </Form.Item>
+        <Form.Item
+          label="Pagara con..."
+          name="pagaraCon"
+          rules={[
+            {
+              required: true,
+              message: 'Introduzca con cuanto se pagara la orden',
+            },
+          ]}
+        >
+          <InputNumber className="inputs" />
+        </Form.Item>
+        <Form.Item
+          label="Cambio"
+          name="cambio"
+          rules={[
+            {
+              required: true,
+              message: 'Introduzca el cambio',
+            },
+          ]}
+        >
+          <InputNumber className="inputs" />
+        </Form.Item>
 
-      <Form.Item {...tailLayout} >
-        <Button className="buttons" type="primary" htmlType="submit">
-          Confirmar
-        </Button>
-      </Form.Item>
-      
+        <Form.Item {...tailLayout}>
+          <Button className="buttons" type="primary" htmlType="submit">
+            Confirmar
+          </Button>
+        </Form.Item>
     </Form>
-  );
+        <div className="footer-home-delivery" >
+      </div>
+</>
+);
 };
 
 export default FormHomeDelivery;
