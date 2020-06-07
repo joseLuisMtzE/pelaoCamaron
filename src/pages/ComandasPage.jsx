@@ -35,10 +35,9 @@ function ComandasPage(props) {
     });
   };
 
-
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
-  /*const obtenerComandas = async () => {
+  const obtenerComandas = async () => {
     try {
       let response = await makeRequest('GET', 'comandas?estado=En proceso');
       let data = response.data.data;
@@ -48,7 +47,6 @@ function ComandasPage(props) {
       console.log(err);
     }
   };
-*/
 
 const obtenerComandas = async () => {
   try {

@@ -17,7 +17,7 @@ const OrderView = props => {
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
- // const [orderId, setOrderId] = useState('');
+  // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
   const [id, setId] = useState('');
 

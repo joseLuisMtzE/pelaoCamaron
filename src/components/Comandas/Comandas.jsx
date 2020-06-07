@@ -25,8 +25,9 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
 
   //console.log('se actualizo areas');
   //opciones estado
+  // console.log(areas);
   if (areas.length !== 0) {
-    options = areas.map((area) => ({
+    options = areas.map(area => ({
       value: area.nombre,
       label: area.nombre,
       id: area._id
@@ -47,7 +48,7 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
     console.log('room',room);
     console.log('id',id);
     let resultado = [...comandas].filter(
-      (comanda) => comanda.platillo.area.nombre === valorOpcion
+      comanda => comanda.platillo.area.nombre === valorOpcion
     );
     console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
@@ -70,7 +71,7 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
       ),
       onOk() {
         handleModalOk();
-      },
+      }
     });
   }
 
@@ -87,7 +88,7 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
       </div>
       <div className="scrolling-wrapper">
         {comandasFiltradas &&
-          comandasFiltradas.map((comanda) => (
+          comandasFiltradas.map(comanda => (
             <div className="card-comanda">
               <div className="card-containr-comanda">
                 <Comanda comanda={comanda} onChange={onChange} />
@@ -101,7 +102,7 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
             'text-align': 'center',
             width: 120,
             height: 50,
-            boxShadow: '0px 3px 5px 0px grey',
+            boxShadow: '0px 3px 5px 0px grey'
           }}
           id="Button-print"
           type="primary"

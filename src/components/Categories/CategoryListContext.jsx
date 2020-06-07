@@ -11,7 +11,7 @@ const CategoryListContextProvider = props => {
 
   const retrieveCategories = async () => {
     try {
-      let response = await makeRequest('GET', 'categorias');
+      let response = await makeRequest('GET', 'categorias?isActive=true');
       let data = response.data.data;
       return data;
     } catch (err) {
@@ -96,11 +96,11 @@ const CategoryListContextProvider = props => {
   const addCategory = async name => {
     loader();
     let response = await addCategoryRequest(name);
-    setCategories([
-      ...categories,
-      { _id: response._id, nombre: response.nombre }
-    ]);
-    console.log(categories);
+    response &&
+      setCategories([
+        ...categories,
+        { _id: response._id, nombre: response.nombre }
+      ]);
   };
 
   const removeCategory = async id => {

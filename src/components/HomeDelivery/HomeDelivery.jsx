@@ -29,13 +29,13 @@ function HomeDelivery() {
             </h1>
           </div>
         </div>
-        <div className="margin-10" >
+        <div className="" >
+        <div className="centerContent" style={{ padding: '1px' }} />
           <Form />
+          
         </div>
 
-        <div className="centerContent" style={{ padding: '1px' }} />
       </div>
-      <div className="footer-home-delivery" />
     </>
   );
 }

@@ -18,7 +18,6 @@ const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
 const ComandasPage = lazy(() => import('../pages/ComandasPage'));
 
-
 const OrderView = lazy(() => import('../pages/OrderView'));
 /*
               <Route exact path="/comandas-todas" component={ComandasTodas} /> */
