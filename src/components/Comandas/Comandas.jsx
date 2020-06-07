@@ -6,7 +6,7 @@ import Comanda from './Comanda';
 const Comandas = ({ comandas, areas, setVerTodas }) => {
   let valorOpcion = '';
   let options = [];
-  //console.log(comandas);
+  console.log('Comandas', comandas);
 
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
@@ -24,7 +24,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
 
   //console.log('se actualizo areas');
   //opciones estado
-  console.log(areas);
+  // console.log(areas);
   if (areas.length !== 0) {
     options = areas.map(area => ({
       value: area.nombre,

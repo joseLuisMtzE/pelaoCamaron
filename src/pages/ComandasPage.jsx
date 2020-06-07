@@ -34,7 +34,7 @@ function ComandasPage(props) {
 
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
-  /*const obtenerComandas = async () => {
+  const obtenerComandas = async () => {
     try {
       let response = await makeRequest('GET', 'comandas?estado=En proceso');
       let data = response.data.data;
@@ -44,7 +44,6 @@ function ComandasPage(props) {
       console.log(err);
     }
   };
-*/
 
   //Obtener Areas
   const obtenerAreas = async () => {
@@ -59,8 +58,8 @@ function ComandasPage(props) {
   };
 
   const inicializarState = async () => {
-    // const comandas = await obtenerComandas();
-    //setComanda(comandas);
+    const comandas = await obtenerComandas();
+    setComanda(comandas);
     const areas = await obtenerAreas();
     setArea(areas);
   };
