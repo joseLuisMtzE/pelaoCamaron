@@ -3,7 +3,7 @@ import url from '../constants/api';
 import jwt_decode from 'jwt-decode';
 import { errorAlert } from './Alerts';
 
- function getToken() {
+function getToken() {
   if (localStorage.getItem('token')) {
     const tokenFinal = localStorage.getItem('token');
     return tokenFinal;
@@ -44,7 +44,10 @@ export const makeRequest = async (metodo, complement, payload) => {
         () => (window.location.href = '/login')
       );
     }
-    if (err && err.response && err.response.status === 400 || err && err.response && err.response.status === 404) {
+    if (
+      (err && err.response && err.response.status === 400) ||
+      (err && err.response && err.response.status === 404)
+    ) {
       return err;
     }
     if (err && err.response && err.response.status === 500) {
