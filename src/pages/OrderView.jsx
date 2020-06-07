@@ -6,12 +6,8 @@ import { makeRequest } from '../shared/ApiWrapper';
 import {
   PlusOutlined,
   CloseOutlined,
-<<<<<<< HEAD
-  PrinterOutlined
-=======
   PrinterOutlined,
   DollarCircleOutlined
->>>>>>> acb1b1b50fd7b0cc187c60d7bb9fc0e5f1fe9585
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Discount from '../components/Discounts/Discount';
@@ -21,7 +17,7 @@ const OrderView = props => {
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
- // const [orderId, setOrderId] = useState('');
+  // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
   const [id, setId] = useState('');
 
