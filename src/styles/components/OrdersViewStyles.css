@@ -15,10 +15,6 @@
   .ant-layout-sider {
     display: none !important;
   }
-
-  .Tabla-VistaGeneral-Ordenes {
-    overflow: scroll;
-  }
 }
 
 .Texto-condicional {
@@ -28,13 +24,9 @@
 }
 
 .Tabla-VistaGeneral-Ordenes {
-  overflow: scroll;
-  width: 100%;
-  font: normal 13px Arial;
-  text-align: center;
+  font: normal 20px Arial;
   border-collapse: collapse;
-  position: absolute;
-  margin: 50px auto 0px;
+  text-align: center;
 }
 
 .Tabla-VistaGeneral-Ordenes thead th {
@@ -47,7 +39,7 @@
   background-color: white;
   border-radius: 15px;
   padding: 30px;
-  margin: 10px;
+  margin: 50px;
   box-shadow: 0px 0px 3px 3px grey;
 }
 
@@ -56,6 +48,13 @@
   height: 70px;
 }
 
-.Center-Tabla-Ordenes {
-  width: 85% !important;
+
+.Contenedor-Tabla-VistaGeneral-Ordenes {
+  overflow: auto;
+  height: auto;
+  width: auto;
+  margin-right: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }

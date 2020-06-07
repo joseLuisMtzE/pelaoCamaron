@@ -1,14 +1,17 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { makeRequest } from '../shared/ApiWrapper';
-import Comandas from '../components/Pedidos/Comandas';
+import Comandas from '../components/Comandas/Comandas';
+import ComandasTodas from '../components/Comandas/ComandasTodas';
 import '../styles/components/Pedidos.css';
 import io from 'socket.io-client';
 
 const socket = io('https://dev-socketio.herokuapp.com');
 
-function Pedidos(props) {
+
+function ComandasPage(props) {
   const [comandas, setComanda] = useState({});
-  const [areas, setArea] = useState({});
+  const [areas, setArea] = useState([]);
+  const [verTodas, setVerTodas] = useState(false);
   const room = '5ed8686443cd831fb406472e';
 
   const socketJoinRoom = () => {
@@ -30,11 +33,12 @@ function Pedidos(props) {
     });
   };
 
+
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   /*const obtenerComandas = async () => {
     try {
-      let response = await makeRequest('GET', 'comandas');
+      let response = await makeRequest('GET', 'comandas?estado=En proceso');
       let data = response.data.data;
       //console.log('data', data);
       return data;
@@ -81,14 +85,19 @@ function Pedidos(props) {
   //     console.log(comandas.length);
   //   });
   // }, []);
+  //console.log('areas', areas);
 
   // <VistaGeneral comandaes={comanda} />
   //   <Comandas comandas={comandas} areas={areas} />
   return (
-    <Fragment>
-      <Comandas comandas={comandas} areas={areas} />
-    </Fragment>
+    <>
+      {verTodas ? (
+        <ComandasTodas areas={areas} />
+      ) : (
+        <Comandas comandas={comandas} areas={areas} setVerTodas={setVerTodas} />
+      )}
+    </>
   );
 }
 
-export default Pedidos;
+export default ComandasPage;

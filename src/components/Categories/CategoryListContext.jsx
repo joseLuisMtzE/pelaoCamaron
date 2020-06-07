@@ -32,6 +32,7 @@ const CategoryListContextProvider = props => {
         alertError(`Hubo un error al añadir la categoria`);
       }
       let data = response.data.data;
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -99,6 +100,7 @@ const CategoryListContextProvider = props => {
       ...categories,
       { _id: response._id, nombre: response.nombre }
     ]);
+    console.log(categories);
   };
 
   const removeCategory = async id => {

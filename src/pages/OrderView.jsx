@@ -6,7 +6,8 @@ import { makeRequest } from '../shared/ApiWrapper';
 import {
   PlusOutlined,
   CloseOutlined,
-  PrinterOutlined
+  PrinterOutlined,
+  DollarCircleOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Discount from '../components/Discounts/Discount';
@@ -18,18 +19,22 @@ const OrderView = props => {
   const [orders, setOrders] = useState([]);
  // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
-  const [id,setId] = useState('');
+  const [id, setId] = useState('');
 
   const getOrders = async () => {
     try {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
       setOrders(data[0].comandas);
-      setTotal(data[0].pago)
+      setTotal(data[0].pago);
       if (response.status === 200) {
         // localStorage.setItem('orderID',data[0]._id);
         setId(data[0]._id);
-        window.history.replaceState(null,null,'http://localhost:3000/ver-orden/'+data[0]._id) 
+        window.history.replaceState(
+          null,
+          null,
+          'http://localhost:3000/ver-orden/' + data[0]._id
+        );
       }
       return data;
     } catch (err) {
@@ -52,12 +57,14 @@ const OrderView = props => {
           x.cantidad += y.cantidad;
           orders.splice(index, 1);
         }
+        return null;
       });
+      return null;
     });
     orders.map(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
-    })
+    });
   }, [orders]);
 
   return (
@@ -85,7 +92,7 @@ const OrderView = props => {
                   <th>Precio</th>
                 </tr>
                 {orders.map(order => (
-                  <tr style={{ padding: 20 }} key={order._id}>
+                  <tr style={{ padding: 20 }}>
                     <td>{order.platillo.nombre}</td>
                     <td>{order.cantidad}</td>
                     <td>{order.estado}</td>
@@ -104,9 +111,7 @@ const OrderView = props => {
               marginTop: 20
             }}
           >
-            <h3 style={{ textAlign: 'center' }}>
-              Subtotal: ${total.subTotal}
-            </h3>
+            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal}</h3>
             <h3 style={{ textAlign: 'center' }}>
               Total: <span className="total">${total.precioTotal}</span>
             </h3>

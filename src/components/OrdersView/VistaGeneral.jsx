@@ -6,11 +6,13 @@ const VistaGeneral = (props) => {
   const { ordenes } = props;
   let renderizarTabla = true;
 
-  if (ordenes.lenght == 0) {
+  if (ordenes.lenght === 0) {
     renderizarTabla = false;
   } else {
     renderizarTabla = true;
   }
+
+  //console.log('ordenes', ordenes);
 
   /*idOrden, idMesa, N de personas
 Fecha, Estado, TipoDescuento, Descuento 
@@ -23,25 +25,27 @@ Observaciones */
         <div className="wrapper">
           {(renderizarTabla && (
             <Col md={20} offset={2}>
-              <table className="Tabla-VistaGeneral-Ordenes">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Tipo</th>
-                    <th>Mesa</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th>Detalles</th>
-                  </tr>
-                </thead>
+              <div className="Contenedor-Tabla-VistaGeneral-Ordenes">
+                <table className="Tabla-VistaGeneral-Ordenes">
+                  <thead>
+                    <tr>
+                      <th>Folio</th>
+                      <th>Tipo</th>
+                      <th>Mesa</th>
+                      <th>Fecha</th>
+                      <th>Estado</th>
+                      <th>Detalles</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  {ordenes.map &&
-                    ordenes.map((orden) => (
-                      <Orden orden={orden} ordenes={ordenes} />
-                    ))}
-                </tbody>
-              </table>
+                  <tbody>
+                    {ordenes.map &&
+                      ordenes.map((orden) => (
+                        <Orden orden={orden} ordenes={ordenes} />
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </Col>
           )) || (
             <div>
