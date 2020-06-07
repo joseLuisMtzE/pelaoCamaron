@@ -57,9 +57,11 @@ const ConvertidorNumLetras = (props) => {
         return 'OCHO';
       case 9:
         return 'NUEVE';
+      default:
+        return '';
     }
 
-    return '';
+    //return '';
   }
 
   function Decenas(num) {
@@ -107,6 +109,8 @@ const ConvertidorNumLetras = (props) => {
         return DecenasY('NOVENTA', unidad);
       case 0:
         return Unidades(unidad);
+      default:
+        return '';
     }
   } //Unidades()
 
@@ -140,9 +144,11 @@ const ConvertidorNumLetras = (props) => {
         return 'OCHOCIENTOS ' + Decenas(decenas);
       case 9:
         return 'NOVECIENTOS ' + Decenas(decenas);
+      default:
+        return '';
     }
 
-    return Decenas(decenas);
+    //return Decenas(decenas);
   } //Centenas()
 
   function Seccion(num, divisor, strSingular, strPlural) {
@@ -168,7 +174,7 @@ const ConvertidorNumLetras = (props) => {
     strMiles = Seccion(num, divisor, 'MIL', 'MIL');
     strCentenas = Centenas(resto);
 
-    if (strMiles == '') return strCentenas;
+    if (strMiles === '') return strCentenas;
 
     return strMiles + ' ' + strCentenas;
 
@@ -183,7 +189,7 @@ const ConvertidorNumLetras = (props) => {
     strMillones = Seccion(num, divisor, 'UN MILLON', 'MILLONES');
     strMiles = Miles(resto);
 
-    if (strMillones == '') return strMiles;
+    if (strMillones === '') return strMiles;
 
     return strMillones + ' ' + strMiles;
 
@@ -200,8 +206,8 @@ const ConvertidorNumLetras = (props) => {
     data.letrasMonedaPlural = 'PESOS';
     data.letrasMonedaSingular = 'PESO';
 
-    if (data.enteros == 0) return 'CERO ' + data.letrasMonedaPlural;
-    if (data.enteros == 1)
+    if (data.enteros === 0) return 'CERO ' + data.letrasMonedaPlural;
+    if (data.enteros === 1)
       return Millones(data.enteros) + ' ' + data.letrasMonedaSingular;
     else return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ';
   } //NumeroALetras()

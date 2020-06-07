@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, Modal, Input, Cascader } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-export default function NewTable({addTable}) {
+export default function NewTable({ addTable }) {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -21,24 +21,22 @@ export default function NewTable({addTable}) {
     setVisible(false);
   };
 
-  const handleKeyPress = (event)=>{
-    if (event.which != 8 && event.which != 0 && event.which < 48 || event.which > 57)
-    {
+  const handleKeyPress = event => {
+    if (
+      (event.which != 8 && event.which != 0 && event.which < 48) ||
+      event.which > 57
+    ) {
       event.preventDefault();
     }
-  }
+  };
 
   return (
     <div>
-      <Card
-        onClick={showModal}
-        size="small"
-        className="card"
-      >
+      <Card onClick={showModal} size="small" className="card">
         <Button
           type="link"
           size="large"
-          icon={<PlusOutlined className="big-size"/>}
+          icon={<PlusOutlined className="big-size" />}
           className="add-btn-2"
         ></Button>
       </Card>
@@ -54,11 +52,7 @@ export default function NewTable({addTable}) {
       >
         <form id="form">
           <p>Número de mesa:</p>
-          <Input
-            name="noMesa"
-            size="large"
-            style={{width:'25%'}}
-          />
+          <Input name="noMesa" size="large" style={{ width: '25%' }} />
         </form>
       </Modal>
     </div>
