@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeRequest } from '../shared/ApiWrapper';
 import Comandas from '../components/Comandas/Comandas';
 import ComandasTodas from '../components/Comandas/ComandasTodas';
@@ -12,7 +12,9 @@ function ComandasPage(props) {
   const [comandas, setComanda] = useState({});
   const [areas, setArea] = useState([]);
   const [verTodas, setVerTodas] = useState(false);
-  const room = '5ed8686443cd831fb406472e';
+  //const [room,setRoom] = useState('');
+  const room="";
+  //const room = '5ed8686443cd831fb406472e';
 
   const socketJoinRoom = () => {
     socket.emit('joinRoom', room);
@@ -48,12 +50,22 @@ function ComandasPage(props) {
   };
 */
 
+const obtenerComandas = async () => {
+  try {
+    let response = await makeRequest('GET', 'comandas?estado=En proceso');
+    let data = response.data.data;
+    //console.log('data', data);
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
   //Obtener Areas
   const obtenerAreas = async () => {
     try {
       let response = await makeRequest('GET', 'areas');
       let data = response.data.data;
-      //console.log('data', data);
+      console.log('data', data);
       return data;
     } catch (err) {
       console.log(err);
@@ -61,16 +73,17 @@ function ComandasPage(props) {
   };
 
   const inicializarState = async () => {
-    // const comandas = await obtenerComandas();
-    //setComanda(comandas);
+    const comandas = await obtenerComandas();
+    setComanda(comandas);
     const areas = await obtenerAreas();
     setArea(areas);
+
   };
 
   useEffect(() => {
     inicializarState();
     socketJoinRoom();
-    console.log('SAdfsaf');
+    console.log('Socket.io Join');
     return function cleanup() {
       socket.disconnect();
       console.log('UNMOUNT OF PEDIDOS');
@@ -89,12 +102,13 @@ function ComandasPage(props) {
 
   // <VistaGeneral comandaes={comanda} />
   //   <Comandas comandas={comandas} areas={areas} />
+  //setRoom={setRoom}
   return (
     <>
       {verTodas ? (
         <ComandasTodas areas={areas} />
       ) : (
-        <Comandas comandas={comandas} areas={areas} setVerTodas={setVerTodas} />
+        <Comandas comandas={comandas} areas={areas} setVerTodas={setVerTodas} room={room}/>
       )}
     </>
   );

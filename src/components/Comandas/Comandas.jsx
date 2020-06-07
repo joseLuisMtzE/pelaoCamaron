@@ -3,9 +3,10 @@ import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 
-const Comandas = ({ comandas, areas, setVerTodas }) => {
+const Comandas = ({ comandas, areas, setVerTodas,room }) => {
   let valorOpcion = '';
   let options = [];
+  let id='';
   //console.log(comandas);
 
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
@@ -28,17 +29,23 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     options = areas.map((area) => ({
       value: area.nombre,
       label: area.nombre,
+      id: area._id
     }));
   }
   //console.log(options);
 
-  function onChange(value) {
+  function onChange(value,area) {
     valorOpcion = value[0];
+    id=area[0].id;
     //console.log(value);
   }
 
   function handleModalOk() {
     console.log('ok', valorOpcion);
+    //setRoom(id);
+    room=id;
+    console.log('room',room);
+    console.log('id',id);
     let resultado = [...comandas].filter(
       (comanda) => comanda.platillo.area.nombre === valorOpcion
     );
