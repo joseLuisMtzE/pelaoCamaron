@@ -24,10 +24,11 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
 
   //console.log('se actualizo areas');
   //opciones estado
+  console.log(areas);
   if (areas.length !== 0) {
-    options = areas.map((area) => ({
+    options = areas.map(area => ({
       value: area.nombre,
-      label: area.nombre,
+      label: area.nombre
     }));
   }
   //console.log(options);
@@ -40,7 +41,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   function handleModalOk() {
     console.log('ok', valorOpcion);
     let resultado = [...comandas].filter(
-      (comanda) => comanda.platillo.area.nombre === valorOpcion
+      comanda => comanda.platillo.area.nombre === valorOpcion
     );
     console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
@@ -63,7 +64,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       ),
       onOk() {
         handleModalOk();
-      },
+      }
     });
   }
 
@@ -80,7 +81,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       </div>
       <div className="scrolling-wrapper">
         {comandasFiltradas &&
-          comandasFiltradas.map((comanda) => (
+          comandasFiltradas.map(comanda => (
             <div className="card-comanda">
               <div className="card-containr-comanda">
                 <Comanda comanda={comanda} onChange={onChange} />
@@ -94,7 +95,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
             'text-align': 'center',
             width: 120,
             height: 50,
-            boxShadow: '0px 3px 5px 0px grey',
+            boxShadow: '0px 3px 5px 0px grey'
           }}
           id="Button-print"
           type="primary"

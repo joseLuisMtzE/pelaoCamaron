@@ -8,9 +8,9 @@ import io from 'socket.io-client';
 const socket = io('https://dev-socketio.herokuapp.com');
 
 function ComandasPage(props) {
-  const [comandas, setComanda] = useState({});
+  const [comandas, setComanda] = useState([]);
   const [verTodas, setVerTodas] = useState(false);
-  const [areas, setArea] = useState({});
+  const [areas, setArea] = useState([]);
   const room = '5ed8686443cd831fb406472e';
 
   const socketJoinRoom = () => {
