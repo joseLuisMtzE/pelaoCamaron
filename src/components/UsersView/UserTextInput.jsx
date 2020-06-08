@@ -3,7 +3,7 @@ import { Form, Input} from 'antd';
 
 
 export default function UserTextInput({ title, extra, name, reglas}) {
-  if(extra != 'pasword'){
+  if(extra != 'pasword' && extra != 'mail'){
     return (
       <div className="UserTextInput">
         <span className="text-bold">{title}</span>
@@ -16,19 +16,34 @@ export default function UserTextInput({ title, extra, name, reglas}) {
       </div>
     );
   }
-  else{
+  else{if(extra == 'mail'){
+    return (
+      <div className="UserTextInput">
+        <span className="text-bold">{title}</span>
+        <Form.Item
+          name={name}
+          rules= {[{ type: 'email' }]}
+        >
+          <Input />
+        </Form.Item>
+      </div>
+    );
+
+  }else{
     return (
       <div className="UserTextInput">
         <span className="text-bold">{title}</span>
         <Form.Item
           name={name}
           rules= {reglas}
-          has hasFeedback
+          hasFeedback
         >
           <Input.Password />
         </Form.Item>
       </div>
     );
+  }
+
   }
 }
 

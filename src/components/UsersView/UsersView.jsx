@@ -47,6 +47,8 @@ const UsersViewPage1 = () => {
                   apellidos = usuario.apellidos;
                 return (
                   <UserCard
+                    key= {usuario._id}
+                    id= {usuario._id}
                     nombre={`${usuario.nombre} ${apellidos}`}
                     rol={usuario.rol}
                   />

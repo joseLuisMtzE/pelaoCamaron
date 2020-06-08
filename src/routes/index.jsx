@@ -45,6 +45,7 @@ export default function AppRoutes() {
               <Route exact path="/descuento/:id" component={Discount} />
               <Route exact path="/Pedidos" component={Pedidos} />
               <Route exact path="/Editar-usuario" component={usersEdit} />
+              <Route exact path="/Editar-usuario/:id" component={usersEdit} />
             </Switch>
           </Layout>
         </BrowserRouter>
