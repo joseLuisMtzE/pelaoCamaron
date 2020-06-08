@@ -46,7 +46,9 @@ Observaciones */
 
                       <tbody>
                         {ordenes &&
-                          ordenes.map((orden) => <Orden orden={orden} />)}
+                          ordenes.map((orden) => (
+                            <Orden orden={orden} key={orden.id} />
+                          ))}
                       </tbody>
                     </table>
                   </div>

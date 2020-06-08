@@ -58,6 +58,7 @@
 .card-containr-comanda {
   padding: 2px 16px;
   margin: auto;
+  text-align: left;
 }
 
 .texto-orden {

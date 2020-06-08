@@ -166,13 +166,7 @@ const ComandasTodas = () => {
       <div className="scrolling-wrapper">
         <div className="scrolling-wrapper">
           {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
-              <div className="card-comanda">
-                <div className="card-containr-comanda">
-                  <Comanda comanda={comanda} onChange={onChange} />
-                </div>
-              </div>
-            ))}
+            comandasFiltradas.map((comanda) => <Comanda comanda={comanda} />)}
         </div>
       </div>
     </div>

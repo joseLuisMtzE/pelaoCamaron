@@ -5,7 +5,7 @@ import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { getRol } from '../../shared/ApiWrapper';
 
-const Comandas = ({ comandas, areas, setVerTodas }) => {
+const Comandas = ({ comandas, areas }) => {
   let valorOpcion = '';
   let options = [];
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
@@ -78,18 +78,14 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
           <div className="scrolling-wrapper">
             {comandasFiltradas &&
               comandasFiltradas.map((comanda) => (
-                <div className="card-comanda">
-                  <div className="card-containr-comanda">
-                    <Comanda comanda={comanda} onChange={onChange} />
-                  </div>
-                </div>
+                <Comanda comanda={comanda} onChange={onChange} />
               ))}
           </div>
           <div className="botonVerMas">
             <Link to="/comandas/todas">
               <Button
                 style={{
-                  'text-align': 'center',
+                  textAlign: 'center',
                   width: 120,
                   height: 50,
                   boxShadow: '0px 3px 5px 0px grey',
