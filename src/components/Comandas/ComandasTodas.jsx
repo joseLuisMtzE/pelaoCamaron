@@ -19,10 +19,10 @@ const ComandasTodas = () => {
     try {
       let response = await makeRequest('GET', 'comandas');
       let data = response.data.data;
-      //console.log('data', data);
+      ////console.log('data', data);
       return data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
 
@@ -32,10 +32,10 @@ const ComandasTodas = () => {
     try {
       let response = await makeRequest('GET', 'areas');
       let data = response.data.data;
-      //console.log('data', data);
+      ////console.log('data', data);
       return data;
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   };
   //Inicializar state
@@ -48,7 +48,7 @@ const ComandasTodas = () => {
   useEffect(() => {
     inicializarState();
   }, []);
-  //console.log('areas', areas);
+  ////console.log('areas', areas);
 
   /******FILTRAR POR ÁREA ******/
 
@@ -58,21 +58,21 @@ const ComandasTodas = () => {
       label: area.nombre,
     }));
   }
-  //console.log(options);
+  ////console.log(options);
 
   function onChange(value) {
     valorOpcion = value[0];
-    //console.log(value);
+    ////console.log(value);
   }
 
   function handleModalOk() {
-    console.log('ok', valorOpcion);
+    //console.log('ok', valorOpcion);
     let resultado = [...comandasTodas].filter(
       (comanda) => comanda.platillo.area.nombre === valorOpcion
     );
-    console.log('resultado de comandas filtradas', resultado);
+    //console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
-    //console.log('comandas Filtradas', comandasFiltradas);
+    ////console.log('comandas Filtradas', comandasFiltradas);
   }
   //Modal
   function info() {
@@ -112,17 +112,17 @@ const ComandasTodas = () => {
 
   function onChangeEstado(value) {
     valorOpcionEstado = value[0];
-    //console.log(value);
+    ////console.log(value);
   }
 
   function handleModalOkEstado() {
-    console.log('ok', valorOpcionEstado);
+    //console.log('ok', valorOpcionEstado);
     let resultadoEstado = [...comandasTodas].filter(
       (comanda) => comanda.estado === valorOpcionEstado
     );
-    console.log('resultadoEstado de comandas filtradas', resultadoEstado);
+    //console.log('resultadoEstado de comandas filtradas', resultadoEstado);
     setComandasFiltradas(resultadoEstado);
-    //console.log('comandas Filtradas', comandasFiltradas);
+    ////console.log('comandas Filtradas', comandasFiltradas);
   }
 
   function infoEstado() {

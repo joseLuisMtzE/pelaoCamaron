@@ -52,7 +52,7 @@ function ComandasPage(props) {
       {verTodas ? (
         <ComandasTodas areas={areas} />
       ) : (
-        <Comandas comandas={comandas} areas={areas} setVerTodas={setVerTodas} />
+        <Comandas comandas={comandas} areas={areas} />
       )}
     </>
   );

@@ -1,8 +1,9 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { Modal } from 'antd';
+import ComandasTodas from '../Comandas/ComandasTodas';
 
-function Orden({ orden, ordenes }) {
+function Orden({ orden }) {
   //Modal
   function info() {
     Modal.info({
@@ -68,6 +69,7 @@ function Orden({ orden, ordenes }) {
           )}
           <hr></hr>
           <h2 style={{ 'text-align': 'center' }}>Comandas</h2>
+          <ComandasTodas />
         </div>
       ),
       onOk() {},
