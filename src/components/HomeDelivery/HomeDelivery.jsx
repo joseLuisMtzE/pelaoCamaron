@@ -12,7 +12,6 @@ function HomeDelivery() {
   function handleClick() {
     history.goBack();
   }
-
   return (
     <>
       <div style={{ backgroundColor: '#EEEEEE', height:"100%" }}>

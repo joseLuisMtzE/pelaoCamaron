@@ -18,8 +18,8 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       label: 'Disponible',
     },
     {
-      value: 'Ocupada',
-      label: 'Ocupada',
+      value: 'No disponible',
+      label: 'No disponible',
     },
     {
       value: 'Reservada',
@@ -74,6 +74,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
     console.log(data);
+    localStorage.setItem('domicilio',JSON.stringify(data));
     localStorage.setItem('noMesa', table.noMesa);
     if(orderType==='Local'){
       const newOrder = await crearOrden(data);
@@ -180,7 +181,10 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   <Link
                     onClick={handleClick}
                     to={{
-                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery/'
+                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery',
+                      state: {
+                        idMesa: table._id
+                      }
                     }}
                   >
                     Abrir cuenta
@@ -188,18 +192,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                 </Button>
               </form>,
             ]
-            : [
-              <Button type="primary" className="margin">
-                <Link
-                  onClick={setLocalStorage}
-                  to={{
-                    pathname: '/ver-orden/:id'
-                  }}
-                >
-                  Ver orden
-                </Link>
-              </Button>
-            ]
+            : null
         }
       >
         {table.estado!== 'Ocupada' ?<div>
@@ -228,7 +221,19 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         </div>: <div><strong>Orden en proceso...</strong>
           <br />
           <LoadingOutlined />
-          <br /></div>}
+          
+          <br />
+          <Button type="primary" className="margin">
+            <Link
+              onClick={setLocalStorage}
+              to={{
+                pathname: '/ver-orden/:id'
+              }}
+            >
+              Ver orden
+            </Link>
+          </Button>
+        </div>}
       </Modal>
     </div>
   );
