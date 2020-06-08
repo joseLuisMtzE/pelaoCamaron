@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 //import icons
-import { Input, Button, Tabs, Cascader } from 'antd';
+import { Form, Input, Button, Tabs, Select } from 'antd';
 //! Constants
-import { makeRequest } from '../../shared/ApiWrapper';
 import UserTextInput from './UserTextInput';
 import { Link } from 'react-router-dom';
+const { Option } = Select;
 
 //! Libraries
 //import { errorAlert, successAlert } from '../../shared/Alerts';
@@ -12,98 +12,158 @@ import { Link } from 'react-router-dom';
 const { TabPane } = Tabs;
 
 const UserEdit = () => {
-  const [usuarios, setUsuarios] = useState([]);
-
-  const { TextArea } = Input;
-  const [modalVisible, setModalVisible] = useState({ visible: false });
-
-  const retrieveUsers = async () => {
-    try {
-      let response = await makeRequest('GET', 'usuarios');
-      let data = response.data.data;
-      console.log('Datos de los usuarios', data);
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  
-  const options = [
-    {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-    },
-  ];
-
-  function onChange(value) {
-    console.log(value);
-  }
-
-  useEffect(() => {
-    const setearEstado = async () => {
-      console.log('Componente montado');
-      let usuariosData = await retrieveUsers();
-      setUsuarios(usuariosData);
+  const onFinish = (values) => {
+    console.log('Success:', values);
+    const usuario = {
+      contactoReferencia: {
+        nombre: values.refnombre,
+        telefono: values.reftelefono,
+      },
+      rol: values.rol,
+      nombre: values.nombre,
+      apellidos: values.apellidos,
+      telefono: values.telefono,
+      correo: values.correo,
+      nombreUsuario: values.nombreUsuario,
+      pin: values.pin,
+      observaciones: values.observaciones,
     };
-    setearEstado();
-  }, []);
+    console.log(usuario);
+  };
 
-  const CreateUser = ()=>{
-    
-  }
-
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div className="MainWrapper">
-      <div className="card-container">
-        <Tabs type="card">
-          <TabPane tab="Datos Generales" key="1">
-            <div className="userDiv">
-              <UserTextInput title="Nombre(s)" />
-              <UserTextInput title="Apellidos" />
-              <UserTextInput title="Correo Electrónico" />
-              <UserTextInput title="Teléfono" />
-            </div>
-            <h2 className="userTitle">Contacto Secundario</h2>
-            <div className="userDiv">
-              <UserTextInput title="Nombre Completo" />
-              <UserTextInput title="Teléfono" />
-            </div>
-            <div className="userDiv">
-              <span className="text-bold">Notas</span>
-              <TextArea rows={4} />
-            </div>
-          </TabPane>
-          <TabPane tab="Credenciales" key="2">
-            <h2 className="userTitle">Rol/Cargo</h2>
-            <div className="userDiv">
-              <Cascader
-                options={options}
-                onChange={onChange}
-                placeholder="Please select"
-              />
-            </div>
-            <h2 className="userTitle">Credenciales</h2>
-            <div className="userDiv">
-              <UserTextInput title="Usuario" />
-              <UserTextInput title="Contraseña" />
-              <UserTextInput title="Confirmar Contraseña" />
-              <UserTextInput title="PIN" />
-              <UserTextInput title="Confirmar PIN" />
-            </div>
-          </TabPane>
-        </Tabs>
-        <div className="buttonWrapper">
-          <Link className="nav-text" to="/vista-usuarios">
-            <Button type="primary" danger>
-              Cancelar
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <div className="card-container">
+          <Tabs type="card">
+            <TabPane tab="Datos Generales" key="1">
+              <div className="userDiv">
+                <UserTextInput title="Nombre" name="nombre" />
+                <UserTextInput title="Apellidos" name="apellidos" />
+                <UserTextInput title="Correo Electrónico" name="correo" />
+                <UserTextInput title="Teléfono" name="telefono" />
+              </div>
+              <h2 className="userTitle">Contacto Secundario</h2>
+              <div className="userDiv">
+                <UserTextInput
+                  title="Nombre Completo"
+                  name="refnombre"
+                />
+                <UserTextInput
+                  title="Ref Teléfono"
+                  name="reftelefono"
+                />
+              </div>
+              <span className="text-bold">Observaciones</span>
+              <div className="userDiv">
+                <Form.Item name={'observaciones'}>
+                  <Input.TextArea />
+                </Form.Item>
+              </div>
+            </TabPane>
+            <TabPane tab="Credenciales" key="2">
+              <h2 className="userTitle">Rol/Cargo</h2>
+              <Form.Item name="rol" rules={[{ required: true }]}>
+                <Select
+                  placeholder="Select a option and change input text above"
+                  allowClear
+                >
+                  <Option value="Mesero">Mesero</Option>
+                  <Option value="Dueño">Dueño</Option>
+                  <Option value="Caja">Caja</Option>
+                  <Option value="Cocina">Cocina</Option>  
+                </Select>
+              </Form.Item>
+              <div className="userDiv"></div>
+              <h2 className="userTitle">Credenciales</h2>
+              <div className="userDiv">
+                <UserTextInput title="Usuario" name="nombreUsuario" />
+                <UserTextInput
+                  title="Contraseña"
+                  name="contrasena"
+                  extra="pasword"
+                  reglas={[
+                    {
+                      required: true,
+                      message: 'Favor de introducir su contraseña',
+                    },
+                  ]}
+                />
+                <UserTextInput
+                  title="Confirmar Contraseña"
+                  name="confcontrasena"
+                  extra="pasword"
+                  reglas={[
+                    {
+                      required: true,
+                      message: 'Favor de introducir su contraseña',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('contrasena') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject('Las contraseñas no coinciden');
+                      },
+                    }),
+                  ]}
+                />
+                <UserTextInput
+                  title="PIN"
+                  name="pin"
+                  extra="pasword"
+                  reglas={[
+                    {
+                      required: true,
+                      message: 'Favor de introducir su PIN',
+                    },
+                  ]}
+                />
+                <UserTextInput
+                  title="Confirmar PIN"
+                  name="confpin"
+                  extra="pasword"
+                  reglas={[
+                    {
+                      required: true,
+                      message: 'Favor de introducir su PIN',
+                    },
+                    ({ getFieldValue }) => ({
+                      validator(rule, value) {
+                        if (!value || getFieldValue('pin') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject('Los PIN no coinciden');
+                      },
+                    }),
+                  ]}
+                />
+              </div>
+            </TabPane>
+          </Tabs>
+          <div className="buttonWrapper">
+            <Link className="nav-text" to="/vista-usuarios">
+              <Button type="primary" danger>
+                Cancelar
+              </Button>
+            </Link>
+            <Button type="primary" htmlType="submit">
+              Crear Usuario
             </Button>
-          </Link>
-
-          <Button type="primary" onClick="CreateUser">Crear Usuario</Button>
+          </div>
         </div>
-      </div>
+      </Form>
     </div>
   );
 };
+
 export default UserEdit;

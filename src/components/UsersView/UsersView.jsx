@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import icons
-import { Input } from 'antd';
-import { Modal, Button } from 'antd';
-import { Tabs } from 'antd';
+import { Input, Tabs } from 'antd';
 import UserCard from './UserCard';
 import { Link } from 'react-router-dom';
 
@@ -16,10 +14,6 @@ const { TabPane } = Tabs;
 
 const UsersViewPage1 = () => {
   const [usuarios, setUsuarios] = useState([]);
-
-  const { TextArea } = Input;
-  const [modalVisible, setModalVisible] = useState({ visible: false });
-
   const retrieveUsers = async () => {
     try {
       let response = await makeRequest('GET', 'usuarios');
@@ -39,23 +33,7 @@ const UsersViewPage1 = () => {
     };
     setearEstado();
   }, []);
-
-  const showModal = () => {
-    setModalVisible({
-      visible: true,
-    });
-  };
-
-  const handleOk = () => {
-    setTimeout(() => {
-      setModalVisible({ visible: false });
-    }, 1000);
-  };
-
-  const handleCancel = () => {
-    setModalVisible({ visible: false });
-  };
-
+  
   return (
     <div className="MainWrapper">
       <div className="card-container">
