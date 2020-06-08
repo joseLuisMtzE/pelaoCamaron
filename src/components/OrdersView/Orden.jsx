@@ -76,25 +76,25 @@ function Orden({ orden, ordenes }) {
 
   return (
     <tr className="tr-white" key={orden.id}>
-      <td className="Tabla-tds-ordenes">{orden.folio}</td>
-      <td className="Tabla-tds-ordenes">{orden.tipoOrden}</td>
-      <td className="Tabla-tds-ordenes">{orden.mesa.noMesa}</td>
-      <td className="Tabla-tds-ordenes">{orden.fecha}</td>
+      <td>{orden.folio}</td>
+      <td>{orden.tipoOrden}</td>
+      <td>{orden.mesa.noMesa}</td>
+      <td>{orden.fecha}</td>
 
       {orden.estado === 'Cerrada' ? (
-        <td className="Tabla-tds-ordenes">
+        <td>
           <Tag color="success">{orden.estado}</Tag>
         </td>
       ) : orden.estado === 'En proceso' ? (
-        <td className="Tabla-tds-ordenes">
+        <td>
           <Tag color="warning">{orden.estado}</Tag>
         </td>
       ) : (
-        <td className="Tabla-tds-ordenes">
+        <td>
           <Tag color="error">{orden.estado}</Tag>
         </td>
       )}
-      <td className="Tabla-tds-ordenes">
+      <td>
         <Tag onClick={info} color="gray">
           ver detalles
         </Tag>

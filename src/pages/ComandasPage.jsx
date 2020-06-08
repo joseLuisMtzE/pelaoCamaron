@@ -48,16 +48,6 @@ function ComandasPage(props) {
     }
   };
 
-const obtenerComandas = async () => {
-  try {
-    let response = await makeRequest('GET', 'comandas?estado=En proceso');
-    let data = response.data.data;
-    //console.log('data', data);
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
   //Obtener Areas
   const obtenerAreas = async () => {
     try {
