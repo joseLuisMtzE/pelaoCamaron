@@ -2,7 +2,6 @@ import axios from 'axios';
 import url from '../constants/api';
 import jwt_decode from 'jwt-decode';
 import { errorAlert } from './Alerts';
-
 function getToken() {
   if (localStorage.getItem('token')) {
     const tokenFinal = localStorage.getItem('token');

@@ -11,7 +11,7 @@ const CategoryListContextProvider = props => {
 
   const retrieveCategories = async () => {
     try {
-      let response = await makeRequest('GET', 'categorias');
+      let response = await makeRequest('GET', 'categorias?isActive=true');
       let data = response.data.data;
       return data;
     } catch (err) {

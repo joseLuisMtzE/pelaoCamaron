@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { Modal, Button } from 'antd';
 import FormMenuDishes from './FormMenuDishes'
 
-function ModalMenuDishes() {
+
+function ModalMenuDishes({token}) {
   const [state, setState] = useState({ visible: false, loading:false });
 
   const showModal = () => {
@@ -12,6 +13,8 @@ function ModalMenuDishes() {
   };
 
   const handleOk = () => {
+    //function validateFields(){}
+    
     setState({ loading: true });
     setTimeout(() => {
       setState({ loading: false, visible: false });
@@ -29,7 +32,16 @@ function ModalMenuDishes() {
   return (
     <div>
       <div>
-        <Button type="primary" onClick={showModal}>Agregar Platillo</Button>
+        <Button className="floatButton" type="primary" onClick={showModal} shape="circle"
+            icon={'+'}
+            style={{
+              margin: 6,
+              width: 50,
+              height: 50,
+              border: 'none',
+              boxShadow: '0px 3px 5px 0px grey',
+            }}/>
+            
         <Modal
           title="Agregar Platillo"
           visible={state.visible}
@@ -39,7 +51,7 @@ function ModalMenuDishes() {
           >
               <div>
                 <p>Llena todos los espacios con la informacion correspondiente.</p>
-                <FormMenuDishes  onOk={handleOk}/>
+                <FormMenuDishes  onOk={handleOk} token={token} />
             </div>
             
         </Modal>
