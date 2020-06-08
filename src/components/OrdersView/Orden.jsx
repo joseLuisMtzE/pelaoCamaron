@@ -1,15 +1,16 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { Modal } from 'antd';
+import Comanda from '../Comandas/Comanda';
 
-function Orden({ orden, ordenes }) {
+function Orden({ orden }) {
   //Modal
   function info() {
-    Modal.info({
+    Modal.confirm({
       title: 'Detalles de la orden',
       content: (
         <div className="left" key={orden.id}>
-          <h2 style={{ 'text-align': 'center' }}>IDs</h2>
+          <h2 className="center">IDs</h2>
           <p>
             <b>Orden ID: </b> {orden._id}
           </p>
@@ -17,7 +18,7 @@ function Orden({ orden, ordenes }) {
             <b>Folio:</b> {orden.folio}
           </p>
           <hr></hr>
-          <h2 style={{ 'text-align': 'center' }}>Datos orden</h2>
+          <h2 className="center">Datos orden</h2>
           <p>
             <b>Tipo orden:</b> {orden.tipoOrden}
           </p>
@@ -34,7 +35,7 @@ function Orden({ orden, ordenes }) {
             <b>N personas:</b> {orden.numPersonas}
           </p>
           <hr></hr>
-          <h2 style={{ 'text-align': 'center' }}>Datos pago</h2>
+          <h2 className="center">Datos pago</h2>
           <p>
             <b>Subtotal: $</b>
             {orden.pago && orden.pago.subTotal}
@@ -67,9 +68,25 @@ function Orden({ orden, ordenes }) {
             </>
           )}
           <hr></hr>
-          <h2 style={{ 'text-align': 'center' }}>Comandas</h2>
+          <h2 className="center">Comandas</h2>
+          <div className="center">
+            {orden &&
+              orden.comandas &&
+              orden.comandas.map((comanda) => (
+                <Comanda
+                  comanda={comanda}
+                  key={comanda.id}
+                  noMesa={orden.mesa.noMesa}
+                />
+              ))}
+          </div>
+          {orden && orden.comandas && orden.comandas.length === 0 && (
+            <p className="center">Esta orden no tiene comandas</p>
+          )}
         </div>
       ),
+      width: window.innerWidth * 0.7,
+
       onOk() {},
     });
   }

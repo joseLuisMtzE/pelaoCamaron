@@ -38,6 +38,24 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     });
   };
 
+  useEffect(() => {
+    selectedArea && socketJoinRoom(selectedArea);
+    console.log('SELECTED AREA HA CAMBIADO, ahora es:', selectedArea);
+    return () => {
+      console.log('PREV IS: ', selectedArea);
+      selectedArea && socketLeaveRoom(selectedArea);
+    };
+  }, [selectedArea]);
+
+  useEffect(() => {
+    // console.log('MOUNTING OF COMANDAS COMPONENT');
+
+    return function cleanup() {
+      socket.disconnect();
+      // console.log('UNMOUNT OF COMANDAS COMPONENT');
+    };
+  }, []);
+
   if (areas.length !== 0) {
     options = areas.map(area => ({
       value: area._id,
@@ -80,60 +98,42 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       }
     });
   }
-
-  useEffect(() => {
-    selectedArea && socketJoinRoom(selectedArea);
-    console.log('SELECTED AREA HA CAMBIADO, ahora es:', selectedArea);
-    return () => {
-      console.log('PREV IS: ', selectedArea);
-      selectedArea && socketLeaveRoom(selectedArea);
-    };
-  }, [selectedArea]);
-
-  useEffect(() => {
-    // console.log('MOUNTING OF COMANDAS COMPONENT');
-
-    return function cleanup() {
-      socket.disconnect();
-      // console.log('UNMOUNT OF COMANDAS COMPONENT');
-    };
-  }, []);
+  //console.log(areas);
 
   return (
     <div className="wrapper-comandas">
-      <h1 className="tituloPedidos">COMANDAS</h1>
-      <div className="center">
-        <h4>Elige un área de cocina para que puedas ver las comandas</h4>
-        <Button type="primary" icon={<FilterFilled />} default onClick={info}>
-          Cambiar área
-        </Button>
-      </div>
-      <div className="scrolling-wrapper">
-        {comandasFiltradas &&
-          comandasFiltradas.map(comanda => (
-            <div className="card-comanda" key={comanda._id}>
-              <div className="card-containr-comanda">
-                <Comanda comanda={comanda} onChange={onChange} />
-              </div>
-            </div>
-          ))}
-      </div>
-      <div className="botonVerMas">
-        <Button
-          style={{
-            textAlign: 'center',
-            width: 120,
-            height: 50,
-            boxShadow: '0px 3px 5px 0px grey'
-          }}
-          id="Button-print"
-          type="primary"
-          htmlType="button"
-          size="large"
-          onClick={() => setVerTodas(true)}
-        >
-          Ver todas
-        </Button>
+      <div>
+        <h1 className="tituloPedidos">COMANDAS</h1>
+        <div className="center">
+          <h4>Elige un área de cocina para que puedas ver las comandas</h4>
+          <Button type="primary" icon={<FilterFilled />} default onClick={info}>
+            Cambiar área
+          </Button>
+        </div>
+        <div className="scrolling-wrapper">
+          {comandasFiltradas &&
+            comandasFiltradas.map(comanda => (
+              <Comanda comanda={comanda} onChange={onChange} />
+            ))}
+        </div>
+        <div className="botonVerMas">
+          <Link to="/comandas/todas">
+            <Button
+              style={{
+                textAlign: 'center',
+                width: 120,
+                height: 50,
+                boxShadow: '0px 3px 5px 0px grey'
+              }}
+              id="Button-print"
+              type="primary"
+              htmlType="button"
+              size="large"
+            >
+              Ver todas
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

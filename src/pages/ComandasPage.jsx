@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { makeRequest } from '../shared/ApiWrapper';
 import Comandas from '../components/Comandas/Comandas';
-import ComandasTodas from '../components/Comandas/ComandasTodas';
 
-function ComandasPage(props) {
+function ComandasPage() {
   const [comandas, setComanda] = useState({});
   const [areas, setArea] = useState([]);
   //const id = props.match.params.id;
@@ -57,16 +56,7 @@ function ComandasPage(props) {
   //setRoom={setRoom}
   return (
     <>
-      {verTodas ? (
-        <ComandasTodas areas={areas} />
-      ) : (
-        <Comandas
-          comandas={comandas}
-          areas={areas}
-          setVerTodas={setVerTodas}
-          room={room}
-        />
-      )}
+      <Comandas comandas={comandas} areas={areas} />
     </>
   );
 }
