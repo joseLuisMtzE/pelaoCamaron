@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
@@ -6,8 +7,6 @@ import Comanda from './Comanda';
 const Comandas = ({ comandas, areas, setVerTodas }) => {
   let valorOpcion = '';
   let options = [];
-  //console.log(comandas);
-
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
   /*useEffect(() => {
@@ -89,21 +88,23 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
           ))}
       </div>
       <div className="botonVerMas">
-        <Button
-          style={{
-            'text-align': 'center',
-            width: 120,
-            height: 50,
-            boxShadow: '0px 3px 5px 0px grey',
-          }}
-          id="Button-print"
-          type="primary"
-          htmlType="button"
-          size="large"
-          onClick={() => setVerTodas(true)}
-        >
-          Ver todas
-        </Button>
+        <Link to="/comandas/todas">
+          <Button
+            style={{
+              'text-align': 'center',
+              width: 120,
+              height: 50,
+              boxShadow: '0px 3px 5px 0px grey',
+            }}
+            id="Button-print"
+            type="primary"
+            htmlType="button"
+            size="large"
+            onClick={() => {}}
+          >
+            Ver todas
+          </Button>
+        </Link>
       </div>
     </div>
   );

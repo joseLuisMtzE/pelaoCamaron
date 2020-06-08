@@ -23,38 +23,29 @@
   font-size: 30px;
 }
 
-.Tabla-VistaGeneral-Ordenes {
-  font: normal 20px Arial;
-  border-collapse: collapse;
-  text-align: center;
-}
-
-.Tabla-VistaGeneral-Ordenes thead th {
-  font: bold 22px Arial;
-  padding-bottom: 15px;
-}
-
-.tr-white {
-  font: bold 15px Arial;
-  background-color: white;
-  border-radius: 15px;
-  padding: 30px;
-  margin: 50px;
-  box-shadow: 0px 0px 3px 3px grey;
-}
-
-.Tabla-tds-ordenes {
-  text-align: center;
-  height: 70px;
-}
-
-
 .Contenedor-Tabla-VistaGeneral-Ordenes {
   overflow: auto;
   height: auto;
   width: auto;
-  margin-right: auto;
   text-align: center;
   justify-content: center;
-  align-items: center;
+  align-items: center
+}
+
+.Tabla-VistaGeneral-Ordenes {
+  font: normal 20px Arial;
+  text-align: center;
+  width: 100%;
+}
+
+.tr-white {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 3px grey;
+  height: 70px;
+}
+
+.Tabla-VistaGeneral-Ordenes thead th {
+  font: bold 22px Arial;
+  padding: 20px;
 }
