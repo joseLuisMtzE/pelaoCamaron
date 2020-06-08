@@ -37,9 +37,9 @@ const ComandasTodas = ({ areas }) => {
   /******FILTRAR POR ÁREA ******/
 
   if (areas.length !== 0) {
-    options = areas.map((area) => ({
+    options = areas.map(area => ({
       value: area.nombre,
-      label: area.nombre,
+      label: area.nombre
     }));
   }
   //console.log(options);
@@ -52,7 +52,7 @@ const ComandasTodas = ({ areas }) => {
   function handleModalOk() {
     console.log('ok', valorOpcion);
     let resultado = [...comandasTodas].filter(
-      (comanda) => comanda.platillo.area.nombre === valorOpcion
+      comanda => comanda.platillo.area.nombre === valorOpcion
     );
     console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
@@ -74,7 +74,7 @@ const ComandasTodas = ({ areas }) => {
       ),
       onOk() {
         handleModalOk();
-      },
+      }
     });
   }
 
@@ -82,16 +82,16 @@ const ComandasTodas = ({ areas }) => {
   optionsEstado = [
     {
       value: 'En proceso',
-      label: 'En proceso',
+      label: 'En proceso'
     },
     {
       value: 'Cerrada',
-      label: 'Cerrada',
+      label: 'Cerrada'
     },
     {
       value: 'Cancelada',
-      label: 'Cancelada',
-    },
+      label: 'Cancelada'
+    }
   ];
 
   function onChangeEstado(value) {
@@ -102,7 +102,7 @@ const ComandasTodas = ({ areas }) => {
   function handleModalOkEstado() {
     console.log('ok', valorOpcionEstado);
     let resultadoEstado = [...comandasTodas].filter(
-      (comanda) => comanda.estado === valorOpcionEstado
+      comanda => comanda.estado === valorOpcionEstado
     );
     console.log('resultadoEstado de comandas filtradas', resultadoEstado);
     setComandasFiltradas(resultadoEstado);
@@ -124,7 +124,7 @@ const ComandasTodas = ({ areas }) => {
       ),
       onOk() {
         handleModalOkEstado();
-      },
+      }
     });
   }
 
@@ -150,7 +150,7 @@ const ComandasTodas = ({ areas }) => {
       <div className="scrolling-wrapper">
         <div className="scrolling-wrapper">
           {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
+            comandasFiltradas.map(comanda => (
               <div className="card-comanda">
                 <div className="card-containr-comanda">
                   <Comanda comanda={comanda} onChange={onChange} />

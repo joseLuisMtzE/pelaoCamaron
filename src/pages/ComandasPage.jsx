@@ -3,35 +3,10 @@ import { makeRequest } from '../shared/ApiWrapper';
 import Comandas from '../components/Comandas/Comandas';
 import ComandasTodas from '../components/Comandas/ComandasTodas';
 
-import io from 'socket.io-client';
-
-const socket = io('https://dev-socketio.herokuapp.com');
-
 function ComandasPage(props) {
   const [comandas, setComanda] = useState([]);
   const [verTodas, setVerTodas] = useState(false);
   const [areas, setArea] = useState([]);
-  const room = '5ed8686443cd831fb406472e';
-
-  const socketJoinRoom = () => {
-    socket.emit('joinRoom', room);
-    //Todas las comandas
-    socket.on('comandas', comandas => {
-      console.log(comandas);
-      console.log(comandas.length);
-      comandas.forEach(comanda => {
-        console.log(JSON.stringify(comanda));
-      });
-    });
-
-    //Nueva comanda
-    socket.on('nuevaComanda', comanda => {
-      console.log('Nueva comanda creada!!');
-      console.log(comanda);
-      // outputMessage(JSON.stringify(comanda));
-    });
-  };
-
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   const obtenerComandas = async () => {
@@ -66,12 +41,6 @@ function ComandasPage(props) {
 
   useEffect(() => {
     inicializarState();
-    socketJoinRoom();
-    console.log('SAdfsaf');
-    return function cleanup() {
-      socket.disconnect();
-      console.log('UNMOUNT OF PEDIDOS');
-    };
   }, []);
 
   // useEffect(() => {

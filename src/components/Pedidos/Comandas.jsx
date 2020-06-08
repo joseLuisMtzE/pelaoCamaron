@@ -13,10 +13,10 @@ const Comandas = ({ comandas, areas }) => {
 
   const options = [
     areas.map &&
-      areas.map((area) => ({
+      areas.map(area => ({
         value: area.nombre,
-        label: area.nombre,
-      })),
+        label: area.nombre
+      }))
   ];
 
   function onChange(value) {
@@ -43,7 +43,7 @@ const Comandas = ({ comandas, areas }) => {
           />
         </div>
       ),
-      onOk() {},
+      onOk() {}
     });
   }
 
@@ -71,7 +71,7 @@ const Comandas = ({ comandas, areas }) => {
       </h1>
       <div className="scrolling-wrapper">
         {comandas.map &&
-          comandas.map((comanda) => (
+          comandas.map(comanda => (
             <div className="card-comanda">
               {comanda.estado === 'En proceso' ? (
                 <div className="card-containr-comanda">
@@ -85,10 +85,10 @@ const Comandas = ({ comandas, areas }) => {
       <div className="botonCentrar">
         <Button
           style={{
-            'text-align': 'center',
+            textAlign: 'center',
             width: 120,
             height: 50,
-            boxShadow: '0px 3px 5px 0px grey',
+            boxShadow: '0px 3px 5px 0px grey'
           }}
           id="Button-print"
           type="primary"

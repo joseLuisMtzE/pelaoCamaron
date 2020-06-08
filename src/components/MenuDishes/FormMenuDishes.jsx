@@ -17,9 +17,6 @@ const tailLayout = {
   }
 };
 
-const LSKEY = 'menu-dishes';
-//const token='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODgxMjg2NzIsImV4cCI6MTU4ODE1NzQ3Mn0.nHKbrsDXwqkroyXTRqS6rMxg4pfF3L74WDy4SPIKpxY'
-
 const FormMenuDishes = ({ onOk }) => {
   const { addDishesRequest, retrieveCategories, retrieveAreas } = useContext(
     DishesContext
