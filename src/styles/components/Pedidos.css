@@ -8,11 +8,11 @@
   }
 }
 
-.wrapper {
-  background: url('../../assets/donfoAmarillo') top,
-    url('../../assets/fondoAzul') bottom;
+.wrapper-comandas {
+  background: url('../../assets/rectangulo-amarillo.png') top,
+    url('../../assets/rectangulo-rojo.png') bottom;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 200px;
   width: 100%;
   min-height: 100vh;
 }
@@ -23,10 +23,10 @@
 }
 
 .scrolling-wrapper {
-  overflow-x: scroll;
-  overflow-y: hidden;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+  margin: 1rem 1rem;
+  overflow-x: auto;
 }
 
 .card-comanda {
@@ -36,6 +36,8 @@
   border-radius: 20px;
   background-color: #434343;
   height: 400px;
+  margin: 10px;
+  width: 230px;
 }
 
 .card-comanda:hover {
@@ -47,25 +49,17 @@
   margin: auto;
 }
 
-.scrolling-wrapper-flexbox {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
 .texto-orden {
   font-size: small;
   color: aliceblue;
+  word-spacing: initial;
+  line-height: .5px;
 }
 
 .titulo-orden {
   font-size: large;
   color: rgb(255, 255, 255);
   text-align: center;
-}
-
-p {
-  display: inline;
 }
 
 .imgRedonda {
@@ -75,8 +69,4 @@ p {
   border-radius: 160px;
   border: 8px solid #6AC7E6;
   padding-top: -80px;
-}
-
-.botonCentrar {
-  text-align: center;
 }

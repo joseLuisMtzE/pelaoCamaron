@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Input, Button, Cascader,InputNumber  } from 'antd';
+import { Form, Input, Button, Cascader, InputNumber } from 'antd';
 import { DishesContext } from './MenuDishesContext';
 
 const layout = {
@@ -36,7 +36,6 @@ const FormMenuDishes = ({ onOk }) => {
   };
   useEffect(() => {
     initialize();
-
   }, []);
 
   const categoryOptions = categories.map((category) => {
@@ -54,8 +53,7 @@ const FormMenuDishes = ({ onOk }) => {
   });
 
   //Calcular iva
-  const [precioIva,setPrecioIva]=useState(0)
-
+  const [precioIva, setPrecioIva] = useState(0);
 
   /*function calcIVA(value){
     var conIva= value+value*.16;
@@ -140,16 +138,15 @@ const FormMenuDishes = ({ onOk }) => {
               },
             ]}
           >
-            <InputNumber  className="inputs" id='sinIva'  onChange={(value)=>setPrecioIva(value+(value*.16))} style={{float:"left"}}  />
+            <InputNumber
+              className="inputs"
+              id="sinIva"
+              onChange={(value) => setPrecioIva(value + value * 0.16)}
+              style={{ float: 'left' }}
+            />
           </Form.Item>
-          <Form.Item
-            label="Precio con IVA"
-            name="precioConIva"
-             
-          >
-  
-            <h4  style={{ float:'left'}}>{precioIva}</h4>
-
+          <Form.Item label="Precio con IVA" name="precioConIva">
+            <h4 style={{ float: 'left' }}>{precioIva}</h4>
           </Form.Item>
           <Form.Item
             label="Peso (gramos)"
