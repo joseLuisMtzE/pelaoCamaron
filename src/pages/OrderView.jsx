@@ -92,7 +92,7 @@ const OrderView = props => {
                   <th>Precio</th>
                 </tr>
                 {orders.map(order => (
-                  <tr style={{ padding: 20 }} key={order._id}>
+                  <tr style={{ padding: 20 }}>
                     <td>{order.platillo.nombre}</td>
                     <td>{order.cantidad}</td>
                     <td>{order.estado}</td>

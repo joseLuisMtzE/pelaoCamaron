@@ -36,7 +36,8 @@
   border-radius: 20px;
   background-color: #434343;
   height: 400px;
-  margin: 10px
+  margin: 10px;
+  width: 230px;
 }
 
 .card-comanda:hover {

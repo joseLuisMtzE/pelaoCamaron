@@ -138,7 +138,7 @@ const FormMenuDishes = ({ onOk }) => {
             <InputNumber
               className="inputs"
               id="sinIva"
-              onChange={value => setPrecioIva(value + value * 0.16)}
+              onChange={(value) => setPrecioIva(value + value * 0.16)}
               style={{ float: 'left' }}
             />
           </Form.Item>

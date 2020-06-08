@@ -4,13 +4,14 @@ import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 
-const ComandasTodas = ({ areas }) => {
+const ComandasTodas = () => {
   const [comandasTodas, setComandasTodas] = useState([]);
+  const [areas, setArea] = useState([]);
+  const [comandasFiltradas, setComandasFiltradas] = useState([]);
   let valorOpcion = '';
   let valorOpcionEstado = '';
   let options = [];
   let optionsEstado = [];
-  const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
   /****** OBTENER COMANDAS ******/
   //Obtener todas las comandas
@@ -24,10 +25,25 @@ const ComandasTodas = ({ areas }) => {
       console.log(err);
     }
   };
+
+  /***** OBTENER TODAS LAS AREAS ******/
+  //Obtener Areas
+  const obtenerAreas = async () => {
+    try {
+      let response = await makeRequest('GET', 'areas');
+      let data = response.data.data;
+      //console.log('data', data);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   //Inicializar state
   const inicializarState = async () => {
     const comandasTodas = await obtenerComandasTodas();
     setComandasTodas(comandasTodas);
+    const areas = await obtenerAreas();
+    setArea(areas);
   };
   useEffect(() => {
     inicializarState();

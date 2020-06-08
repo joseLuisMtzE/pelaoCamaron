@@ -32,6 +32,7 @@ const CategoryListContextProvider = props => {
         alertError(`Hubo un error al añadir la categoria`);
       }
       let data = response.data.data;
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
