@@ -1,10 +1,21 @@
-@media only screen and (max-width: 900px) {
-  .wrapper {
+@media only screen and (min-width: 400px) {
+  .wrapper-comandas {
     background-size: 100% 100%;
   }
 
-  .ant-layout-sider {
-    display: none !important;
+  .card-comanda {
+    height: 10px;
+    margin: 5px;
+    width: 15px;
+  }
+
+  .imgRedonda {
+    margin: auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 16px;
+    border: 8px solid #6AC7E6;
+    padding-top: -20px;
   }
 }
 
@@ -47,6 +58,7 @@
 .card-containr-comanda {
   padding: 2px 16px;
   margin: auto;
+  text-align: left;
 }
 
 .texto-orden {
