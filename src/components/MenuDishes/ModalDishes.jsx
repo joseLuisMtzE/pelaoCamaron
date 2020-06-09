@@ -3,7 +3,9 @@ import { Modal, Button, Row, Col, Typography } from 'antd';
 import { DishesContext } from './MenuDishesContext';
 import EditFormMenuDishes from './EditFormMenuDishes';
 import {getRol} from '../../shared/ApiWrapper'
-
+//import { confirmDialog } from '../../shared/Alerts.jsx';
+import Swal from 'sweetalert2';
+import {DeleteOutlined,EditOutlined } from '@ant-design/icons';
 const { Title } = Typography;
 
 function ModalDishes({
@@ -47,10 +49,32 @@ function ModalDishes({
 
   const { editDishes,deleteDishes } = useContext(DishesContext);
   
+ // confirmDialog()
+
+
+ function deleteClickaAlert() {
+  Swal.fire({
+    title: '¿Estás seguro de eliminarlo?',
+    text: 'No podras revertir está acción!',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si borralo!',
+    cancelButtonText: 'Cancelar'
+  }).then(result => {
+    if (result.value) {
+      deleteDishes(dish._id)
+    }
+  });
+}
+
+/*
   const deleteClick = () => {
     //console.log(dish._id)
     deleteDishes(dish._id)
   }
+  */
 
 
 
@@ -97,26 +121,40 @@ function ModalDishes({
             zIndex: 0
           }}
         />
-        <div style={{ padding: '2px' }}>
+        <div style={{  zIndex:'60', display:'block' }}>
           <div
             className="centerContent"
             style={{
-              marginBottom: '40px',
+              marginBottom: '10px',
               borderRadius: '5px',
-              boxShadow: '0px 3px 5px 0px grey'
+              boxShadow: '0px 3px 5px 0px grey',
+              backgroundColor:'white',
+              position:'relative',
+              top:'-40px',
+              width: '95%'
             }}
           >
             <Title level={4} vel>
               {nombre}
             </Title>
             <Row>
-          <Col span={8}>{categoria.nombre}</Col>
-          <Col span={8}>{tiempoPreparación} min</Col>
-          <Col span={8}>${precioSinIva}</Col>
+          <Col span={8}>
+            <img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/97-512.png" alt="" style={{width:'15px'}} />
+            {categoria.nombre}</Col>
+          <Col span={8}>
+            <img src="https://cdn2.iconfinder.com/data/icons/pittogrammi/142/10-512.png" alt="" style={{width:'15px', margin:'5px'}}/>
+            {tiempoPreparación} min</Col>
+          <Col span={8}>
+            <img src="https://cdn0.iconfinder.com/data/icons/free-daily-icon-set/512/Dollar-512.png" alt=""  style={{width:'24px'}}/>
+            ${precioSinIva}</Col>
             </Row>
             <Row>
-              <Col span={12}>{peso} gr</Col>
-          <Col span={12}>${precioConIva}</Col>
+              <Col span={12}>
+                <img src="https://cdn1.iconfinder.com/data/icons/electronics-outline-24/24/kitchen_scale_food_scale_weighing_scale_weight_machine_weight_scale-512.png" alt="" style={{width:'15px', margin:'5px'}}/>
+                {peso} gr</Col>
+          <Col span={12}>
+            <img src="https://cdn0.iconfinder.com/data/icons/pinpoint-interface/48/taxes-and-fees-512.png" alt="" style={{width:'15px', margin:'5px'}}/>
+            ${precioConIva}</Col>
             </Row>
           </div>
 
@@ -133,7 +171,7 @@ function ModalDishes({
               onClick={showEditModal}
               type="primary"
               shape="circle"
-              icon={'E'}
+              icon={<EditOutlined />}
               style={{
                 margin: 6,
                 width: 40,
@@ -144,10 +182,10 @@ function ModalDishes({
             />) : null}
              {getRol() === 'Dueño' ? (
             <Button
-            onClick={deleteClick}
+            onClick={deleteClickaAlert}
               type="primary"
               shape="circle"
-              icon={'X'}
+              icon={<DeleteOutlined />}
               style={{
                 margin: 6,
                 width: 40,

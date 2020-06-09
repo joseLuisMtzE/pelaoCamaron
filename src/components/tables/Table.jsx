@@ -72,7 +72,9 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
-    console.log(data);
+    //console.log(data);
+    localStorage.setItem('domicilio',JSON.stringify(data));
+
     localStorage.setItem('noMesa', table.noMesa);
     if (orderType === 'Local') {
       const newOrder = await crearOrden(data);
