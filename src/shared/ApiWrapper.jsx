@@ -49,7 +49,7 @@ export const makeRequest = async (metodo, complement, payload) => {
       errorAlert(
         'Autenticación fallida',
         'Redirigiendo...',
-        () => (window.location.href = '/login')
+        () => (window.location.href = '/')
       );
     }
     console.log('ERROR', err);

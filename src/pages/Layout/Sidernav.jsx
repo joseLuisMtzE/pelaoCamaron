@@ -22,7 +22,7 @@ function Sidernav(props) {
 
   const logOut=()=>{
     localStorage.removeItem('token');
-        window.location.href='/login'
+        window.location.href='/'
   }
 
 
