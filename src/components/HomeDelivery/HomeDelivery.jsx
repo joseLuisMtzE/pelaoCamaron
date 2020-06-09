@@ -6,13 +6,13 @@ import { useHistory } from "react-router-dom";
 
 import Form from './FormHomeDelivery';
 
-function HomeDelivery() {
+function HomeDelivery({props}) {
+ console.log(props)
   let history = useHistory();
 
   function handleClick() {
     history.goBack();
   }
-
   return (
     <>
       <div style={{ backgroundColor: '#EEEEEE', height:"100%" }}>
@@ -29,13 +29,13 @@ function HomeDelivery() {
             </h1>
           </div>
         </div>
-        <div className="margin-10" >
-          <Form />
+        <div className="" >
+        <div className="centerContent" style={{ padding: '1px' }} />
+          <Form props={props}/>
+          
         </div>
 
-        <div className="centerContent" style={{ padding: '1px' }} />
       </div>
-      <div className="footer-home-delivery" />
     </>
   );
 }

@@ -3,8 +3,8 @@ import Swal from 'sweetalert2';
     export function alertError(message){
         Swal.fire({
             icon: 'error',
-            title: message,
-            text: 'Algo salio mal!'
+            title:'Error' ,
+            text: message
            // footer: '<a href>Why do I have this issue?</a>'
         })
     }

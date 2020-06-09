@@ -1,0 +1,106 @@
+@media only screen and (min-width: 400px) {
+  .wrapper-comandas {
+    background-size: 100% 100%;
+  }
+
+  .card-comanda {
+    height: 10px;
+    margin: 5px;
+    width: 15px;
+  }
+
+  .imgRedonda {
+    margin: auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 16px;
+    border: 8px solid #6ac7e6;
+    padding-top: -20px;
+  }
+}
+
+.wrapper-comandas {
+  background: url('../../assets/rectangulo-amarillo.png') top,
+    url('../../assets/rectangulo-rojo.png') bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 200px;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.tituloPedidos {
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.scrolling-wrapper {
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.card-comanda {
+  display: inline-block;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 20px;
+  background-color: #434343;
+  height: 460px;
+  margin: 10px;
+  width: 230px;
+}
+
+.card-comanda:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-containr-comanda {
+  padding: 2px 16px;
+  margin: auto;
+  text-align: left;
+}
+
+.texto-orden {
+  font-size: small;
+  color: aliceblue;
+  word-spacing: initial;
+  line-height: 0.5px;
+}
+
+.titulo-orden {
+  font-size: large;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.imgRedonda {
+  margin: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 160px;
+  border: 8px solid #6ac7e6;
+  padding-top: -80px;
+}
+
+.blink {
+  animation: 10 blink 1s ease-in-out;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.botonesFiltrado {
+  text-align: center;
+  margin: 5px;
+}

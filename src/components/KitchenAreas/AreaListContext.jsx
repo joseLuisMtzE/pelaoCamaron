@@ -1,40 +1,25 @@
 import React, { createContext, useState, useEffect } from 'react';
-//import {v4 as uuidv4} from 'uuid';
-import axios from 'axios';
-import url from '../../constants/api';
+import { makeRequest, getRol } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 export const AreaListContext = createContext();
 
-const api = axios.create({
-  baseURL: url.apiEndPoint
-});
+/*const api = axios.create({
+    baseURL:url.apiEndPoint
+})
 
+const token=  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg0NzEwNTcsImV4cCI6MTU4ODQ5OTg1N30.TgKuInjR7dVehna-0xT7j_BqT8ojCmUCs75VxtHe6zI';
+*/
 const AreaListContextProvider = props => {
   //estado para mi arreglo de objetos de las areas de cocina
   const [areas, setAreas] = useState([]);
 
   //estado para saber que editar
   const [editItem, setEditItem] = useState(null);
-
-  useEffect(() => {
-    //Saber si el componente está montado o no
-    let isMounted = true;
-    async function fetchData() {
-      const initialState = await retrieveAreas();
-      if (isMounted) setAreas(initialState);
-    }
-    fetchData();
-
-    //This cleanup funtion will be called whenever the component unmounts, this will be similar to componentWillUnmount() in class components
-    return function cleanup() {
-      isMounted = false;
-    };
-  }, []);
-
   const retrieveAreas = async () => {
     try {
-      let response = await api.get('areas');
+      let response = await makeRequest('GET', 'areas?isActive=true');
       let data = response.data.data;
+      console.log(getRol());
       return data;
     } catch (err) {
       console.log(err);
@@ -43,7 +28,7 @@ const AreaListContextProvider = props => {
 
   const addAreaRequest = async name => {
     try {
-      let response = await api.post('areas', {
+      let response = await makeRequest('POST', 'areas', {
         nombre: name
       });
       // console.log(response);
@@ -51,7 +36,7 @@ const AreaListContextProvider = props => {
       if (response.status === 201) {
         alertSuccess(`Area de cocina: ${name} creada correctamente`);
       } else {
-        alertError('Hubo un error al añadir el área');
+        alertError(`Hubo un error al añadir el área`);
       }
       let data = response.data.data;
       return data;
@@ -62,14 +47,14 @@ const AreaListContextProvider = props => {
 
   const editAreaRequest = async (name, id) => {
     try {
-      let response = await api.patch(`areas/${id}`, {
+      let response = await makeRequest('PATCH', `areas/${id}`, {
         nombre: name
       });
 
       if (response.status === 200) {
         alertSuccess(`Área de cocina: ${name} editada correctamente`);
       } else {
-        alertError('Hubo un error al editar el área');
+        alertError(`Hubo un error al editar el área`);
       }
 
       let data = response.data.data;
@@ -81,12 +66,12 @@ const AreaListContextProvider = props => {
 
   const deleteAreaRequest = async id => {
     try {
-      let response = await api.delete(`areas/${id}`);
+      let response = await makeRequest('DELETE', `areas/${id}`);
       // console.log(response);
-      if (response.status === 200) {
-        alertSuccess('Área de cocina borrada correctamente');
+      if (response.status === 204) {
+        alertSuccess(`Área de cocina borrada correctamente`);
       } else {
-        alertError('Hubo un error al borrar el área');
+        alertError(`Hubo un error al borrar el área`);
       }
 
       let data = response.data.data;
@@ -97,10 +82,20 @@ const AreaListContextProvider = props => {
     }
   };
 
+  const initializeState = async () => {
+    const initialState = await retrieveAreas();
+    setAreas(initialState);
+    // const initialState = JSON.parse(localStorage.getItem("categories")) || [];
+  };
+  useEffect(() => {
+    initializeState();
+  }, []);
+
   const addArea = async name => {
     loader();
     let response = await addAreaRequest(name);
-    setAreas([...areas, { _id: response._id, nombre: response.nombre }]);
+    response &&
+      setAreas([...areas, { _id: response._id, nombre: response.nombre }]);
   };
 
   const removeArea = async id => {
@@ -135,7 +130,15 @@ const AreaListContextProvider = props => {
 
   return (
     <AreaListContext.Provider
-      value={{ areas, addArea, removeArea, findItem, editArea, editItem }}
+      value={{
+        areas,
+        addArea,
+        removeArea,
+        findItem,
+        editArea,
+        editItem,
+        setEditItem
+      }}
     >
       {props.children}
     </AreaListContext.Provider>

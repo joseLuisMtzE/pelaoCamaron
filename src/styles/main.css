@@ -20,6 +20,11 @@
 @import './components/kitchen.css';
 @import './components/Area.css';
 @import './components/AreaForm.css';
+@import './components/users-view.css';
+
+@import './components/Pedidos.css';
+@import './components/OrdersViewStyles.css';
+@import './components/ticket.css';
 
 /* Estilos de cotenedores pages */
 @import './pages/home.css';
