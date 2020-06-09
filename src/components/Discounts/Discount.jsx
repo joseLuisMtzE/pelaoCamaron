@@ -49,10 +49,10 @@ const Discount = ({ orderId, total }) => {
 
   useEffect(() => {
     result(porDiscount);
-   // console.log(orderId);
+    // console.log(orderId);
   }, [porDiscount]);
 
- /* useEffect(() => {
+  /* useEffect(() => {
     // getTotal();
     console.log('Re render');
   }, []);*/
@@ -71,18 +71,18 @@ const Discount = ({ orderId, total }) => {
   // };
 
   //peticion para hacer la actualizacion del porcentaje descuento
-  const sendDiscount = async discount => {
+  const sendDiscount = async (discount) => {
     try {
       let response = await makeRequest('PUT', `ordenes/${id}`, {
         pago: {
-          porcentajeDescuento: discount
-        }
+          porcentajeDescuento: discount,
+        },
       });
       console.log(response);
       if (response && response.status && response.status === 200) {
-        alertSuccess(`Descuento aplicado correctamente`);
+        alertSuccess('Descuento aplicado correctamente');
       } else {
-        alertError(`Hubo un error al aplicar el descuento`);
+        alertError('Hubo un error al aplicar el descuento');
       }
       setporDiscount(0);
       form.setFieldsValue({ porcentaje: 0 });

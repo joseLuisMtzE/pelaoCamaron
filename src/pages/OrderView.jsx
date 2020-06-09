@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row, Button } from 'antd';
 import BackgroundYellow from '../assets/backgroundYellow';
+import { LoadingOutlined } from '@ant-design/icons';
 import BackgroundRed from '../assets/backgroundRed';
 import { makeRequest } from '../shared/ApiWrapper';
+import Order from '../components/OrderView/Order';
 import {
   PlusOutlined,
   CloseOutlined,
@@ -10,6 +12,7 @@ import {
   DollarCircleOutlined,
   HomeOutlined
 } from '@ant-design/icons';
+
 import { Link } from 'react-router-dom';
 import Discount from '../components/Discounts/Discount';
 
@@ -18,8 +21,10 @@ const OrderView = props => {
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
-  // const [orderId, setOrderId] = useState('');
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState({
+    subTotal:0,
+    precioTotal:0
+  });
   const [id,setId] = useState('');
   const [tipoOrden, setTipoOrden]=useState('Local')
 
@@ -78,36 +83,35 @@ const OrderView = props => {
         <Col xs={24}>
           <img src={BackgroundYellow} alt="bg" className="bg-img" />
           <h1 className="h1">Orden - Mesa {noMesa}</h1>
+          {orders.length===0 ? <div style={{textAlign:'center',top:200,position:'relative'}}><LoadingOutlined className="big-size" spin/>
+          </div>: null}
         </Col>
-        <Col xs={24} md={18}>
-          <section
-            style={{
-              background: 'white',
-              padding: 25,
-              borderRadius: 15
-            }}
-          >
-            <table style={{ width: '100%' }}>
-              <tbody>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Cantidad</th>
-                  <th>Estado</th>
-                  <th>Sub-total</th>
-                  <th>Precio</th>
-                </tr>
-                {orders.map(order => (
-                  <tr style={{ padding: 20 }}>
-                    <td>{order.platillo.nombre}</td>
-                    <td>{order.cantidad}</td>
-                    <td>{order.estado}</td>
-                    <td>${order.platillo.precioSinIva}</td>
-                    <td>${order.platillo.precioConIva}</td>
+        <Col xs={24} md={18} style={{zIndex:10}}>
+          {orders.length!==0 &&
+            <section
+              style={{
+                background: 'white',
+                padding: 25,
+                borderRadius: 15,
+              }}
+            >
+              <table className="table">
+                <tbody>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                    <th>Sub-total</th>
+                    <th>Total</th>
+                    <th></th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </section>
+                  {orders.map((order,index) => (
+                    <Order order={order} key={index} getOrders={getOrders}/>
+                  ))}
+                </tbody>
+              </table>
+            </section>}
+          {orders.length !==0 &&
           <section
             style={{
               background: 'white',
@@ -116,13 +120,15 @@ const OrderView = props => {
               marginTop: 20
             }}
           >
-            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal}</h3>
             <h3 style={{ textAlign: 'center' }}>
-              Total: <span className="total">${total.precioTotal}</span>
+              Subtotal: ${total.subTotal.toFixed(2)}
             </h3>
-          </section>
+            <h3 style={{ textAlign: 'center' }}>
+              Total: <span className="total">${total.precioTotal.toFixed(2)}</span>
+            </h3>
+          </section>}
         </Col>
-        <Col xs={24} md={6}>
+        {orders.length!==0 &&<Col xs={24} md={6} style={{zIndex:10}}>
           <div className="center margin-top">
             <Button shape="circle" className="add-btn">
               <Link to={`/agregar-platillos/${id}`}>
@@ -140,23 +146,18 @@ const OrderView = props => {
             <p>Cerrar orden</p>
           </div>
           {tipoOrden==='Domicilio'&&(
-          <div className="center">
-            <Button shape="circle" className="edit-btn">
-              <Link to="/home-delivery">
-                <HomeOutlined  className="normal-size" />
-              </Link>
-            </Button>
-            <p>Editar Domicilio</p>
-          </div>
+            <div className="center">
+              <Button shape="circle" className="edit-btn">
+                <Link to="/home-delivery">
+                  <HomeOutlined  className="normal-size" />
+                </Link>
+              </Button>
+              <p>Editar Domicilio</p>
+            </div>
           )}
 
           <div className="center">
-            <Button shape="circle" className="discount-btn" >
-              <Link to="/agregar-descuento-karen">
-                <DollarCircleOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Agregar descuento</p>
+            <Discount orderId={id} total={total.precioTotal} />
           </div>
           
           <div className="center alot-margin-bottom">
@@ -167,7 +168,7 @@ const OrderView = props => {
             </Button>
             <p>Imprimir Ticket</p>
           </div>
-        </Col>
+        </Col>}
         <Col xs={24}>
           <img src={BackgroundRed} alt="bg" className="bg-img bottom" />
         </Col>
