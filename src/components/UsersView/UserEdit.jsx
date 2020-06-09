@@ -210,7 +210,7 @@ const UserEdit = (props) => {
                     path={mdiClose}
                     title="Eliminar"
                     size={0.9}
-                    color="#000000"
+                    color="#ffffff"
                   />
                 </Button>
               </Link>
