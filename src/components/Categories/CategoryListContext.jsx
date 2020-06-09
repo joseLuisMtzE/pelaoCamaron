@@ -32,6 +32,7 @@ const CategoryListContextProvider = props => {
         alertError(`Hubo un error al añadir la categoria`);
       }
       let data = response.data.data;
+      console.log(data);
       return data;
     } catch (err) {
       console.log(err);
@@ -95,10 +96,11 @@ const CategoryListContextProvider = props => {
   const addCategory = async name => {
     loader();
     let response = await addCategoryRequest(name);
-    setCategories([
-      ...categories,
-      { _id: response._id, nombre: response.nombre }
-    ]);
+    response &&
+      setCategories([
+        ...categories,
+        { _id: response._id, nombre: response.nombre }
+      ]);
   };
 
   const removeCategory = async id => {
