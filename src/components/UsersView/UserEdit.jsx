@@ -6,7 +6,7 @@ import { alertError, alertSuccess } from '../../shared/Alert';
 import { Form, Input, Button, Tabs, Select } from 'antd';
 //! Constants
 import UserTextInput from './UserTextInput';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 const { Option } = Select;
 const { TabPane } = Tabs;
 
@@ -18,7 +18,6 @@ const UserEdit = (props) => {
     try {
       let response = await makeRequest('GET', `usuario/${id}`);
       let data = response.data.data;
-      console.log('que pedo con mi bida', data);
       return data;
     } catch (err) {
       console.log(err);
@@ -26,8 +25,8 @@ const UserEdit = (props) => {
   };
   const addUser = async (usuario) => {
     try {
-      let response = await makeRequest('POST', 'usuario', usuario);
-      if (response.status === 200) {
+      let response = await makeRequest('POST', 'usuario/registro', usuario);
+      if (response.status === 201) {
         alertSuccess('Usuario creado correctamente');
       } else {
         alertError('Ups, algo salió chistosón, revisa tus datos');
@@ -43,7 +42,7 @@ const UserEdit = (props) => {
   const updateUser = async (usuario) => {
     try {
       let response = await makeRequest('PUT', `usuario/${id}`, usuario);
-      if (response.status === 201) {
+      if (response.status === 200) {
         alertSuccess('Usuario editado correctamente');
       } else {
         alertError('Ups, algo salió chistosón, revisa tus datos');
@@ -56,6 +55,23 @@ const UserEdit = (props) => {
     }
   };
 
+  const deleteUser= async(usuario)=>{
+    try {
+      let response = await makeRequest('DELETE', `usuario/${id}`);
+      if (response.status === 204) {
+        alertSuccess('Usuario eliminado correctamente');
+      } else {
+        alertError('Ups, algo salió chistosón, revisa tus datos');
+      }
+      let data = response.data.data;
+      console.log(data);
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  
 
   useEffect(() => {
     if (id != undefined) {
@@ -64,6 +80,7 @@ const UserEdit = (props) => {
         form.setFieldsValue({
           nombre: cositas.nombre,
           apellidos: cositas.apellidos,
+          telefono: cositas.telefono,
           correo: cositas.correo,
           refnombre: cositas.contactoReferencia.nombre,
           reftelefono: cositas.contactoReferencia.telefono,
@@ -75,7 +92,7 @@ const UserEdit = (props) => {
     }
   }, []);
   let SubmitButton;
-
+  let borrarUsuario;
   const onFinish = (values) => {
     console.log('Success:', values);
     const usuario = {
@@ -105,13 +122,20 @@ const UserEdit = (props) => {
     }
     
   };
-
+  
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
    
   if(id==undefined){SubmitButton= 'Crear usuario';}
-  else{SubmitButton= 'Guardar cambios'}
+  else{
+    SubmitButton= 'Guardar cambios';
+    borrarUsuario = 
+    <Link className="nav-text" to="/vista-usuarios">
+      <Button type="primary" danger onClick={deleteUser}> Elimnar Usuario</Button>
+    </Link>
+  }
+  
 
   return (
     <div className="MainWrapper">
@@ -236,6 +260,7 @@ const UserEdit = (props) => {
             <Button type="primary" htmlType="submit">
               {SubmitButton}
             </Button>
+            {borrarUsuario}
           </div>
         </div>
       </Form>
