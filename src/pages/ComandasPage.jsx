@@ -23,7 +23,7 @@ function ComandasPage() {
     try {
       let response = await makeRequest('GET', 'areas');
       let data = response.data.data;
-      console.log('data', data);
+      // console.log('data', data);
       return data;
     } catch (err) {
       console.log(err);

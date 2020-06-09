@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
@@ -6,19 +6,29 @@ import { Link } from 'react-router-dom';
 
 import io from 'socket.io-client';
 
+import notificationSound from '../../assets/newComandaSound.mp3';
+
 const socket = io('http://127.0.0.1:3001');
+
+//Audio for notification when nueva comanda gets created
 
 const Comandas = ({ comandas, areas, setVerTodas }) => {
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
   const [selectedArea, setSelectedArea] = useState('');
-  let valorOpcion = '',
-    labelOpcion = '';
-  let options = [];
+  const [labelSelectedArea, setLabelSelectedArea] = useState('');
 
-  // const room = '5ed8686443cd831fb406472e';
+  const scrollingWrapper = useRef();
+
+  let valorOpcion = '',
+    labelOpcion = '',
+    options = [],
+    timeoutId;
+
+  //Get the audio file
+  let newComandaSound = new Audio(notificationSound);
 
   const socketJoinRoom = async room => {
-    console.log('Joined called');
+    console.log('Joined called with room: ', room);
     socket.emit('joinRoom', room);
     //Todas las comandas
     socket.on('joinedToRoom', response => {
@@ -27,7 +37,27 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
 
     //Escucar cuando se crea una nueva comanda
     socket.on('nuevaComanda', comanda => {
+      let divScrollingWrapper = scrollingWrapper.current;
+
       console.log('Nueva comanda creada!!', comanda);
+
+      //update the list of comandas
+      setComandasFiltradas(comandas => [...comandas, comanda]);
+      //scroll to the last item in comandas list
+      divScrollingWrapper.scrollTo(divScrollingWrapper.scrollWidth, 0);
+      //Add blink effect to the last children of comandas
+      divScrollingWrapper.children[
+        divScrollingWrapper.children.length - 1
+      ].classList.add('blink');
+      //once finished, remove the classs
+      timeoutId = setTimeout(() => {
+        divScrollingWrapper.children[
+          divScrollingWrapper.children.length - 1
+        ].classList.remove('blink');
+      }, 10000);
+
+      //Play a sound when a new comandas gets created
+      newComandaSound.play();
     });
   };
 
@@ -50,11 +80,11 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   }, [selectedArea]);
 
   useEffect(() => {
-    // console.log('MOUNTING OF COMANDAS COMPONENT');
-
+    console.log('MOUNTING OF COMANDAS COMPONENT');
     return function cleanup() {
       socket.disconnect();
-      // console.log('UNMOUNT OF COMANDAS COMPONENT');
+      clearInterval(timeoutId);
+      console.log('UNMOUNT OF COMANDAS COMPONENT');
     };
   }, []);
 
@@ -73,6 +103,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   function handleModalOk() {
     // console.log('Se cambió el área a: ', labelOpcion);
     setSelectedArea(valorOpcion);
+    setLabelSelectedArea(labelOpcion);
     let resultado = [...comandas].filter(
       comanda => comanda.platillo.area.nombre === labelOpcion
     );
@@ -112,7 +143,13 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
             Cambiar área
           </Button>
         </div>
-        <div className="scrolling-wrapper">
+        {labelSelectedArea && (
+          <div className="center">
+            <h4 className="bold">Area seleccionada:</h4>
+            <span className="normal-size">{labelSelectedArea}</span>
+          </div>
+        )}
+        <div className="scrolling-wrapper" ref={scrollingWrapper}>
           {comandasFiltradas &&
             comandasFiltradas.map(comanda => (
               <Comanda comanda={comanda} onChange={onChange} />

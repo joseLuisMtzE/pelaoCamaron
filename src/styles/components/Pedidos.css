@@ -14,7 +14,7 @@
     width: 15px;
     height: 15px;
     border-radius: 16px;
-    border: 8px solid #6AC7E6;
+    border: 8px solid #6ac7e6;
     padding-top: -20px;
   }
 }
@@ -31,6 +31,7 @@
 .tituloPedidos {
   font-size: 40px;
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .scrolling-wrapper {
@@ -38,6 +39,7 @@
   -webkit-overflow-scrolling: touch;
   margin: 1rem 1rem;
   overflow-x: auto;
+  scroll-behavior: smooth;
 }
 
 .card-comanda {
@@ -65,7 +67,7 @@
   font-size: small;
   color: aliceblue;
   word-spacing: initial;
-  line-height: .5px;
+  line-height: 0.5px;
 }
 
 .titulo-orden {
@@ -79,6 +81,22 @@
   width: 150px;
   height: 150px;
   border-radius: 160px;
-  border: 8px solid #6AC7E6;
+  border: 8px solid #6ac7e6;
   padding-top: -80px;
+}
+
+.blink {
+  animation: 10 blink 1s ease-in-out;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
 }
