@@ -5,47 +5,47 @@ import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { getRol } from '../../shared/ApiWrapper';
 
-const Comandas = ({ comandas, areas, setVerTodas,room }) => {
+const Comandas = ({ comandas, areas, setVerTodas, room }) => {
   let valorOpcion = '';
   let options = [];
-  let id='';
+  let id = '';
   //console.log(comandas);
 
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
+  /*OPCIONES AREA */
   //console.log('se actualizo areas');
   //opciones estado
   // console.log(areas);
   if (areas.length !== 0) {
-    options = areas.map(area => ({
+    options = areas.map((area) => ({
       value: area.nombre,
       label: area.nombre,
-      id: area._id
+      id: area._id,
     }));
   }
   //console.log(options);
 
-  function onChange(value,area) {
+  function onChange(value, area) {
     valorOpcion = value[0];
-    id=area[0].id;
+    id = area[0].id;
     //console.log(value);
   }
-
   function handleModalOk() {
     console.log('ok', valorOpcion);
     //setRoom(id);
-    room=id;
-    console.log('room',room);
-    console.log('id',id);
+    room = id;
+    console.log('room', room);
+    console.log('id', id);
     let resultado = [...comandas].filter(
-      comanda => comanda.platillo.area.nombre === valorOpcion
+      (comanda) => comanda.platillo.area.nombre === valorOpcion
     );
     console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
     //console.log('comandas Filtradas', comandasFiltradas);
   }
 
-  //Modal
+  /* MODAL */
   function info() {
     Modal.info({
       title: 'Cambiar área',
@@ -61,10 +61,9 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
       ),
       onOk() {
         handleModalOk();
-      }
+      },
     });
   }
-  //console.log(areas);
 
   return (
     <div className="wrapper-comandas">
@@ -85,6 +84,7 @@ const Comandas = ({ comandas, areas, setVerTodas,room }) => {
               Cambiar área
             </Button>
           </div>
+
           <div className="scrolling-wrapper">
             {comandasFiltradas &&
               comandasFiltradas.map((comanda) => (
