@@ -7,6 +7,7 @@ import { makeRequest } from '../../shared/ApiWrapper';
 
 function Comanda({ comanda, noMesa }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
+  console.log('MARIANA LO JODIO, ', comanda, noMesa);
 
   //console.log(comanda.id);
 
@@ -18,7 +19,7 @@ function Comanda({ comanda, noMesa }) {
         cantidad: comanda.cantidad,
         estado: 'Cerrada',
         observaciones: comanda.observaciones,
-        orden: comanda.orden._id,
+        orden: comanda.orden._id
       });
       let data = response.data.data;
       window.location.href = window.location.href;
@@ -38,8 +39,8 @@ function Comanda({ comanda, noMesa }) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, ¡ciérrala!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
       if (result.value) {
         console.log('Funcionaaa');
         actualizarComanda();
@@ -97,7 +98,7 @@ function Comanda({ comanda, noMesa }) {
               width: 120,
               height: 50,
               boxShadow: '0px 3px 5px 0px grey',
-              margin: '1rem',
+              margin: '1rem'
             }}
             id="Button-print"
             type="danger"

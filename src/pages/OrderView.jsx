@@ -7,7 +7,6 @@ import { makeRequest } from '../shared/ApiWrapper';
 import Order from '../components/OrderView/Order';
 import {
   PlusOutlined,
-  CloseOutlined,
   PrinterOutlined,
   DollarCircleOutlined,
   HomeOutlined
@@ -15,6 +14,7 @@ import {
 
 import { Link } from 'react-router-dom';
 import Discount from '../components/Discounts/Discount';
+import CloseOrder from '../components/CloseOrder/CloseOrder';
 
 const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
@@ -22,11 +22,11 @@ const OrderView = props => {
 
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState({
-    subTotal:0,
-    precioTotal:0
+    subTotal: 0,
+    precioTotal: 0
   });
-  const [id,setId] = useState('');
-  const [tipoOrden, setTipoOrden]=useState('Local')
+  const [id, setId] = useState('');
+  const [tipoOrden, setTipoOrden] = useState('Local');
 
   const getOrders = async () => {
     try {
@@ -36,8 +36,8 @@ const OrderView = props => {
       setTotal(data[0].pago);
       if (response.status === 200) {
         // localStorage.setItem('orderID',data[0]._id);
-        
-        setTipoOrden(data[0].tipoOrden)
+
+        setTipoOrden(data[0].tipoOrden);
         setId(data[0]._id);
         window.history.replaceState(
           null,
@@ -76,23 +76,28 @@ const OrderView = props => {
     });
   }, [orders]);
 
-  console.log(orders)
+  console.log(orders);
   return (
     <div>
       <Row>
         <Col xs={24}>
           <img src={BackgroundYellow} alt="bg" className="bg-img" />
           <h1 className="h1">Orden - Mesa {noMesa}</h1>
-          {orders.length===0 ? <div style={{textAlign:'center',top:200,position:'relative'}}><LoadingOutlined className="big-size" spin/>
-          </div>: null}
+          {orders.length === 0 ? (
+            <div
+              style={{ textAlign: 'center', top: 200, position: 'relative' }}
+            >
+              <LoadingOutlined className="big-size" spin />
+            </div>
+          ) : null}
         </Col>
-        <Col xs={24} md={18} style={{zIndex:10}}>
-          {orders.length!==0 &&
+        <Col xs={24} md={18} style={{ zIndex: 10 }}>
+          {orders.length !== 0 && (
             <section
               style={{
                 background: 'white',
                 padding: 25,
-                borderRadius: 15,
+                borderRadius: 15
               }}
             >
               <table className="table">
@@ -105,70 +110,76 @@ const OrderView = props => {
                     <th>Total</th>
                     <th></th>
                   </tr>
-                  {orders.map((order,index) => (
-                    <Order order={order} key={index} getOrders={getOrders}/>
+                  {orders.map((order, index) => (
+                    <Order order={order} key={index} getOrders={getOrders} />
                   ))}
                 </tbody>
               </table>
-            </section>}
-          {orders.length !==0 &&
-          <section
-            style={{
-              background: 'white',
-              padding: 15,
-              borderRadius: 15,
-              marginTop: 20
-            }}
-          >
-            <h3 style={{ textAlign: 'center' }}>
-              Subtotal: ${total.subTotal.toFixed(2)}
-            </h3>
-            <h3 style={{ textAlign: 'center' }}>
-              Total: <span className="total">${total.precioTotal.toFixed(2)}</span>
-            </h3>
-          </section>}
+            </section>
+          )}
+          {orders.length !== 0 && (
+            <section
+              style={{
+                background: 'white',
+                padding: 15,
+                borderRadius: 15,
+                marginTop: 20
+              }}
+            >
+              <h3 style={{ textAlign: 'center' }}>
+                Subtotal: ${total.subTotal.toFixed(2)}
+              </h3>
+              <h3 style={{ textAlign: 'center' }}>
+                Total:{' '}
+                <span className="total">${total.precioTotal.toFixed(2)}</span>
+              </h3>
+            </section>
+          )}
         </Col>
-        {orders.length!==0 &&<Col xs={24} md={6} style={{zIndex:10}}>
-          <div className="center margin-top">
-            <Button shape="circle" className="add-btn">
-              <Link to={`/agregar-platillos/${id}`}>
-                <PlusOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Agregar platillo</p>
-          </div>
-          <div className="center">
-            <Button shape="circle" className="close-btn">
-              <Link to="/cerrar-orden-salas-creo">
-                <CloseOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Cerrar orden</p>
-          </div>
-          {tipoOrden==='Domicilio'&&(
-            <div className="center">
-              <Button shape="circle" className="edit-btn">
-                <Link to="/home-delivery">
-                  <HomeOutlined  className="normal-size" />
+        {orders.length !== 0 && (
+          <Col xs={24} md={6} style={{ zIndex: 10 }}>
+            <div className="center margin-top">
+              <Button shape="circle" className="add-btn">
+                <Link to={`/agregar-platillos/${id}`}>
+                  <PlusOutlined className="normal-size" />
                 </Link>
               </Button>
-              <p>Editar Domicilio</p>
+              <p>Agregar platillo</p>
             </div>
-          )}
+            <CloseOrder id={id} ordenTotal={total.precioTotal} />
+            {/* <div className="center">
+              <Button shape="circle" className="close-btn">
+                <Link to="/cerrar-orden-salas-creo">
+                  <CloseOutlined className="normal-size" />
+                </Link>
+              </Button>
+              <p>Cerrar orden</p>
+            </div> */}
+            {tipoOrden === 'Domicilio' && (
+              <div className="center">
+                <Button shape="circle" className="edit-btn">
+                  <Link to="/home-delivery">
+                    <HomeOutlined className="normal-size" />
+                  </Link>
+                </Button>
+                <p>Editar Domicilio</p>
+              </div>
+            )}
 
-          <div className="center">
-            <Discount orderId={id} total={total.precioTotal} />
-          </div>
-          
-          <div className="center alot-margin-bottom">
-            <Button shape="circle" className="print-btn">
-              <Link to="/ticket/:id">
-                <PrinterOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Imprimir Ticket</p>
-          </div>
-        </Col>}
+            <div className="center">
+              <Discount orderId={id} total={total.precioTotal} />
+            </div>
+
+            <div className="center alot-margin-bottom">
+              <Button shape="circle" className="print-btn">
+                <Link to={`/ticket/${id}`}>
+                  <PrinterOutlined className="normal-size" />
+                </Link>
+              </Button>
+              <p>Imprimir Ticket</p>
+            </div>
+          </Col>
+        )}
         <Col xs={24}>
           <img src={BackgroundRed} alt="bg" className="bg-img bottom" />
         </Col>

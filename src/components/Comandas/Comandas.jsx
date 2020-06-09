@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 
 import notificationSound from '../../assets/newComandaSound.mp3';
-
-const socket = io('http://127.0.0.1:3001');
+// import apiEndPoint from '../../constants/api';
+const socket = io('https://afternoon-bastion-13633.herokuapp.com');
 
 //Audio for notification when nueva comanda gets created
 
@@ -147,7 +147,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
             <span className="normal-size">{labelSelectedArea}</span>
           </div>
         )}
-        <div className="scrolling-wrapper">
+        <div className="scrolling-wrapper" ref={scrollingWrapper}>
           {comandasFiltradas &&
             comandasFiltradas.map(comanda => (
               <Comanda comanda={comanda} onChange={onChange} />

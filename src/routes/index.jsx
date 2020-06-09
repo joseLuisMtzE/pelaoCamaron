@@ -17,7 +17,6 @@ const Categories = lazy(() => import('../pages/Categories'));
 const usersView = lazy(() => import('../pages/Userview'));
 const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
-const Pedidos = lazy(() => import('../pages/Pedidos'));
 const usersEdit = lazy(() => import('../components/UsersView/UserEdit'));
 const ComandasPage = lazy(() => import('../pages/ComandasPage'));
 
@@ -63,6 +62,8 @@ export default function AppRoutes() {
                 path="/comandas/todas"
                 render={() => <ComandasTodas areas={[]} />}
               />
+
+              <Route exact path="/vista-usuarios" component={usersView} />
               <Route exact path="/Editar-usuario" component={usersEdit} />
               <Route exact path="/Editar-usuario/:id" component={usersEdit} />
             </Switch>
