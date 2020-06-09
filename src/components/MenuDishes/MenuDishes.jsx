@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Input, Col, Row, Button } from 'antd';
+import {  LoadingOutlined} from '@ant-design/icons';
 import ModalMenuDishes from '../MenuDishes/ModalMenuDishes';
 import Background from '../../assets/background.png';
 import MenuGallery from './MenuGallery';
-import axios from 'axios';
-import url from '../../constants/api';
 import { DishesContext } from './MenuDishesContext';
 import ScrollMenu from './ScrollMenu';
 import { getRol } from '../../shared/ApiWrapper';
@@ -37,7 +36,7 @@ function MenuDishes() {
   const [selectedDishes, setSelectedDishes] = useState([]);
   useEffect(() => {
     initializeState();
-  }, []);
+  }, [dishes]);
 
   useEffect(() => {
     let temp = [];
@@ -47,55 +46,41 @@ function MenuDishes() {
     let result = filter !== 'todas' ? temp.filter((dish)=>dish.categoria._id === filter) : temp;    setSelectedDishes(result);
   }, [dishes, filter]);
   return (
-    <>
-      <div style={{ display: 'block' }} className="header">
+    <Row>
+      <Col xs={24} md={24}>
         <img
+        className='bg-img'
           src={Background}
           alt=""
-          style={{ width: '100%', position: 'absolute' }}
         />
-        <div style={{ display: 'block' }}>
+        <header className='header'>
           <h1
-            style={{
-              position: 'relative',
-              top: '20px',
-              left: '10px',
-              fontSize: '8vw',
-            }}
+          className='h1'   
           >
             MENÚ
+          </h1>
+          <h3 className='h3' style={{height:'15px'}}></h3>
+          {/*<div className='search-input'>
+
             <Search
               placeholder="Buscar"
               onSearch={(value) => console.log(value)}
-              style={{
-                width: 100,
-                border: 'none',
-                float: 'right',
-                marginRight: '20px',
-              }}
+              className='search'
               size="large"
             />
-          </h1>
-        </div>
-      </div>
-      <div className="scrollmenu" style={{ position: 'relative' }}>
+  </div>*/}
+        </header>
+      
+      <div className="scrollmenu up" >
+      {categories.length!==0 &&
         <div
-          style={{
-            width: 40,
-            height: 40,
-            border: 'none',
-            //boxShadow: '0px 3px 5px 0px grey',
-            display: 'inline-block',
-          }}
-        />
-        <div
-          className="centerContent"
-          style={{ display: 'inline-block', margin: '5px' }}
+        className="centerContent"
+        style={{ display: 'inline-block', margin: '5px' }}
         >
           <Button
             onClick={() => setFilter('todas')}
             shape="circle"
-            icon={'xD'}
+            icon={<LoadingOutlined />}
             size={''}
             style={{
               margin: 6,
@@ -106,11 +91,11 @@ function MenuDishes() {
             }}
           />
           <p style={{ textAlign: 'center' }}>{'Todo'}</p>
-        </div>
+        </div>}
         {categories.map((category) => (
           <div
             className="centerContent"
-            style={{ display: 'inline-block', margin: '5px' }}
+            style={{ display: 'inline-block', margin: '5px',  }}
             key={category._id}
           >
             <ScrollMenu category={category} setFilter={setFilter} />
@@ -122,7 +107,7 @@ function MenuDishes() {
           style={{ display: 'inline-block', margin: '5px' }}
         >
           {getRol() === 'Dueño'
-            ? (console.log('Acceso Concedido ', getRol()),
+            ? (getRol(),
               (<ModalMenuDishes />))
             : null}
 
@@ -130,9 +115,9 @@ function MenuDishes() {
         </div>
       </div>
 
-      <Row>
+      <Row className="up-dishes " >
         {selectedDishes.map((dish, index) => (
-          <Col key={index} className="gutter-row" xs={12} md={6} lg={4}>
+          <Col key={index} className="gutter-row" style={{top: '50px'}} xs={12} md={6} lg={4}>
             <MenuGallery
               nombre={dish.nombre}
               imagen={dish.imagen}
@@ -148,7 +133,10 @@ function MenuDishes() {
           </Col>
         ))}
       </Row>
-    </>
+      </Col>
+      {dishes.length===0 && <div style={{margin:'0 auto',display:'block',top:250,position:'relative'}}><LoadingOutlined className="big-size" spin />
+      </div>}
+    </Row>
   );
 }
 
