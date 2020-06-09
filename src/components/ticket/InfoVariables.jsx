@@ -4,9 +4,6 @@ import logo from '../../assets/logo.png';
 const infoVariables = (props) => {
   const { info } = props;
   let fechaActual = new Date();
-
-  let fecha = new Date(info.fecha);
-
   /*console.log(
     `${fecha.getDate()}/${fecha.getMonth()}/${fecha.getFullYear()} ${fecha.toLocaleString(
       'en-US',
@@ -14,7 +11,6 @@ const infoVariables = (props) => {
     )}`
   );*/
 
-  console.log(fecha);
   return (
     <div className="Container-ticket">
       <div className="LogoCamaron-posicion">
@@ -40,19 +36,16 @@ const infoVariables = (props) => {
       <strong className="Space-span">FOLIO TICKET #{info.folio}</strong>
       <span className="Space-span">MESA: {info.mesa && info.mesa.noMesa}</span>
       <span className="Space-span">PERSONAS: {info.numPersonas} </span>
-      <span className="Space-span">
-        FECHA VENTA:{' '}
-        {`${fecha.getDate()}/${fecha.getMonth()}/${fecha.getFullYear()} ${fecha.toLocaleString(
-          'en-US',
-          { hour: 'numeric', minute: 'numeric', hour12: true }
-        )}`}
-      </span>
+      <span className="Space-span">FECHA VENTA: {info.fecha}</span>
       <span className="Space-span">
         FECHA REIMPRESIÓN:{' '}
-        {`${fechaActual.getDate()}/${fechaActual.getMonth()}/${fechaActual.getFullYear()} ${fechaActual.toLocaleString(
-          'en-US',
-          { hour: 'numeric', minute: 'numeric', hour12: true }
-        )}`}
+        {`${fechaActual.getDate()}/${
+          fechaActual.getMonth() + 1
+        }/${fechaActual.getFullYear()} ${fechaActual.toLocaleString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        })}`}
       </span>
       <br></br>
     </div>

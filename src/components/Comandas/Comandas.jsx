@@ -10,8 +10,7 @@ const Comandas = ({ comandas, areas }) => {
   let options = [];
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
-  //console.log('se actualizo areas');
-  //opciones estado
+  /*OPCIONES AREA */
   if (areas.length !== 0) {
     options = areas.map((area) => ({
       value: area.nombre,
@@ -24,7 +23,6 @@ const Comandas = ({ comandas, areas }) => {
     valorOpcion = value[0];
     //console.log(value);
   }
-
   function handleModalOk() {
     console.log('ok', valorOpcion);
     let resultado = [...comandas].filter(
@@ -35,7 +33,7 @@ const Comandas = ({ comandas, areas }) => {
     //console.log('comandas Filtradas', comandasFiltradas);
   }
 
-  //Modal
+  /* MODAL */
   function info() {
     Modal.info({
       title: 'Cambiar área',
@@ -54,7 +52,6 @@ const Comandas = ({ comandas, areas }) => {
       },
     });
   }
-  //console.log(areas);
 
   return (
     <div className="wrapper-comandas">
@@ -75,6 +72,7 @@ const Comandas = ({ comandas, areas }) => {
               Cambiar área
             </Button>
           </div>
+
           <div className="scrolling-wrapper">
             {comandasFiltradas &&
               comandasFiltradas.map((comanda) => (

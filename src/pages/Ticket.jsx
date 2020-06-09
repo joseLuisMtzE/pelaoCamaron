@@ -7,7 +7,7 @@ import PrintTicket from '../components/ticket/PrintTicket';
 import { makeRequest } from '../shared/ApiWrapper';
 
 function Ticket(props) {
-  const [orden, setOrden] = useState({});
+  const [orden, setOrden] = useState([]);
   const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   const recuperarOrdenes = async () => {
