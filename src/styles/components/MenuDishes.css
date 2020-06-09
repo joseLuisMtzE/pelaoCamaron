@@ -15,6 +15,11 @@ div.scrollmenu {
     background-color: #777;
   }
 
+  .up-dishes{
+    top: -150px;
+    position: relative;
+  }
+
   .img-bg-menu-dishes {
     padding: 10px;
     background: url(../../assets/background.png);
@@ -50,5 +55,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
 .ant-modal-padding{
   padding: 0px;   
+}
+
+
+
+.MenuDishesBG{
+
+  /*background: url("../../assets/background.png") top,*/
+  /*url('../../assets/fondoAzul') bottom;*/
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  min-height: 100vh;
+
+/*
+  background-image:  url("../../assets/background.png");
+  width: '100%';
+  z-index: 60;*/
 }
   

@@ -6,7 +6,8 @@ import { useHistory } from "react-router-dom";
 
 import Form from './FormHomeDelivery';
 
-function HomeDelivery() {
+function HomeDelivery({props}) {
+ console.log(props)
   let history = useHistory();
 
   function handleClick() {
@@ -30,7 +31,7 @@ function HomeDelivery() {
         </div>
         <div className="" >
         <div className="centerContent" style={{ padding: '1px' }} />
-          <Form />
+          <Form props={props}/>
           
         </div>
 

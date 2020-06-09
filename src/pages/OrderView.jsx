@@ -9,7 +9,8 @@ import {
   PlusOutlined,
   CloseOutlined,
   PrinterOutlined,
-  DollarCircleOutlined
+  DollarCircleOutlined,
+  HomeOutlined
 } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
@@ -25,6 +26,7 @@ const OrderView = props => {
     precioTotal:0
   });
   const [id,setId] = useState('');
+  const [tipoOrden, setTipoOrden]=useState('Local')
 
   const getOrders = async () => {
     try {
@@ -34,6 +36,8 @@ const OrderView = props => {
       setTotal(data[0].pago);
       if (response.status === 200) {
         // localStorage.setItem('orderID',data[0]._id);
+        
+        setTipoOrden(data[0].tipoOrden)
         setId(data[0]._id);
         window.history.replaceState(
           null,
@@ -72,6 +76,7 @@ const OrderView = props => {
     });
   }, [orders]);
 
+  console.log(orders)
   return (
     <div>
       <Row>
@@ -140,12 +145,24 @@ const OrderView = props => {
             </Button>
             <p>Cerrar orden</p>
           </div>
+          {tipoOrden==='Domicilio'&&(
+            <div className="center">
+              <Button shape="circle" className="edit-btn">
+                <Link to="/home-delivery">
+                  <HomeOutlined  className="normal-size" />
+                </Link>
+              </Button>
+              <p>Editar Domicilio</p>
+            </div>
+          )}
+
           <div className="center">
             <Discount orderId={id} total={total.precioTotal} />
           </div>
+          
           <div className="center alot-margin-bottom">
             <Button shape="circle" className="print-btn">
-              <Link to="/imprimir-ticket-mariana">
+              <Link to="/ticket/:id">
                 <PrinterOutlined className="normal-size" />
               </Link>
             </Button>
