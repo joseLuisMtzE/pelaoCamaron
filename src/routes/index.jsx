@@ -31,15 +31,11 @@ export default function AppRoutes() {
               <Route exact path="/mesas" component={Tables} />
               <Route exact path="/agregar-platillos/:id" component={AddDishes} />
               <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
               <Route exact path="/home-delivery" component={HomeDelivery} />
+              <Route exact path="/login" component={Login} />
               <Route exact path="/menu-dishes" component={MenuDishes} />
               <Route exact path="/areas-cocina" component={KitchenArea} />
-              <Route
-                exact
-                path="/categorias-alimentos"
-                component={Categories}
-              />
+              <Route exact path="/categorias-alimentos" component={Categories}/>
               <Route exact path="/ticket/:id" component={Ticket} />
               <Route exact path="/OrdersView" component={OrdersView} />
               <Route exact path="/ver-orden/:id" component={OrderView} />

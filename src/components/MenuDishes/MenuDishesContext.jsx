@@ -11,7 +11,7 @@ const MenuDishesContext = props => {
     try {
       let response = await makeRequest('GET', 'platillos?isActive=true');
       let data = response.data.data;
-      console.log(data)
+      //console.log(data)
       return data;
     } catch (err) {
       console.log(err);

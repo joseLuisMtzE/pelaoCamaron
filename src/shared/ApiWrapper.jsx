@@ -16,6 +16,15 @@ export function getRol() {
   }
 }
 
+export function isAuthenticated(){
+  if (localStorage.getItem('token')) {
+    return true
+  }else{
+    return false
+  }
+}
+
+
 export const makeRequest = async (metodo, complement, payload) => {
   try {
     if (metodo === undefined) {

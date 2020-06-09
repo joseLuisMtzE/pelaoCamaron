@@ -3,7 +3,7 @@ import React from 'react';
 import Logo from '../assets/logo.png';
 import { makeRequest } from '../shared/ApiWrapper';
 import { errorAlert } from '../shared/Alerts';
-import { useHistory } from 'react-router-dom';
+//import { useHistory } from 'react-router-dom';
 
 const layout = {
   labelCol: {
@@ -23,11 +23,11 @@ const tailLayout = {
 // const LSKEY = 'users';
 
 const FormLogin = () => {
-  let history = useHistory();
+  //let history = useHistory();
   const [form] = Form.useForm();
 
-  form.setFieldsValue({ correo: 'jlmtz62@gmail.mx', contrasena: '123123' });
-
+  form.setFieldsValue({ correo: 'jsolis@gmail.mx', contrasena: '321321' });
+//jlmtz62@gmail.mx  123123
   const onFinish = async values => {
     // localStorage.setItem(LSKEY, JSON.stringify(values));
     console.log('Success:', values);
@@ -37,7 +37,8 @@ const FormLogin = () => {
       if (response.status === 200) {
         let data = response.data;
         localStorage.setItem('token', data && data.token);
-        history.push('/mesas');
+        //history.push('/mesas');
+        window.location.href='/mesas'
       } else {
         errorAlert('Error', 'Algo salió mal');
       }

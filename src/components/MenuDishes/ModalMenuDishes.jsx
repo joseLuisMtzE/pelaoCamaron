@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { Modal, Button } from 'antd';
 import FormMenuDishes from './FormMenuDishes'
-
+import { PlusOutlined } from '@ant-design/icons';
 
 function ModalMenuDishes({token}) {
   const [state, setState] = useState({ visible: false, loading:false });
@@ -33,7 +33,7 @@ function ModalMenuDishes({token}) {
     <div>
       <div>
         <Button className="floatButton" type="primary" onClick={showModal} shape="circle"
-            icon={'+'}
+            icon={<PlusOutlined />}
             style={{
               margin: 6,
               width: 50,

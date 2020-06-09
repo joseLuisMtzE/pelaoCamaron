@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button} from 'antd';
-
+import {  LoadingOutlined} from '@ant-design/icons';
 function ScrollMenu({category, setFilter}) {
 
   return (
@@ -9,7 +9,7 @@ function ScrollMenu({category, setFilter}) {
       <Button
       onClick={()=> setFilter(category._id)}
         shape="circle"
-        icon={'xD'}
+        icon={<LoadingOutlined />}
         size={''}
         style={{
           margin: 6,

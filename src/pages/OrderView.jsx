@@ -133,7 +133,7 @@ export default function OrderView() {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button shape="circle" className="discount-btn">
+            <Button shape="circle" className="discount-btn" >
               <Link to="/agregar-descuento-karen">
                 <DollarCircleOutlined className="normal-size" />
               </Link>
