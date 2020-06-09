@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
+import { Link } from 'react-router-dom';
 
 import io from 'socket.io-client';
 
@@ -13,7 +14,8 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   let valorOpcion = '',
     labelOpcion = '';
   let options = [];
-  const room = '5ed8686443cd831fb406472e';
+
+  // const room = '5ed8686443cd831fb406472e';
 
   const socketJoinRoom = async room => {
     console.log('Joined called');
