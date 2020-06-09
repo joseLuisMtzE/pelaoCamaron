@@ -3,7 +3,7 @@ import VistaGeneral from '../components/OrdersView/VistaGeneral';
 import { makeRequest } from '../shared/ApiWrapper';
 
 function OrdersView(props) {
-  const [orden, setOrden] = useState({});
+  const [orden, setOrden] = useState([]);
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   const recuperarOrdenes = async () => {

@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 const socket = io('https://dev-socketio.herokuapp.com');
 
 
-function ComandasPage(props) {
+function ComandasPage() {
   const [comandas, setComanda] = useState({});
   const [areas, setArea] = useState([]);
   const [verTodas, setVerTodas] = useState(false);
