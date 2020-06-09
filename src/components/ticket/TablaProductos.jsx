@@ -10,10 +10,12 @@ const TablaProductos = (props) => {
     precioTotal = 0,
     descuentoPorcentaje =
       comandas.comandas && comandas.pago.porcentajeDescuento,
-    descuentoCantidad = 0;
+    descuentoCantidad = 0,
+    TOTAL = comandas.pago && comandas.pago.precioTotal;
+  //TOTAL = TOTAL.toFixed(2);
 
   //Para el renderizado condicional
-  if (comandas.estado == 'En proceso') {
+  if (comandas.estado === 'En proceso') {
     enProceso = true;
   } else {
     enProceso = false;
@@ -72,47 +74,52 @@ const TablaProductos = (props) => {
             <td colSpan={3}>% DE DESCUENTO</td>
             <td>{comandas.pago && comandas.pago.porcentajeDescuento}%</td>
           </tr>
-          <tr>
-            <td colSpan={3}>DESCUENTO</td>
-            <td>${descuentoCantidad}</td>
-          </tr>
           {!enProceso && (
-            <tr>
-              <td colSpan={3}>TIPO DE PAGO</td>
-              <td>{comandas.pago && comandas.pago.tipoPago}</td>
-            </tr>
+            <>
+              {comandas.length !== 0 ? (
+                <tr>
+                  <td colSpan={3}>DESCUENTO</td>
+                  <td>
+                    $
+                    {(comandas.pago && comandas.pago.cantidadDescuento).toFixed(
+                      2
+                    )}
+                  </td>
+                </tr>
+              ) : null}
+              <tr>
+                <td colSpan={3}>TIPO DE PAGO</td>
+                <td>{comandas.pago && comandas.pago.tipoPago}</td>
+              </tr>
+              <tr>
+                <td colSpan={3}>PAGO CON</td>
+                <td>${comandas.pago && comandas.pago.pagoCon}</td>
+              </tr>
+              <tr>
+                <td colSpan={3}>CAMBIO</td>
+                <td>${comandas.pago && comandas.pago.cambio}</td>
+              </tr>
+              <tr>
+                <td colSpan={3}>IMPUESTOS</td>
+                <td>${impuestos.toFixed(2)}</td>
+              </tr>
+            </>
           )}
-          {!enProceso && (
-            <tr>
-              <td colSpan={3}>PAGO CON</td>
-              <td>${comandas.pago && comandas.pago.pagoCon}</td>
-            </tr>
-          )}
-          {!enProceso && (
-            <tr>
-              <td colSpan={3}>CAMBIO</td>
-              <td>${comandas.pago && comandas.pago.cambio}</td>
-            </tr>
-          )}
-          {!enProceso && (
-            <tr>
-              <td colSpan={3}>IMPUESTOS</td>
-              <td>${impuestos.toFixed(2)}</td>
-            </tr>
-          )}
-
           <tr>
             <td colSpan={3}>SUB-TOTAL</td>
-            <td>${subtotal}</td>
+            <td>${comandas.pago && comandas.pago.subTotal}</td>
           </tr>
-          <tr>
-            <td colSpan={3}>
-              <h2>TOTAL: </h2>
-            </td>
-            <td>
-              <h2>${precioTotal}</h2>
-            </td>
-          </tr>
+
+          {comandas.length !== 0 ? (
+            <tr>
+              <td colSpan={3}>
+                <h2>TOTAL: </h2>
+              </td>
+              <td>
+                <h2>${TOTAL.toFixed(2)}</h2>
+              </td>
+            </tr>
+          ) : null}
         </tbody>
       </table>
     </div>

@@ -8,7 +8,9 @@ import {
   MenuOutlined,
   BookOutlined,
   AppstoreOutlined,
-  PoweroffOutlined
+  PoweroffOutlined,
+  NotificationOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import {isAuthenticated} from '../../shared/ApiWrapper'
@@ -33,7 +35,7 @@ function Sidernav(props) {
         <Sider
           breakpoint="xs"
           collapsedWidth="0"
-          onBreakpoint={broken => {
+          onBreakpoint={(broken) => {
             console.log(broken);
           }}
           onCollapse={(collapsed, type) => {
@@ -80,6 +82,18 @@ function Sidernav(props) {
               <UserOutlined />
               <Link className="nav-text" to="">
                 Usuarios
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="7">
+              <ProfileOutlined />
+              <Link to="/ordenes-vista-general" className="nav-text">
+                Órdenes
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="8">
+              <NotificationOutlined />
+              <Link to="/comandas" className="nav-text">
+                Comandas
               </Link>
             </Menu.Item>
           </Menu>

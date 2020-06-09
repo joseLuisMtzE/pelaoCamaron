@@ -18,24 +18,28 @@ const ConvertidorNumLetras = (props) => {
     precioTotal = 0,
     descuentoPorcentaje =
       comandas.comandas && comandas.pago.porcentajeDescuento,
-    descuentoCantidad = 0;
+    descuentoCantidad = 0,
+    TOTAL = comandas.pago && comandas.pago.precioTotal;
 
   //Para obtejer subtotal, impuestos y precioTotal
   comandas.comandas &&
     props.comandas.comandas.map((comanda) => {
       precioTotal += comanda.cantidad * comanda.platillo.precioConIva;
+      return '';
     });
 
   //Calcular descuento
   descuentoCantidad = (precioTotal * descuentoPorcentaje) / 100;
   precioTotal = precioTotal - descuentoCantidad;
   //Obtener decimales
-  decimales = precioTotal - Math.floor(precioTotal);
+  decimales = TOTAL - Math.floor(TOTAL);
+  TOTAL = TOTAL - decimales;
   //Conversión del numero decimal a numero entero
   decimales *= 100;
   decimales = Math.round(decimales);
   sindecimales = Math.trunc(decimales);
-  precioTotal = precioTotal.toFixed(2);
+
+  //TOTAL = TOTAL.toFixed(2);
 
   function Unidades(num) {
     switch (num) {
@@ -57,6 +61,8 @@ const ConvertidorNumLetras = (props) => {
         return 'OCHO';
       case 9:
         return 'NUEVE';
+      default:
+        return '';
     }
 
     return '';
@@ -168,7 +174,7 @@ const ConvertidorNumLetras = (props) => {
     strMiles = Seccion(num, divisor, 'MIL', 'MIL');
     strCentenas = Centenas(resto);
 
-    if (strMiles == '') return strCentenas;
+    if (strMiles === '') return strCentenas;
 
     return strMiles + ' ' + strCentenas;
 
@@ -183,31 +189,56 @@ const ConvertidorNumLetras = (props) => {
     strMillones = Seccion(num, divisor, 'UN MILLON', 'MILLONES');
     strMiles = Miles(resto);
 
-    if (strMillones == '') return strMiles;
+    if (strMillones === '') return strMiles;
 
     return strMillones + ' ' + strMiles;
 
     //return Seccion(num, divisor, "UN MILLON", "MILLONES") + " " + Miles(resto);
   } //Millones()
 
-  function NumeroALetras(num) {
+  function NumeroALetras(num, centavos) {
     var data = {
       numero: num,
       enteros: Math.floor(num),
+      centavos: Math.round(num * 100) - Math.floor(num) * 100,
       letrasCentavos: '',
     };
+    if (centavos === undefined || centavos === false) {
+      data.letrasMonedaPlural = 'PESOS';
+      data.letrasMonedaSingular = 'PESO';
+    } else {
+      data.letrasMonedaPlural = 'CENTAVOS';
+      data.letrasMonedaSingular = 'CENTAVO';
+    }
 
-    data.letrasMonedaPlural = 'PESOS';
-    data.letrasMonedaSingular = 'PESO';
+    if (data.centavos > 0)
+      data.letrasCentavos = 'CON ' + NumeroALetras(data.centavos, true);
 
-    if (data.enteros == 0) return 'CERO ' + data.letrasMonedaPlural;
-    if (data.enteros == 1)
-      return Millones(data.enteros) + ' ' + data.letrasMonedaSingular;
-    else return Millones(data.enteros) + ' ' + data.letrasMonedaPlural + ' ';
+    if (data.enteros === 0)
+      return 'CERO ' + data.letrasMonedaPlural + ' ' + data.letrasCentavos;
+    if (data.enteros === 1)
+      return (
+        Millones(data.enteros) +
+        ' ' +
+        data.letrasMonedaSingular +
+        ' ' +
+        data.letrasCentavos
+      );
+    else
+      return (
+        Millones(data.enteros) +
+        ' ' +
+        data.letrasMonedaPlural +
+        ' ' +
+        data.letrasCentavos
+      );
   } //NumeroALetras()
   return (
     <div className="Container-ticket">
-      <h3>({NumeroALetras(precioTotal) + sindecimales}/100 MXN)</h3>
+      <h3>
+        ({NumeroALetras(TOTAL) + sindecimales}
+        /100 MXN)
+      </h3>
     </div>
   );
 };

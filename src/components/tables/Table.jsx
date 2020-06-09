@@ -3,7 +3,7 @@ import { Card, Modal, Cascader, Button, InputNumber } from 'antd';
 import {
   DeleteFilled,
   ExclamationCircleOutlined,
-  LoadingOutlined,
+  LoadingOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
@@ -15,34 +15,34 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
   const options = [
     {
       value: 'Disponible',
-      label: 'Disponible',
+      label: 'Disponible'
     },
     {
       value: 'Ocupada',
-      label: 'Ocupada',
+      label: 'Ocupada'
     },
     {
       value: 'Reservada',
-      label: 'Reservada',
-    },
+      label: 'Reservada'
+    }
   ];
 
   const tipoOrdenOptions = [
     {
       value: 'Local',
-      label: 'Local',
+      label: 'Local'
     },
     {
       value: 'Domicilio',
-      label: 'Domicilio',
-    },
+      label: 'Domicilio'
+    }
   ];
 
-  const onOrdenchange = (value) => {
+  const onOrdenchange = value => {
     if (value[0]) setOrderType(value[0]);
   };
 
-  const onchange = (value) => {
+  const onchange = value => {
     if (value[0]) table.estado = value[0];
     if (value[0] !== 'Reservada') {
       editTablesRequest(table._id, table.noMesa, table.estado);
@@ -83,12 +83,12 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     }
   };
 
-  const crearOrden = async (order) => {
+  const crearOrden = async order => {
     try {
       let response = await makeRequest('POST', `mesas/${table._id}/ordenes`, {
         numPersonas: order.numPersonas,
         tipoOrden: order.tipoOrden,
-        observaciones: order.observaciones,
+        observaciones: order.observaciones
       });
 
       if (response.status === 201) {
@@ -123,7 +123,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       onOk() {
         deleteTable(table.noMesa, table._id);
       },
-      onCancel() {},
+      onCancel() {}
     });
   };
 
@@ -181,31 +181,31 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                     placeholder="Agregar observaciones..."
                   />
                   <Button key="submit" type="primary" className="margin">
-                  <Link
-                    onClick={handleClick}
-                    to={{
-                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery',
-                      state: {
-                        idMesa: table._id
-                      }
-                    }}
-                  >
-                    Abrir cuenta
-                  </Link>
+                    <Link
+                      onClick={handleClick}
+                      to={{
+                        pathname:
+                          orderType === 'Local'
+                            ? '/agregar-platillos/:id'
+                            : '/home-delivery/'
+                      }}
+                    >
+                      Abrir cuenta
+                    </Link>
                   </Button>
-                </form>,
+                </form>
               ]
             : [
                 <Button type="primary" className="margin">
                   <Link
                     onClick={setLocalStorage}
                     to={{
-                      pathname: '/ver-orden/:id',
+                      pathname: '/ver-orden/:id'
                     }}
                   >
                     Ver orden
                   </Link>
-                </Button>,
+                </Button>
               ]
         }
       >

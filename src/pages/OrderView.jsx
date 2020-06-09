@@ -11,12 +11,14 @@ import {
   HomeOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import Discount from '../components/Discounts/Discount';
 
-export default function OrderView() {
+const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
+  // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
   const [id,setId] = useState('');
   const [tipoOrden, setTipoOrden]=useState('Local')
@@ -26,13 +28,17 @@ export default function OrderView() {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
       setOrders(data[0].comandas);
-      setTotal(data[0].pago)
+      setTotal(data[0].pago);
       if (response.status === 200) {
         // localStorage.setItem('orderID',data[0]._id);
         
         setTipoOrden(data[0].tipoOrden)
         setId(data[0]._id);
-        window.history.replaceState(null,null,'http://localhost:3000/ver-orden/'+data[0]._id) 
+        window.history.replaceState(
+          null,
+          null,
+          'http://localhost:3000/ver-orden/' + data[0]._id
+        );
       }
       return data;
     } catch (err) {
@@ -49,22 +55,20 @@ export default function OrderView() {
 
   useEffect(() => {
     /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
-    orders.map((x)=>{
-      orders.map((y,index)=>{
-        if (
-          x &&
-          x.platillo._id === y.platillo._id &&
-          x !== y
-        ) {
+    orders.map(x => {
+      orders.map((y, index) => {
+        if (x && x.platillo._id === y.platillo._id && x !== y) {
           x.cantidad += y.cantidad;
           orders.splice(index, 1);
         }
-      })
-    })
-    orders.map((order)=>{
+        return null;
+      });
+      return null;
+    });
+    orders.map(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
-    })
+    });
   }, [orders]);
 
   console.log(orders)
@@ -80,7 +84,7 @@ export default function OrderView() {
             style={{
               background: 'white',
               padding: 25,
-              borderRadius: 15,
+              borderRadius: 15
             }}
           >
             <table style={{ width: '100%' }}>
@@ -92,7 +96,7 @@ export default function OrderView() {
                   <th>Sub-total</th>
                   <th>Precio</th>
                 </tr>
-                {orders.map((order) => (
+                {orders.map(order => (
                   <tr style={{ padding: 20 }}>
                     <td>{order.platillo.nombre}</td>
                     <td>{order.cantidad}</td>
@@ -109,12 +113,10 @@ export default function OrderView() {
               background: 'white',
               padding: 15,
               borderRadius: 15,
-              marginTop: 20,
+              marginTop: 20
             }}
           >
-            <h3 style={{ textAlign: 'center' }}>
-              Subtotal: ${total.subTotal}
-            </h3>
+            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal}</h3>
             <h3 style={{ textAlign: 'center' }}>
               Total: <span className="total">${total.precioTotal}</span>
             </h3>
@@ -172,4 +174,5 @@ export default function OrderView() {
       </Row>
     </div>
   );
-}
+};
+export default OrderView;
