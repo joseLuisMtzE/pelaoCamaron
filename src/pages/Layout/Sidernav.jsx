@@ -80,7 +80,7 @@ function Sidernav(props) {
             </SubMenu>
             <Menu.Item key="6">
               <UserOutlined />
-              <Link className="nav-text" to="">
+              <Link className="nav-text" to="/vista-usuarios">
                 Usuarios
               </Link>
             </Menu.Item>
