@@ -19,7 +19,7 @@ const Discount = ({ orderId, total }) => {
   //funciones para la modal
   const showModal = () => {
     setState({
-      visible: true,
+      visible: true
     });
   };
 
@@ -35,13 +35,13 @@ const Discount = ({ orderId, total }) => {
   };
 
   //Guardado del valor del descuento
-  const porDiscountChange = (e) => {
+  const porDiscountChange = e => {
     setporDiscount(e.target.value);
     // console.log(porDiscount);
   };
 
   //Cambio del subtotal dependiendo el porcentaje de descuento
-  const result = (discount) => {
+  const result = discount => {
     const porcentaje = (discount * total) / 100;
     const resultado = total - porcentaje;
     setSubTotal(resultado);
@@ -113,7 +113,7 @@ const Discount = ({ orderId, total }) => {
             </Button>,
             <Button key="submit" type="primary" onClick={handleOk}>
               Aceptar
-            </Button>,
+            </Button>
           ]}
         >
           <div className="Descuentos">
@@ -133,10 +133,8 @@ const Discount = ({ orderId, total }) => {
                     validator: (_, value) =>
                       value >= 0 && value <= 100
                         ? Promise.resolve()
-                        : Promise.reject(
-                          'El porcentaje debe ser entre 0 y 100'
-                        ),
-                  },
+                        : Promise.reject('El porcentaje debe ser entre 0 y 100')
+                  }
                 ]}
               >
                 <Input

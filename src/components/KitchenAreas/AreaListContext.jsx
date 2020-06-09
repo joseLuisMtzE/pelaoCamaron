@@ -94,7 +94,8 @@ const AreaListContextProvider = props => {
   const addArea = async name => {
     loader();
     let response = await addAreaRequest(name);
-    setAreas([...areas, { _id: response._id, nombre: response.nombre }]);
+    response &&
+      setAreas([...areas, { _id: response._id, nombre: response.nombre }]);
   };
 
   const removeArea = async id => {

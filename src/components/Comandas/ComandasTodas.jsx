@@ -7,11 +7,14 @@ import Comanda from './Comanda';
 const ComandasTodas = () => {
   const [comandasTodas, setComandasTodas] = useState([]);
   const [areas, setArea] = useState([]);
+  const [mesas, setMesas] = useState([]);
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
   let valorOpcion = '';
   let valorOpcionEstado = '';
+  let valorOpcionMesas = '';
   let options = [];
   let optionsEstado = [];
+  let optionsMesas = [];
 
   /****** OBTENER COMANDAS ******/
   //Obtener todas las comandas
@@ -25,12 +28,22 @@ const ComandasTodas = () => {
       //console.log(err);
     }
   };
-
   /***** OBTENER TODAS LAS AREAS ******/
   //Obtener Areas
   const obtenerAreas = async () => {
     try {
       let response = await makeRequest('GET', 'areas');
+      let data = response.data.data;
+      ////console.log('data', data);
+      return data;
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+  /*OBTENER MESAS */
+  const obtenerMesas = async () => {
+    try {
+      let response = await makeRequest('GET', 'mesas?isActive=true');
       let data = response.data.data;
       ////console.log('data', data);
       return data;
@@ -44,14 +57,15 @@ const ComandasTodas = () => {
     setComandasTodas(comandasTodas);
     const areas = await obtenerAreas();
     setArea(areas);
+    const mesas = await obtenerMesas();
+    setMesas(mesas);
   };
   useEffect(() => {
     inicializarState();
   }, []);
-  ////console.log('areas', areas);
+  //console.log('mesas', mesas);
 
   /******FILTRAR POR ÁREA ******/
-
   if (areas.length !== 0) {
     options = areas.map((area) => ({
       value: area.nombre,
@@ -59,7 +73,6 @@ const ComandasTodas = () => {
     }));
   }
   ////console.log(options);
-
   function onChange(value) {
     valorOpcion = value[0];
     ////console.log(value);
@@ -144,16 +157,54 @@ const ComandasTodas = () => {
     });
   }
 
+  /******FILTRADO POR MESA ******/
+  if (mesas.length !== 0) {
+    optionsMesas = mesas.map((mesa) => ({
+      value: mesa.noMesa,
+      label: mesa.noMesa,
+    }));
+  }
+  function onChangeMesas(value) {
+    valorOpcionMesas = value[0];
+    ////console.log(value);
+  }
+  function handleModalOkMesas() {
+    //console.log('ok', valorOpcionMesas);
+    let resultadoMesas = [...comandasTodas].filter(
+      (comanda) => comanda.orden.mesa.noMesa === valorOpcionMesas
+    );
+    //console.log('resultadoEstado de comandas filtradas', resultadoEstado);
+    setComandasFiltradas(resultadoMesas);
+    ////console.log('comandas Filtradas', comandasFiltradas);*/
+  }
+  function infoMesas() {
+    Modal.info({
+      title: 'Cambiar por Mesas',
+      content: (
+        <div>
+          <br />
+          <Cascader
+            options={optionsMesas}
+            onChange={onChangeMesas}
+            placeholder="Mesas..."
+          />
+        </div>
+      ),
+      onOk() {
+        handleModalOkMesas();
+      },
+    });
+  }
+
   return (
     <div className="wrapper-comandas">
       <h1 className="tituloPedidos"> TODAS LAS COMANDAS </h1>
-      <div className="center">
+      <div className="botonesFiltrado">
         <Button type="primary" icon={<FilterFilled />} default onClick={info}>
           Cambiar área
         </Button>
       </div>
-      <br></br>
-      <div className="center">
+      <div className="botonesFiltrado">
         <Button
           type="primary"
           icon={<FilterFilled />}
@@ -161,6 +212,16 @@ const ComandasTodas = () => {
           onClick={infoEstado}
         >
           Cambiar estado
+        </Button>
+      </div>
+      <div className="botonesFiltrado">
+        <Button
+          type="primary"
+          icon={<FilterFilled />}
+          default
+          onClick={infoMesas}
+        >
+          Cambiar mesas
         </Button>
       </div>
       <div className="scrolling-wrapper">

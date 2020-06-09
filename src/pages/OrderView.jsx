@@ -11,11 +11,11 @@ import {
   PrinterOutlined,
   DollarCircleOutlined
 } from '@ant-design/icons';
-import Discount from '../components/Discounts/Discount';
 
 import { Link } from 'react-router-dom';
+import Discount from '../components/Discounts/Discount';
 
-export default function OrderView() {
+const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
 
@@ -158,4 +158,5 @@ export default function OrderView() {
       </Row>
     </div>
   );
-}
+};
+export default OrderView;
