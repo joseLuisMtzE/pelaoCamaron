@@ -2,6 +2,9 @@
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
+.margin-bottom-1 {
+  margin-bottom: 0.5rem;
+}
 
 .alot-margin-bottom {
   margin-bottom: 200px;
@@ -110,7 +113,7 @@ div.scrollmenu a:hover {
   right: 10px;
   bottom: 10px;
   position: absolute;
-  background-color: #95D362;
+  background-color: #95d362;
 }
 
 .ocupada {
@@ -120,13 +123,13 @@ div.scrollmenu a:hover {
   right: 10px;
   bottom: 10px;
   position: absolute;
-  background-color: #DC7171;
+  background-color: #dc7171;
 }
 
 .reservar-btn {
-  background-color: #FED154 !important;
+  background-color: #fed154 !important;
   color: white !important;
-  border: 1px solid #FED154 !important;
+  border: 1px solid #fed154 !important;
   box-shadow: 0px 2px 0px 0px rgb(240, 240, 240) !important;
 }
 
@@ -137,7 +140,7 @@ div.scrollmenu a:hover {
   right: 10px;
   bottom: 10px;
   position: absolute;
-  background-color: #FED154;
+  background-color: #fed154;
 }
 
 .search-input {
@@ -190,26 +193,26 @@ div.scrollmenu a:hover {
   width: 60px !important;
   height: 60px !important;
   border: none !important;
-  background-color: #FED154 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0px 3px 2px 0px #FEB225 !important;
+  background-color: #fed154 !important;
+  color: #ffffff !important;
+  box-shadow: 0px 3px 2px 0px #feb225 !important;
 }
 
 .add-btn {
   width: 60px !important;
   height: 60px !important;
   border: none !important;
-  background-color: #FED154 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0px 3px 2px 0px #FEB225 !important;
+  background-color: #fed154 !important;
+  color: #ffffff !important;
+  box-shadow: 0px 3px 2px 0px #feb225 !important;
 }
 
 .close-btn {
   width: 60px !important;
   height: 60px !important;
   border: none !important;
-  background-color: #DC7171 !important;
-  color: #FFFFFF !important;
+  background-color: #dc7171 !important;
+  color: #ffffff !important;
   box-shadow: 0px 3px 2px 0px rgb(207, 82, 82) !important;
 }
 
@@ -217,8 +220,8 @@ div.scrollmenu a:hover {
   width: 60px !important;
   height: 60px !important;
   border: none !important;
-  background-color: #FFC4C8 !important;
-  color: #FFFFFF !important;
+  background-color: #ffc4c8 !important;
+  color: #ffffff !important;
   box-shadow: 0px 3px 2px 0px rgb(255, 171, 176) !important;
 }
 
@@ -226,8 +229,8 @@ div.scrollmenu a:hover {
   width: 60px !important;
   height: 60px !important;
   border: none !important;
-  background-color: #6AC7E6 !important;
-  color: #FFFFFF !important;
+  background-color: #6ac7e6 !important;
+  color: #ffffff !important;
   box-shadow: 0px 3px 2px 0px rgb(70, 183, 221) !important;
 }
 
@@ -247,6 +250,10 @@ div.scrollmenu a:hover {
 }
 
 .total {
+  font-weight: bold;
+}
+
+.bold {
   font-weight: bold;
 }
 
