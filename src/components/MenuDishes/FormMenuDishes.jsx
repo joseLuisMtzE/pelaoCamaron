@@ -4,17 +4,17 @@ import { DishesContext } from './MenuDishesContext';
 
 const layout = {
   labelCol: {
-    span: 8,
+    span: 8
   },
   wrapperCol: {
-    span: 16,
-  },
+    span: 16
+  }
 };
 const tailLayout = {
   wrapperCol: {
     offset: 8,
-    span: 16,
-  },
+    span: 16
+  }
 };
 
 const LSKEY = 'menu-dishes';
@@ -38,17 +38,17 @@ const FormMenuDishes = ({ onOk }) => {
     initialize();
   }, []);
 
-  const categoryOptions = categories.map((category) => {
+  const categoryOptions = categories.map(category => {
     return {
       value: category._id,
-      label: category.nombre,
+      label: category.nombre
     };
   });
 
-  const areaOptions = areas.map((area) => {
+  const areaOptions = areas.map(area => {
     return {
       value: area._id,
-      label: area.nombre,
+      label: area.nombre
     };
   });
 
@@ -65,7 +65,7 @@ const FormMenuDishes = ({ onOk }) => {
 
   //console.log(categoryOptions)
 
-  const onFinish = (values) => {
+  const onFinish = values => {
     console.log('Datos Correctos...');
     //localStorage.setItem(LSKEY, JSON.stringify(values));
     addDishesRequest(values);
@@ -75,7 +75,7 @@ const FormMenuDishes = ({ onOk }) => {
     console.log('Success:', values);
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = errorInfo => {
     console.log('Datos Incorrectos...');
     console.log('Failed:', errorInfo);
   };
@@ -87,7 +87,7 @@ const FormMenuDishes = ({ onOk }) => {
           {...layout}
           name="basic"
           initialValues={{
-            remember: true,
+            remember: true
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -98,8 +98,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el nombre del platillo',
-              },
+                message: 'Introduce el nombre del platillo'
+              }
             ]}
           >
             <Input className="inputs" />
@@ -110,8 +110,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce la categoria',
-              },
+                message: 'Introduce la categoria'
+              }
             ]}
           >
             <Cascader options={categoryOptions} onChange={''} placeholder="" />
@@ -122,8 +122,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el area al que pertenece',
-              },
+                message: 'Introduce el area al que pertenece'
+              }
             ]}
           >
             <Cascader options={areaOptions} placeholder={''} />
@@ -134,8 +134,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el precio sin IVA',
-              },
+                message: 'Introduce el precio sin IVA'
+              }
             ]}
           >
             <InputNumber
@@ -154,8 +154,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el peso',
-              },
+                message: 'Introduce el peso'
+              }
             ]}
           >
             <Input className="inputs" />
@@ -166,8 +166,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce la descripcion del platillo',
-              },
+                message: 'Introduce la descripcion del platillo'
+              }
             ]}
           >
             <Input className="inputs" />
@@ -178,8 +178,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el tiempo de preparacion',
-              },
+                message: 'Introduce el tiempo de preparacion'
+              }
             ]}
           >
             <Input className="inputs" />
@@ -191,8 +191,8 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Sube una imagen del platillo',
-              },
+                message: 'Sube una imagen del platillo'
+              }
             ]}
           >
             <Input type="file" accept="image/*" className="inputs" />

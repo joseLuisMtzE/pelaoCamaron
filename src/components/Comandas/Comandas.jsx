@@ -5,26 +5,38 @@ import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { getRol } from '../../shared/ApiWrapper';
 
-const Comandas = ({ comandas, areas }) => {
+const Comandas = ({ comandas, areas, setVerTodas, room }) => {
   let valorOpcion = '';
   let options = [];
+  let id = '';
+  //console.log(comandas);
+
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
 
   /*OPCIONES AREA */
+  //console.log('se actualizo areas');
+  //opciones estado
+  // console.log(areas);
   if (areas.length !== 0) {
     options = areas.map((area) => ({
       value: area.nombre,
       label: area.nombre,
+      id: area._id,
     }));
   }
   //console.log(options);
 
-  function onChange(value) {
+  function onChange(value, area) {
     valorOpcion = value[0];
+    id = area[0].id;
     //console.log(value);
   }
   function handleModalOk() {
     console.log('ok', valorOpcion);
+    //setRoom(id);
+    room = id;
+    console.log('room', room);
+    console.log('id', id);
     let resultado = [...comandas].filter(
       (comanda) => comanda.platillo.area.nombre === valorOpcion
     );

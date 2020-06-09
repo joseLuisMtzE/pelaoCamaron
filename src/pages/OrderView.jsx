@@ -10,12 +10,14 @@ import {
   DollarCircleOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import Discount from '../components/Discounts/Discount';
 
-export default function OrderView() {
+const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
 
   const [orders, setOrders] = useState([]);
+  // const [orderId, setOrderId] = useState('');
   const [total, setTotal] = useState(0);
   const [id, setId] = useState('');
 
@@ -133,12 +135,7 @@ export default function OrderView() {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button shape="circle" className="discount-btn">
-              <Link to="/agregar-descuento-karen">
-                <DollarCircleOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Agregar descuento</p>
+            <Discount orderId={id} total={total.precioTotal} />
           </div>
           <div className="center alot-margin-bottom">
             <Button shape="circle" className="print-btn">
@@ -155,4 +152,5 @@ export default function OrderView() {
       </Row>
     </div>
   );
-}
+};
+export default OrderView;
