@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
-
+import { confirmDialog } from '../../shared/Alerts';
+import Icon from '@mdi/react';
+import { mdiClose } from '@mdi/js';
 //import icons
 import { Form, Input, Button, Tabs, Select } from 'antd';
 //! Constants
@@ -38,7 +40,7 @@ const UserEdit = (props) => {
       console.log(err);
     }
   };
-  
+
   const updateUser = async (usuario) => {
     try {
       let response = await makeRequest('PUT', `usuario/${id}`, usuario);
@@ -55,7 +57,17 @@ const UserEdit = (props) => {
     }
   };
 
-  const deleteUser= async(usuario)=>{
+  const handleDeleteUser = () => {
+    confirmDialog(
+      'eliminar',
+      '¿Desea elminiar este usuario?',
+      '',
+      '',
+      deleteUser
+    );
+  };
+
+  const deleteUser = async () => {
     try {
       let response = await makeRequest('DELETE', `usuario/${id}`);
       if (response.status === 204) {
@@ -69,9 +81,7 @@ const UserEdit = (props) => {
     } catch (err) {
       console.log(err);
     }
-  }
-
-  
+  };
 
   useEffect(() => {
     if (id != undefined) {
@@ -110,32 +120,32 @@ const UserEdit = (props) => {
       observaciones: values.observaciones,
       contrasena: values.contrasena,
     };
-    if(id!=undefined){
-      console.log('update')
+    if (id != undefined) {
+      console.log('update');
       console.log(usuario);
       updateUser(usuario);
-    }
-    else{
-      console.log('upload')
+    } else {
+      console.log('upload');
       console.log(usuario);
       addUser(usuario);
     }
-    
   };
-  
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-   
-  if(id==undefined){SubmitButton= 'Crear usuario';}
-  else{
-    SubmitButton= 'Guardar cambios';
-    borrarUsuario = 
-    <Link className="nav-text" to="/vista-usuarios">
-      <Button type="primary" danger onClick={deleteUser}> Elimnar Usuario</Button>
-    </Link>
+
+  if (id == undefined) {
+    SubmitButton = 'Crear usuario';
+  } else {
+    SubmitButton = 'Guardar cambios';
+    borrarUsuario = (
+      <Button type="primary" danger onClick={handleDeleteUser} className="boto">
+        {' '}
+        Eliminar Usuario
+      </Button>
+    );
   }
-  
 
   return (
     <div className="MainWrapper">
@@ -149,6 +159,21 @@ const UserEdit = (props) => {
         <div className="card-container">
           <Tabs type="card">
             <TabPane tab="Datos Generales" key="1">
+              <Link className="nav-text" to="/vista-usuarios">
+                <Button
+                  type="primary"
+                  shape="circle"
+                  danger
+                  className="exitbuton"
+                >
+                  <Icon
+                    path={mdiClose}
+                    title="Cerrar"
+                    size={0.9}
+                    color="#ffffff"
+                  />
+                </Button>
+              </Link>
               <div className="userDiv">
                 <UserTextInput title="Nombre" name="nombre" />
                 <UserTextInput title="Apellidos" name="apellidos" />
@@ -164,14 +189,31 @@ const UserEdit = (props) => {
                 <UserTextInput title="Nombre Completo" name="refnombre" />
                 <UserTextInput title="Ref Teléfono" name="reftelefono" />
               </div>
-              <span className="text-bold">Observaciones</span>
+              <h2 className="userTitle">Observaciones</h2>
               <div className="userDiv">
-                <Form.Item name={'observaciones'}>
-                  <Input.TextArea />
-                </Form.Item>
+                <div className="UserTextInput">
+                  <Form.Item name={'observaciones'}>
+                    <Input.TextArea />
+                  </Form.Item>
+                </div>
               </div>
             </TabPane>
             <TabPane tab="Credenciales" key="2">
+              <Link className="nav-text" to="/vista-usuarios">
+                <Button
+                  type="primary"
+                  shape="circle"
+                  danger
+                  className="exitbuton"
+                >
+                  <Icon
+                    path={mdiClose}
+                    title="Eliminar"
+                    size={0.9}
+                    color="#000000"
+                  />
+                </Button>
+              </Link>
               <h2 className="userTitle">Rol/Cargo</h2>
               <Form.Item name="rol" rules={[{ required: true }]}>
                 <Select
@@ -252,15 +294,10 @@ const UserEdit = (props) => {
             </TabPane>
           </Tabs>
           <div className="buttonWrapper">
-            <Link className="nav-text" to="/vista-usuarios">
-              <Button type="primary" danger>
-                Cancelar
-              </Button>
-            </Link>
-            <Button type="primary" htmlType="submit">
+            {borrarUsuario}
+            <Button type="primary" htmlType="submit" className="boto">
               {SubmitButton}
             </Button>
-            {borrarUsuario}
           </div>
         </div>
       </Form>
