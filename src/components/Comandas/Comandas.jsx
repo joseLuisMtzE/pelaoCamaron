@@ -99,7 +99,6 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     labelOpcion = selectedOptions[0].label;
     valorOpcion = value[0];
   }
-
   function handleModalOk() {
     // console.log('Se cambió el área a: ', labelOpcion);
     setSelectedArea(valorOpcion);
@@ -112,7 +111,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     //console.log('comandas Filtradas', comandasFiltradas);
   }
 
-  //Modal
+  /* MODAL */
   function info() {
     Modal.info({
       title: 'Cambiar área',
@@ -131,7 +130,6 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       }
     });
   }
-  //console.log(areas);
 
   return (
     <div className="wrapper-comandas">
@@ -149,7 +147,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
             <span className="normal-size">{labelSelectedArea}</span>
           </div>
         )}
-        <div className="scrolling-wrapper" ref={scrollingWrapper}>
+        <div className="scrolling-wrapper">
           {comandasFiltradas &&
             comandasFiltradas.map(comanda => (
               <Comanda comanda={comanda} onChange={onChange} />
