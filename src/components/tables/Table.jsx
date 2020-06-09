@@ -1,55 +1,65 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Modal, Cascader, Button, InputNumber } from 'antd';
 import {
   DeleteFilled,
   ExclamationCircleOutlined,
-  LoadingOutlined,
+  LoadingOutlined
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
 import { makeRequest, getRol } from '../../shared/ApiWrapper';
-import {alertSuccess,alertError} from '../../shared/Alert';
+import { alertSuccess, alertError } from '../../shared/Alert';
 const { confirm } = Modal;
 
 export default function Table({ table, deleteTable, editTablesRequest }) {
   const options = [
     {
       value: 'Disponible',
-      label: 'Disponible',
+      label: 'Disponible'
     },
     {
-      value: 'No disponible',
-      label: 'No disponible',
+      value: 'No Disponible',
+      label: 'No Disponible',
     },
     {
       value: 'Reservada',
-      label: 'Reservada',
+      label: 'Reservada'
+    }
+  ];
+
+  const optionsReservada = [
+    {
+      value: 'Disponible',
+      label: 'Disponible'
     },
+    {
+      value: 'Reservada',
+      label: 'Reservada'
+    }
   ];
 
   const tipoOrdenOptions = [
     {
       value: 'Local',
-      label: 'Local',
+      label: 'Local'
     },
     {
       value: 'Domicilio',
-      label: 'Domicilio',
-    },
+      label: 'Domicilio'
+    }
   ];
 
-  const onOrdenchange = (value) => {
+  const onOrdenchange = value => {
     if (value[0]) setOrderType(value[0]);
   };
 
-  const onchange = (value) => {
+  const onchange = value => {
     if (value[0]) table.estado = value[0];
     if (value[0] !== 'Reservada') {
       editTablesRequest(table._id, table.noMesa, table.estado);
       setReservada(false);
       setVisible(false);
     } else setReservada(true);
-    
   };
 
   const [visible, setVisible] = useState(false);
@@ -69,6 +79,12 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     setVisible(false);
   };
 
+  useEffect(()=>{
+    if(table.estado === 'Reservada'){
+      setReservada(true);
+    }
+  })
+
   const handleClick = async () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
@@ -76,25 +92,28 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     console.log(data);
     localStorage.setItem('domicilio',JSON.stringify(data));
     localStorage.setItem('noMesa', table.noMesa);
-    if(orderType==='Local'){
+    if (orderType === 'Local') {
       const newOrder = await crearOrden(data);
       setOrder(newOrder);
       console.log(newOrder);
     }
   };
 
-  const crearOrden = async (order) => {
+  const crearOrden = async order => {
     try {
       let response = await makeRequest('POST', `mesas/${table._id}/ordenes`, {
         numPersonas: order.numPersonas,
         tipoOrden: order.tipoOrden,
-        observaciones: order.observaciones,
+        observaciones: order.observaciones
       });
 
       if (response.status === 201) {
         console.log('Orden creada correctamente');
-        window.history.replaceState(null,null,'http://localhost:3000/agregar-platillos/'+response.data.data._id) 
-
+        window.history.replaceState(
+          null,
+          null,
+          'http://localhost:3000/agregar-platillos/' + response.data.data._id
+        );
       } else {
         window.location.href = '/mesas';
         alertError('Hubo un error al crear la orden');
@@ -103,8 +122,8 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       return data;
     } catch (err) {
       console.log(err);
-      window.location.href = '/mesas'
-      alertError('Hubo un error al crear la orden')
+      window.location.href = '/mesas';
+      alertError('Hubo un error al crear la orden');
     }
   };
 
@@ -120,23 +139,23 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       onOk() {
         deleteTable(table.noMesa, table._id);
       },
-      onCancel() {},
+      onCancel() {}
     });
   };
 
-  const reservar = ()=>{
+  const reservar = () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
-    if(data.detalles===undefined || data.detalles==='')
+    if (data.detalles === undefined || data.detalles === '')
       data.detalles = ' ';
-    editTablesRequest(table._id, table.noMesa, table.estado,data.detalles);
+    editTablesRequest(table._id, table.noMesa, table.estado, data.detalles);
     setVisible(false);
-  }
+  };
 
-  const setLocalStorage = () =>{
-    localStorage.setItem('noMesa',table.noMesa);
-    localStorage.setItem('mesaID',table._id);
-  }
+  const setLocalStorage = () => {
+    localStorage.setItem('noMesa', table.noMesa);
+    localStorage.setItem('mesaID', table._id);
+  };
 
   var title = `Mesa ${table.noMesa}`;
   var modalTitle = `Mesa ${table.noMesa} - ${table.estado}`;
@@ -181,16 +200,16 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   <Link
                     onClick={handleClick}
                     to={{
-                      pathname: orderType==='Local' ? '/agregar-platillos/:id' : '/home-delivery',
-                      state: {
-                        idMesa: table._id
-                      }
+                      pathname:
+                        orderType === 'Local'
+                          ? '/agregar-platillos/:id'
+                          : '/home-delivery/'
                     }}
                   >
                     Abrir cuenta
                   </Link>
                 </Button>
-              </form>,
+              </form>
             ]
             : null
         }
@@ -199,7 +218,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
           <strong>Editar</strong>
           <br />
           <Cascader
-            options={options}
+            options={reservada ? optionsReservada : options}
             onChange={onchange}
             placeholder="Estado de la mesa..."
           />

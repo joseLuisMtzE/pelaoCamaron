@@ -9,8 +9,9 @@ import {
   PlusOutlined,
   CloseOutlined,
   PrinterOutlined,
-  DollarCircleOutlined,
+  DollarCircleOutlined
 } from '@ant-design/icons';
+import Discount from '../components/Discounts/Discount';
 
 import { Link } from 'react-router-dom';
 
@@ -30,11 +31,15 @@ export default function OrderView() {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
       setOrders(data[0].comandas);
-      setTotal(data[0].pago)
+      setTotal(data[0].pago);
       if (response.status === 200) {
         // localStorage.setItem('orderID',data[0]._id);
         setId(data[0]._id);
-        window.history.replaceState(null,null,'http://localhost:3000/ver-orden/'+data[0]._id) 
+        window.history.replaceState(
+          null,
+          null,
+          'http://localhost:3000/ver-orden/' + data[0]._id
+        );
       }
       return data;
     } catch (err) {
@@ -51,22 +56,20 @@ export default function OrderView() {
 
   useEffect(() => {
     /*Esto lo que hace es sumar los precios de platillos repetidos, sumar la cantidad de platillos repetidos y eliminar el platillo repetido*/
-    orders.map((x)=>{
-      orders.map((y,index)=>{
-        if (
-          x &&
-          x.platillo._id === y.platillo._id &&
-          x !== y
-        ) {
+    orders.map(x => {
+      orders.map((y, index) => {
+        if (x && x.platillo._id === y.platillo._id && x !== y) {
           x.cantidad += y.cantidad;
           orders.splice(index, 1);
         }
-      })
-    })
-    orders.map((order)=>{
+        return null;
+      });
+      return null;
+    });
+    orders.map(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
-    })
+    });
   }, [orders]);
 
   return (
@@ -78,7 +81,7 @@ export default function OrderView() {
           {orders.length===0 ? <div style={{textAlign:'center',top:200,position:'relative'}}><LoadingOutlined className="big-size" spin/>
           </div>: null}
         </Col>
-        <Col xs={24} md={18}>
+        <Col xs={24} md={18} style={{zIndex:10}}>
           {orders.length!==0 &&
             <section
               style={{
@@ -98,7 +101,7 @@ export default function OrderView() {
                     <th></th>
                   </tr>
                   {orders.map((order,index) => (
-                    <Order order={order} key={index}/>
+                    <Order order={order} key={index} getOrders={getOrders}/>
                   ))}
                 </tbody>
               </table>
@@ -109,7 +112,7 @@ export default function OrderView() {
               background: 'white',
               padding: 15,
               borderRadius: 15,
-              marginTop: 20,
+              marginTop: 20
             }}
           >
             <h3 style={{ textAlign: 'center' }}>
@@ -120,7 +123,7 @@ export default function OrderView() {
             </h3>
           </section>}
         </Col>
-        {orders.length!==0 &&<Col xs={24} md={6}>
+        {orders.length!==0 &&<Col xs={24} md={6} style={{zIndex:10}}>
           <div className="center margin-top">
             <Button shape="circle" className="add-btn">
               <Link to={`/agregar-platillos/${id}`}>
@@ -138,12 +141,7 @@ export default function OrderView() {
             <p>Cerrar orden</p>
           </div>
           <div className="center">
-            <Button shape="circle" className="discount-btn">
-              <Link to="/agregar-descuento-karen">
-                <DollarCircleOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Agregar descuento</p>
+            <Discount orderId={id} total={total.precioTotal} />
           </div>
           <div className="center alot-margin-bottom">
             <Button shape="circle" className="print-btn">

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import VistaGeneral from '../components/OrdersView/VistaGeneral';
 import { makeRequest } from '../shared/ApiWrapper';
-import '../styles/components/OrdersViewStyles.css';
 
 function OrdersView(props) {
-  const [orden, setOrden] = useState({});
+  const [orden, setOrden] = useState([]);
   //const id = props.match.params.id;
   //console.log(domicilio ? true : false);
   const recuperarOrdenes = async () => {
     try {
-      let response = await makeRequest('GET', `ordenes`);
+      let response = await makeRequest('GET', 'ordenes');
       let data = response.data.data;
       //console.log('data', data);
       return data;

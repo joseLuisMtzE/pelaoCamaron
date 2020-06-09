@@ -3,9 +3,11 @@ import { Button, Modal,InputNumber  } from 'antd';
 import { EditFilled } from '@ant-design/icons';
 import {alertSuccess,alertError} from '../../shared/Alert';
 import { makeRequest } from '../../shared/ApiWrapper';
+import {
+  DeleteFilled
+} from '@ant-design/icons';
 
-
-export default function Order({ order }) {
+export default function Order({ order, getOrders }) {
 
   const [visible, setVisible] = useState(false);
   const [newCount,setNewCount] = useState(order.cantidad);
@@ -31,7 +33,13 @@ export default function Order({ order }) {
     console.log(order._id,order.platillo._id,newCount,order.estado,order.observaciones,order.orden)
     await editComandaRequest(order._id,order.platillo._id,newCount,order.estado,order.observaciones,order.orden);
     setVisible(false);
-    
+    await getOrders()
+  }
+
+  const cancelar = async ()=>{
+    console.log('Cancelado xd');
+    await editComandaRequest(order._id,order.platillo._id,newCount,'Cancelada',order.observaciones,order.orden);
+    await getOrders()
   }
 
   const editComandaRequest = async (idComanda,idPlatillo,cantidad,estado,observaciones,idOrden) => {
@@ -57,6 +65,7 @@ export default function Order({ order }) {
       alertError('Hubo un error al editar la comanda');
     }
   };
+
   return (
     <tr style={{ padding: 20 }}>
       <td>{order.platillo.nombre}</td>
@@ -86,6 +95,7 @@ export default function Order({ order }) {
               <th>Nombre</th>
               <th>Cantidad</th>
               <th>Total</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -93,6 +103,9 @@ export default function Order({ order }) {
               <td>{order.platillo.nombre}</td>
               <InputNumber defaultValue={order.cantidad} onChange={onChange} min={0}></InputNumber>
               <td>${(order.platillo.precioConIva/order.cantidad * newCount).toFixed(2)}</td>
+              <td><Button onClick={cancelar} type="primary" danger>
+                <DeleteFilled />
+              </Button></td>
             </tr>
           </tbody>
         </table>

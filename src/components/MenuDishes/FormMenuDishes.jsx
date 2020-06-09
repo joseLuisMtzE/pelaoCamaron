@@ -1,6 +1,6 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
-import { PrinterOutlined } from '@ant-design/icons';
+import React, { useState, useEffect, useContext } from 'react';
+import { Form, Input, Button, Cascader, InputNumber } from 'antd';
+import { DishesContext } from './MenuDishesContext';
 
 const layout = {
   labelCol: {
@@ -18,41 +18,67 @@ const tailLayout = {
 };
 
 const LSKEY = 'menu-dishes';
+//const token='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODgxMjg2NzIsImV4cCI6MTU4ODE1NzQ3Mn0.nHKbrsDXwqkroyXTRqS6rMxg4pfF3L74WDy4SPIKpxY'
 
 const FormMenuDishes = ({ onOk }) => {
+  const { addDishesRequest, retrieveCategories, retrieveAreas } = useContext(
+    DishesContext
+  );
+
+  const [categories, setCategories] = useState([]);
+  const [areas, setAreas] = useState([]);
+
+  const initialize = async () => {
+    const initCategories = await retrieveCategories();
+    setCategories(initCategories);
+    const initAreas = await retrieveAreas();
+    setAreas(initAreas);
+  };
+  useEffect(() => {
+    initialize();
+  }, []);
+
+  const categoryOptions = categories.map((category) => {
+    return {
+      value: category._id,
+      label: category.nombre,
+    };
+  });
+
+  const areaOptions = areas.map((area) => {
+    return {
+      value: area._id,
+      label: area.nombre,
+    };
+  });
+
+  //Calcular iva
+  const [precioIva, setPrecioIva] = useState(0);
+
+  /*function calcIVA(value){
+    var conIva= value+value*.16;
+    console.log(conIva)
+     setPrecioIva(conIva)
+      
+    //console.log(document.getElementById('conIva').value.target)
+  }*/
+
+  //console.log(categoryOptions)
+
   const onFinish = (values) => {
-    localStorage.setItem(LSKEY, JSON.stringify(values));
+    console.log('Datos Correctos...');
+    //localStorage.setItem(LSKEY, JSON.stringify(values));
+    addDishesRequest(values);
+    setTimeout(() => {
+      onOk();
+    }, 3000);
     console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo) => {
+    console.log('Datos Incorrectos...');
     console.log('Failed:', errorInfo);
   };
-
-  /*
-<form action="">
-                    <label htmlFor="">Nombre</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Categoría</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Area de cocina</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Precio con iva</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Precio sin iva</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Gramos</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Descripción</label>
-                    <Input type="text"/>
-                    <label htmlFor="">Tiempo de preparación</label>
-                    <CascaderTime/>
-                    <label htmlFor="">Imagen</label>
-                    <Input type="file" capture="user" accept="image/*"/>
-                    <label htmlFor="">Impuesto</label>
-                    <Input type="text"/>
-                </form>
-*/
 
   return (
     <>
@@ -88,7 +114,7 @@ const FormMenuDishes = ({ onOk }) => {
               },
             ]}
           >
-            <Input className="inputs" />
+            <Cascader options={categoryOptions} onChange={''} placeholder="" />
           </Form.Item>
           <Form.Item
             label="Area"
@@ -100,19 +126,7 @@ const FormMenuDishes = ({ onOk }) => {
               },
             ]}
           >
-            <Input className="inputs" />
-          </Form.Item>
-          <Form.Item
-            label="Precio con IVA"
-            name="precioConIva"
-            rules={[
-              {
-                required: true,
-                message: 'Introduce el precio con IVA',
-              },
-            ]}
-          >
-            <Input className="inputs" />
+            <Cascader options={areaOptions} placeholder={''} />
           </Form.Item>
           <Form.Item
             label="Precio sin IVA"
@@ -124,10 +138,18 @@ const FormMenuDishes = ({ onOk }) => {
               },
             ]}
           >
-            <Input className="inputs" />
+            <InputNumber
+              className="inputs"
+              id="sinIva"
+              onChange={(value) => setPrecioIva(value + value * 0.16)}
+              style={{ float: 'left' }}
+            />
+          </Form.Item>
+          <Form.Item label="Precio con IVA" name="precioConIva">
+            <h4 style={{ float: 'left' }}>{precioIva}</h4>
           </Form.Item>
           <Form.Item
-            label="Peso"
+            label="Peso (gramos)"
             name="peso"
             rules={[
               {
@@ -151,8 +173,8 @@ const FormMenuDishes = ({ onOk }) => {
             <Input className="inputs" />
           </Form.Item>
           <Form.Item
-            label="Tiempo de preparacion"
-            name="tiempoPreparacion"
+            label="Tiempo de preparación (minutos)"
+            name="tiempoPreparación"
             rules={[
               {
                 required: true,
@@ -182,9 +204,9 @@ const FormMenuDishes = ({ onOk }) => {
               className="buttons"
               type="primary"
               htmlType="submit"
-              onClick={onOk}
+              /*onClick={onOk}*/
             >
-              Entrar
+              Agregar
             </Button>
           </Form.Item>
         </Form>
