@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 
 function getToken() {
   const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODg4ODkzMjksImV4cCI6MTU4ODkxODEyOX0.DunPqqwNInRE03f35lD3TcGPOooMuBMvZomaZbZwQNw';
   // if (!localStorage.getItem('token')) {
   //   throw Error('Esta mal el token');
   // }

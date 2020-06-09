@@ -1,5 +1,9 @@
 import { Form, Input, Button, InputNumber } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
+//import Domicilio from '../ticket/Domicilio';
+import { makeRequest } from '../../shared/ApiWrapper';
+import { alertError, alertSuccess } from '../../shared/Alert';
 
 const layout = {
   labelCol: {
@@ -15,11 +19,58 @@ const tailLayout = {
     span: 16,
   },
 };
+
+
+
+
 const LSKEY = 'address-home-delivery';
 
-const FormHomeDelivery = () => {
+const FormHomeDelivery = ({props}) => {
+
+  const crearOrden = async (idMesa,numPersonas,tipoOrden,observaciones,values ) => {
+    try {
+      let response = await makeRequest('POST', `mesas/${idMesa}/ordenes`, {
+        numPersonas: numPersonas,
+        tipoOrden: tipoOrden,
+        observaciones: observaciones,
+        domicilio:{
+          calle: values.calle,
+          colonia: values.colonia,
+          nombreCliente: values.nombreCliente,
+          numeroExterior: values.numeroExterior,
+          numeroInterior: values.numeroInterior,
+          pagaraCon: values.pagaraCon,
+          referencia: values.referencia,
+          telefono: values.telefono
+        }
+      });
+
+      if (response.status === 201) {
+        console.log('Orden creada correctamente');
+        window.location.href='http://localhost:3000/agregar-platillos/'+ response.data.data._id
+
+      } else {
+        window.location.href = '/mesas';
+        alertError('Hubo un error al crear la orden');
+      }
+      let data = response.data.data;
+      return data;
+    } catch (err) {
+      console.log(err);
+      window.location.href = '/mesas'
+      alertError('Hubo un error al crear la orden')
+    }
+  };
+
+
+  const domicilio =JSON.parse(localStorage.getItem('domicilio'))
+  console.log(domicilio.tipoOrden)
+
+
+
   const onFinish = (values) => {
-    localStorage.setItem(LSKEY,JSON.stringify(values))
+    localStorage.setItem(LSKEY, JSON.stringify(values));
+    crearOrden(props.location.state.idMesa, domicilio.numPersonas,domicilio.tipoOrden,domicilio.observaciones, values )
     console.log('Success:', values);
   };
 
@@ -27,7 +78,9 @@ const FormHomeDelivery = () => {
     console.log('Failed:', errorInfo);
   };
   return (
-    <Form className="form-home-delivery"
+    <>
+    <Form
+      className="form-home-delivery"
       {...layout}
       name="basic"
       initialValues={{
@@ -46,7 +99,7 @@ const FormHomeDelivery = () => {
           },
         ]}
       >
-        <Input className="inputs"/>
+        <Input className="inputs" />
       </Form.Item>
 
       <Form.Item
@@ -119,39 +172,36 @@ const FormHomeDelivery = () => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="Pagara con..."
-        name="pagaraCon"
-        rules={[
-          {
-            required: true,
-            message: 'Introduzca con cuanto se pagara la orden',
-          },
-        ]}
-      >
-        <InputNumber className="inputs" />
-      </Form.Item>
-      <Form.Item
-        label="Cambio"
-        name="cambio"
-        rules={[
-          {
-            required: true,
-            message: 'Introduzca el cambio',
-          },
-        ]}
-      >
-        <InputNumber className="inputs" />
-      </Form.Item>
+        <Form.Item
+          label="Pagara con"
+          name="pagaraCon"
+          
+        >
+          <InputNumber className="inputs" />
+        </Form.Item>
+        {/*<Form.Item
+          label="Cambio"
+          name="cambio"
+          rules={[
+            {
+              required: true,
+              message: 'Introduzca el cambio',
+            },
+          ]}
+        >
+          <InputNumber className="inputs" />
+        </Form.Item>*/}
 
-      <Form.Item {...tailLayout} >
-        <Button className="buttons" type="primary" htmlType="submit">
-          Confirmar
-        </Button>
-      </Form.Item>
-      
+        <Form.Item {...tailLayout}>
+          <Button className="buttons" type="primary" htmlType="submit" >
+            Confirmar
+          </Button>
+        </Form.Item>
     </Form>
-  );
+        <div className="footer-home-delivery" >
+      </div>
+</>
+);
 };
 
 export default FormHomeDelivery;

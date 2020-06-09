@@ -22,6 +22,8 @@
 @import './components/AreaForm.css';
 @import './components/users-view.css';
 
+@import './components/Pedidos.css';
+@import './components/OrdersViewStyles.css';
 @import './components/ticket.css';
 
 /* Estilos de cotenedores pages */

@@ -1,18 +1,29 @@
-@media only screen and (max-width: 900px) {
-  .wrapper {
+@media only screen and (min-width: 400px) {
+  .wrapper-comandas {
     background-size: 100% 100%;
   }
 
-  .ant-layout-sider {
-    display: none !important;
+  .card-comanda {
+    height: 10px;
+    margin: 5px;
+    width: 15px;
+  }
+
+  .imgRedonda {
+    margin: auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 16px;
+    border: 8px solid #6ac7e6;
+    padding-top: -20px;
   }
 }
 
-.wrapper {
-  background: url('../../assets/donfoAmarillo') top,
-    url('../../assets/fondoAzul') bottom;
+.wrapper-comandas {
+  background: url('../../assets/rectangulo-amarillo.png') top,
+    url('../../assets/rectangulo-rojo.png') bottom;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100% 200px;
   width: 100%;
   min-height: 100vh;
 }
@@ -20,13 +31,15 @@
 .tituloPedidos {
   font-size: 40px;
   text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .scrolling-wrapper {
-  overflow-x: scroll;
-  overflow-y: hidden;
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
+  margin: 1rem 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 }
 
 .card-comanda {
@@ -35,7 +48,9 @@
   transition: 0.3s;
   border-radius: 20px;
   background-color: #434343;
-  height: 400px;
+  height: 460px;
+  margin: 10px;
+  width: 230px;
 }
 
 .card-comanda:hover {
@@ -45,17 +60,14 @@
 .card-containr-comanda {
   padding: 2px 16px;
   margin: auto;
-}
-
-.scrolling-wrapper-flexbox {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
+  text-align: left;
 }
 
 .texto-orden {
   font-size: small;
   color: aliceblue;
+  word-spacing: initial;
+  line-height: 0.5px;
 }
 
 .titulo-orden {
@@ -64,19 +76,31 @@
   text-align: center;
 }
 
-p {
-  display: inline;
-}
-
 .imgRedonda {
   margin: auto;
   width: 150px;
   height: 150px;
   border-radius: 160px;
-  border: 8px solid #6AC7E6;
+  border: 8px solid #6ac7e6;
   padding-top: -80px;
 }
 
-.botonCentrar {
+.blink {
+  animation: 10 blink 1s ease-in-out;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.botonesFiltrado {
   text-align: center;
+  margin: 5px;
 }

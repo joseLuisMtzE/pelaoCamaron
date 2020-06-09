@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Input, Button, Cascader, InputNumber } from 'antd';
+import { Form, Input, Button, Cascader,InputNumber } from 'antd';
 import { DishesContext } from './MenuDishesContext';
 
 const layout = {
@@ -17,31 +17,87 @@ const tailLayout = {
   }
 };
 
-const FormMenuDishes = ({ onOk }) => {
-  const { addDishesRequest, retrieveCategories, retrieveAreas } = useContext(
-    DishesContext
-  );
+//const LSKEY = 'menu-dishes';
+//const token='Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWVhMjBiZmU2ZTBmZDU0OWM0YWVlOTMzIiwibm9tYnJlIjoiSm9uYXRoYW4iLCJub21icmVVc3VhcmlvIjoiam9uYXRoYW5zYyIsInJvbCI6IkR1ZcOxbyJ9LCJpYXQiOjE1ODgxMjg2NzIsImV4cCI6MTU4ODE1NzQ3Mn0.nHKbrsDXwqkroyXTRqS6rMxg4pfF3L74WDy4SPIKpxY'
 
+const EditFormMenuDishes = ({
+  onOk,
+  nombre,
+  categorias,
+  descripcion,
+  imagen,
+  precioSinIva,
+  precioConIva,
+  peso,
+  tiempoPreparación,
+  categoria,
+  area,
+  dish
+}) => {
+  //console.log('Edit, Area: ', area);
+  const {
+    retrieveFormMenuDishes,
+    addDishesRequest,
+    retrieveCategories,
+    retrieveAreas,
+    editDishes
+  } = useContext(DishesContext);
+
+  const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
 
+  const [form] = Form.useForm();
+
   const initialize = async () => {
+    const initDishes = await retrieveFormMenuDishes();
+    setDishes(initDishes);
+
     const initCategories = await retrieveCategories();
     setCategories(initCategories);
     const initAreas = await retrieveAreas();
     setAreas(initAreas);
   };
+  // console.log(dishes);
   useEffect(() => {
     initialize();
+    //llenar inputs con informacion original
+    form.setFieldsValue({
+      nombre: nombre,
+      precioConIva: precioConIva,
+      precioSinIva: precioSinIva,
+      peso: peso,
+      descripcion: descripcion,
+      tiempoPreparación: tiempoPreparación,
+      imagen:  imagen ,
+      categoria: [categoryOptionOriginal[0].value],
+      area: [areaOptionsOriginal[0].value]
+    });
+    // console.log(categoria, area);
   }, []);
 
-  const categoryOptions = categories.map(category => {
+  //console.log(dishes.nombre)
+
+  const categoryOptionOriginal = [
+    {
+      value: categoria._id,
+      label: categoria.nombre
+    }
+  ];
+  const areaOptionsOriginal = [
+    {
+      value: area._id,
+      label: area.nombre
+    }
+  ];
+
+  // console.log(categoryOptionOriginal, areaOptionsxd);
+  const categoriesOptions = categories.map(category => {
     return {
       value: category._id,
       label: category.nombre
     };
   });
-
   const areaOptions = areas.map(area => {
     return {
       value: area._id,
@@ -49,31 +105,29 @@ const FormMenuDishes = ({ onOk }) => {
     };
   });
 
-  //Calcular iva
-  const [precioIva, setPrecioIva] = useState(0);
-
-  /*function calcIVA(value){
-    var conIva= value+value*.16;
-    console.log(conIva)
-     setPrecioIva(conIva)
-      
-    //console.log(document.getElementById('conIva').value.target)
-  }*/
-
+  // console.log(categoryOptionOriginal[0].value);
   //console.log(categoryOptions)
 
+    const [cat,setCat]=useState([categoryOptionOriginal[0].value]);
+    const [aria,setAria]=useState([areaOptionsOriginal[0].value]);
+
+    console.log('Edit, Area: ', aria);
+    console.log('Edit, Cat: ', cat);
+
+  //Calcular iva
+  const [precioIva,setPrecioIva]=useState(precioSinIva+(precioSinIva * 0.16))
+
+
   const onFinish = values => {
-    console.log('Datos Correctos...');
-    //localStorage.setItem(LSKEY, JSON.stringify(values));
-    addDishesRequest(values);
-    setTimeout(() => {
-      onOk();
-    }, 3000);
+    //console.log(dish._id)
+    
+    values.categoria=cat
+    values.area=aria
+    editDishes(dish._id,values);
     console.log('Success:', values);
   };
 
   const onFinishFailed = errorInfo => {
-    console.log('Datos Incorrectos...');
     console.log('Failed:', errorInfo);
   };
 
@@ -88,6 +142,7 @@ const FormMenuDishes = ({ onOk }) => {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
+          form={form}
         >
           <Form.Item
             label="Nombre"
@@ -111,7 +166,14 @@ const FormMenuDishes = ({ onOk }) => {
               }
             ]}
           >
-            <Cascader options={categoryOptions} onChange={''} placeholder="" />
+            
+            <Cascader
+              options={categoriesOptions}
+              defaultValue={[categoryOptionOriginal[0].value]}
+              placeholder={""}
+              onChange={(value)=> setCat(value[0])}
+
+            />
           </Form.Item>
           <Form.Item
             label="Area"
@@ -123,7 +185,13 @@ const FormMenuDishes = ({ onOk }) => {
               }
             ]}
           >
-            <Cascader options={areaOptions} placeholder={''} />
+            
+            <Cascader
+              options={areaOptions}
+              defaultValue={[areaOptionsOriginal[0].value]}
+              placeholder={''}
+              onChange={(value)=> setAria(value[0])}
+            />
           </Form.Item>
           <Form.Item
             label="Precio sin IVA"
@@ -131,22 +199,23 @@ const FormMenuDishes = ({ onOk }) => {
             rules={[
               {
                 required: true,
-                message: 'Introduce el precio sin IVA'
-              }
+                message: 'Introduce el precio sin IVA',
+              },
             ]}
           >
-            <InputNumber
-              className="inputs"
-              id="sinIva"
-              onChange={(value) => setPrecioIva(value + value * 0.16)}
-              style={{ float: 'left' }}
-            />
-          </Form.Item>
-          <Form.Item label="Precio con IVA" name="precioConIva">
-            <h4 style={{ float: 'left' }}>{precioIva}</h4>
+            <InputNumber  className="inputs" id='sinIva'  onChange={(value)=>setPrecioIva(value+(value*.16))} style={{float:"left"}}  />
           </Form.Item>
           <Form.Item
-            label="Peso (gramos)"
+            label="Precio con IVA"
+            name="precioConIva"
+             
+          >
+  
+            <h4  style={{ float:'left'}}>{precioIva}</h4>
+
+          </Form.Item>
+          <Form.Item
+            label="Peso (gr)"
             name="peso"
             rules={[
               {
@@ -170,7 +239,7 @@ const FormMenuDishes = ({ onOk }) => {
             <Input className="inputs" />
           </Form.Item>
           <Form.Item
-            label="Tiempo de preparación (minutos)"
+            label="Tiempo de preparación (Min)"
             name="tiempoPreparación"
             rules={[
               {
@@ -192,18 +261,29 @@ const FormMenuDishes = ({ onOk }) => {
               }
             ]}
           >
+            <img
+              src="https://jaliscocina.com/wp-content/uploads/2019/04/taco-de-sal-jcn.jpg"
+              alt={nombre}
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                marginTop: '20px',
+                borderRadius: '5px',
+                zIndex: 0
+              }}
+            />
             <Input type="file" accept="image/*" className="inputs" />
           </Form.Item>
 
           <Form.Item {...tailLayout}>
             <Button
               style={{ display: 'flex' }}
-              className="buttons"
+              className="buttons centerContent"
               type="primary"
               htmlType="submit"
-              /*onClick={onOk}*/
+              onClick={onOk}
             >
-              Agregar
+              Editar
             </Button>
           </Form.Item>
         </Form>
@@ -212,4 +292,4 @@ const FormMenuDishes = ({ onOk }) => {
   );
 };
 
-export default FormMenuDishes;
+export default EditFormMenuDishes;

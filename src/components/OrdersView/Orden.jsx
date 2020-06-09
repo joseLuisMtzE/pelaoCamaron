@@ -1,89 +1,117 @@
 import React from 'react';
 import { Tag } from 'antd';
 import { Modal } from 'antd';
+import Comanda from '../Comandas/Comanda';
 
-function Orden({ orden, ordenes }) {
-  var fecha = '';
-
-  {
-    ordenes.map &&
-      ordenes.map((orden) => {
-        fecha = new Date(orden.fecha);
-      });
-  }
-  console.log(
-    'ordenes',
-    orden.comandas[0] &&
-      orden.comandas[0].platillo &&
-      orden.comandas[0].platillo.nombre
-  );
-
+function Orden({ orden }) {
   //Modal
   function info() {
-    Modal.info({
+    Modal.confirm({
       title: 'Detalles de la orden',
       content: (
-        <div key={orden.id}>
-          <h2 style={{ 'text-align': 'center' }}>IDs</h2>
-          <p>ID: {orden._id}</p>
-          <p>Orden: {orden.id}</p>
+        <div className="left" key={orden.id}>
+          <h2 className="center">IDs</h2>
+          <p>
+            <b>Orden ID: </b> {orden._id}
+          </p>
+          <p>
+            <b>Folio:</b> {orden.folio}
+          </p>
           <hr></hr>
-          <h2 style={{ 'text-align': 'center' }}>Datos orden</h2>
-          <p>Tipo orden: {orden.tipoOrden}</p>
-          <p>Fecha: {orden.fecha}</p>
-          <p>Estado: {orden.estado}</p>
-          {orden.comandas.map &&
-            orden.comandas.map.platillo &&
-            orden.comandas.map.platillo((orden) => {
-              return (
-                <div>
-                  <p>Nombre:{orden.nombre}</p>
-                  <p>Precio con IVA: </p>
-                </div>
-              );
-            })}
-          <p>Mesa: {orden.mesa.noMesa}</p>
-          <p>N personas: {orden.numPersonas}</p>
-
-          <p>Descuento: {orden.pago.porcentajeDescuento}%</p>
-          <p>Cantidad descuento: ${orden.pago.cantidadDescuento}</p>
-          <p>Subtotal: ${orden.pago.subTotal}</p>
-          <p>Total: ${orden.pago.precioTotal}</p>
-          <p>Observaciones: {orden.observaciones}</p>
+          <h2 className="center">Datos orden</h2>
+          <p>
+            <b>Tipo orden:</b> {orden.tipoOrden}
+          </p>
+          <p>
+            <b>Fecha:</b> {orden.fecha}
+          </p>
+          <p>
+            <b>Estado:</b> {orden.estado}
+          </p>
+          <p>
+            <b>Mesa:</b> {orden.mesa.noMesa}
+          </p>
+          <p>
+            <b>N personas:</b> {orden.numPersonas}
+          </p>
+          <hr></hr>
+          <h2 className="center">Datos pago</h2>
+          <p>
+            <b>Subtotal: $</b>
+            {orden.pago && orden.pago.subTotal}
+          </p>
+          <p>
+            <b>Total: $</b>
+            {orden.pago && orden.pago.precioTotal}
+          </p>
+          {orden.estado === 'Cerrada' && (
+            <>
+              <p>
+                <b>Tipo pago:</b> {orden.pago && orden.pago.tipoPago}
+              </p>
+              <p>
+                <b>Descuento:</b> {orden.pago && orden.pago.porcentajeDescuento}
+                %
+              </p>
+              <p>
+                <b>Cantidad descuento: $</b>
+                {orden.pago && orden.pago.cantidadDescuento}
+              </p>
+              <p>
+                <b>Pago con: $</b>
+                {orden.pago && orden.pago.pagoCon}
+              </p>
+              <p>
+                <b>Cambio: $</b>
+                {orden.pago && orden.pago.cambio}
+              </p>
+            </>
+          )}
+          <hr></hr>
+          <h2 className="center">Comandas</h2>
+          <div className="center">
+            {orden &&
+              orden.comandas &&
+              orden.comandas.map((comanda) => (
+                <Comanda
+                  comanda={comanda}
+                  key={comanda.id}
+                  noMesa={orden.mesa.noMesa}
+                />
+              ))}
+          </div>
+          {orden && orden.comandas && orden.comandas.length === 0 && (
+            <p className="center">Esta orden no tiene comandas</p>
+          )}
         </div>
       ),
+      width: window.innerWidth * 0.7,
+
       onOk() {},
     });
   }
 
-  //Folio, idUsuario
-
-  /*{`${fecha.getDate()}/${fecha.getMonth()}/${fecha.getFullYear()} ${fecha.toLocaleString(
-          'en-US',
-          { hour: 'numeric', minute: 'numeric', hour12: true }
-        )}`} */
-
   return (
     <tr className="tr-white" key={orden.id}>
-      <td className="Tabla-tds-ordenes">{orden.id}</td>
-      <td className="Tabla-tds-ordenes">{orden.tipoOrden}</td>
-      <td className="Tabla-tds-ordenes">{orden.mesa.noMesa}</td>
-      <td className="Tabla-tds-ordenes">{orden.fecha}</td>
+      <td>{orden.folio}</td>
+      <td>{orden.tipoOrden}</td>
+      <td>{orden.mesa.noMesa}</td>
+      <td>{orden.fecha}</td>
 
-      {orden.estado == 'Cerrada' ? (
-        <td className="Tabla-tds-ordenes">
+      {orden.estado === 'Cerrada' ? (
+        <td>
+          <Tag color="success">{orden.estado}</Tag>
+        </td>
+      ) : orden.estado === 'En proceso' ? (
+        <td>
           <Tag color="warning">{orden.estado}</Tag>
         </td>
-      ) : orden.estado == 'En proceso' ? (
-        <td className="Tabla-tds-ordenes">
-          <Tag color="processing">{orden.estado}</Tag>
-        </td>
       ) : (
-        <td className="Tabla-tds-ordenes">
+        <td>
           <Tag color="error">{orden.estado}</Tag>
         </td>
       )}
-      <td className="Tabla-tds-ordenes">
+      <td>
         <Tag onClick={info} color="gray">
           ver detalles
         </Tag>

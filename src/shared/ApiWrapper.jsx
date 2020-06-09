@@ -2,7 +2,6 @@ import axios from 'axios';
 import url from '../constants/api';
 import jwt_decode from 'jwt-decode';
 import { errorAlert } from './Alerts';
-
 function getToken() {
   if (localStorage.getItem('token')) {
     const tokenFinal = localStorage.getItem('token');
@@ -16,6 +15,15 @@ export function getRol() {
     return decoded.user.rol;
   }
 }
+
+export function isAuthenticated(){
+  if (localStorage.getItem('token')) {
+    return true
+  }else{
+    return false
+  }
+}
+
 
 export const makeRequest = async (metodo, complement, payload) => {
   try {
@@ -41,8 +49,18 @@ export const makeRequest = async (metodo, complement, payload) => {
       errorAlert(
         'Autenticación fallida',
         'Redirigiendo...',
-        () => (window.location.href = '/login')
+        () => (window.location.href = '/')
       );
+    }
+    if (
+      (err && err.response && err.response.status === 400) ||
+      (err && err.response && err.response.status === 404)
+    ) {
+      return err;
+    }
+    if (err && err.response && err.response.status === 500) {
+      errorAlert('Oops...', 'Hubo un error');
+      return err;
     }
     console.log('ERROR', err);
   }

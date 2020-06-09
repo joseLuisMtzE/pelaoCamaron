@@ -2,14 +2,18 @@ import React from 'react';
 
 //! Imports
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button  } from 'antd';
 import {
   UserOutlined,
   MenuOutlined,
   BookOutlined,
-  AppstoreOutlined
+  AppstoreOutlined,
+  PoweroffOutlined,
+  NotificationOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import {isAuthenticated} from '../../shared/ApiWrapper'
 
 //! Assets
 import Logo from '../../assets/logo.png';
@@ -17,13 +21,21 @@ import Logo from '../../assets/logo.png';
 const { Content, Sider } = Layout;
 
 function Sidernav(props) {
+
+  const logOut=()=>{
+    localStorage.removeItem('token');
+        window.location.href='/'
+  }
+
+
   return (
     <div>
       <Layout>
+      {isAuthenticated()&&(
         <Sider
           breakpoint="xs"
           collapsedWidth="0"
-          onBreakpoint={broken => {
+          onBreakpoint={(broken) => {
             console.log(broken);
           }}
           onCollapse={(collapsed, type) => {
@@ -72,12 +84,32 @@ function Sidernav(props) {
                 Usuarios
               </Link>
             </Menu.Item>
+            <Menu.Item key="7">
+              <ProfileOutlined />
+              <Link to="/ordenes-vista-general" className="nav-text">
+                Órdenes
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="8">
+              <NotificationOutlined />
+              <Link to="/comandas" className="nav-text">
+                Comandas
+              </Link>
+            </Menu.Item>
           </Menu>
+          <div style={{textAlign:'center', marginTop:'15px'}}>
+          <Button type="primary" danger onClick={logOut}>
+          <PoweroffOutlined /> Cerrar Sesión
+          </Button>
+            
+          </div>
         </Sider>
+        
+        )}
         <Layout>
           <Content style={{ minHeight: '100vh' }}>{props.children}</Content>
         </Layout>
-      </Layout>
+        </Layout>
     </div>
   );
 }
