@@ -18,8 +18,19 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       label: 'Disponible'
     },
     {
-      value: 'Ocupada',
-      label: 'Ocupada'
+      value: 'No Disponible',
+      label: 'No Disponible',
+    },
+    {
+      value: 'Reservada',
+      label: 'Reservada'
+    }
+  ];
+
+  const optionsReservada = [
+    {
+      value: 'Disponible',
+      label: 'Disponible'
     },
     {
       value: 'Reservada',
@@ -68,11 +79,18 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     setVisible(false);
   };
 
+  useEffect(()=>{
+    if(table.estado === 'Reservada'){
+      setReservada(true);
+    }
+  })
+
   const handleClick = async () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
     console.log(data);
+    localStorage.setItem('domicilio',JSON.stringify(data));
     localStorage.setItem('noMesa', table.noMesa);
     if (orderType === 'Local') {
       const newOrder = await crearOrden(data);
@@ -161,87 +179,80 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         footer={
           table.estado === 'Disponible'
             ? [
-                <form id={table._id}>
-                  <strong>Abrir cuenta</strong>
-                  <p>¿Cuántas personas?</p>
-                  <InputNumber required placeholder="0" name="numPersonas" />
-                  <p>Tipo de orden: </p>
-                  <Cascader
-                    required
-                    name="tipoOrden"
-                    options={tipoOrdenOptions}
-                    onChange={onOrdenchange}
-                    placeholder="Tipo de orden..."
-                  />
-                  <p>Observaciones: </p>
-                  <TextArea
-                    name="observaciones"
-                    placeholder="Agregar observaciones..."
-                  />
-                  <Button key="submit" type="primary" className="margin">
-                    <Link
-                      onClick={handleClick}
-                      to={{
-                        pathname:
-                          orderType === 'Local'
-                            ? '/agregar-platillos/:id'
-                            : '/home-delivery/'
-                      }}
-                    >
-                      Abrir cuenta
-                    </Link>
-                  </Button>
-                </form>
-              ]
-            : [
-                <Button type="primary" className="margin">
+              <form id={table._id}>
+                <strong>Abrir cuenta</strong>
+                <p>¿Cuántas personas?</p>
+                <InputNumber required placeholder="0" name="numPersonas" />
+                <p>Tipo de orden: </p>
+                <Cascader
+                  required
+                  name="tipoOrden"
+                  options={tipoOrdenOptions}
+                  onChange={onOrdenchange}
+                  placeholder="Tipo de orden..."
+                />
+                <p>Observaciones: </p>
+                <TextArea
+                  name="observaciones"
+                  placeholder="Agregar observaciones..."
+                />
+                <Button key="submit" type="primary" className="margin">
                   <Link
-                    onClick={setLocalStorage}
+                    onClick={handleClick}
                     to={{
-                      pathname: '/ver-orden/:id'
+                      pathname:
+                        orderType === 'Local'
+                          ? '/agregar-platillos/:id'
+                          : '/home-delivery/'
                     }}
                   >
-                    Ver orden
+                    Abrir cuenta
                   </Link>
                 </Button>
-              ]
+              </form>
+            ]
+            : null
         }
       >
-        {table.estado !== 'Ocupada' ? (
-          <div>
-            <strong>Editar</strong>
-            <br />
-            <Cascader
-              options={options}
-              onChange={onchange}
-              placeholder="Estado de la mesa..."
-            />
-            {getRol() === 'Dueño' ? (
-              <Button onClick={showConfirm} type="primary" danger>
-                <DeleteFilled />
-              </Button>
-            ) : null}
-            {reservada && (
-              <form id={table._id}>
-                <TextArea
-                  name="detalles"
-                  placeholder="Observaciones de la reservación..."
-                  className="margin-top"
-                ></TextArea>
-                <Button className="margin-top reservar-btn" onClick={reservar}>
-                  Reservar
-                </Button>
-              </form>
-            )}
-          </div>
-        ) : (
-          <div>
-            <strong>Orden en proceso...</strong>
-            <br />
-            <LoadingOutlined />
-            <br />
-          </div>
-        )}
+        {table.estado!== 'Ocupada' ?<div>
+          <strong>Editar</strong>
+          <br />
+          <Cascader
+            options={reservada ? optionsReservada : options}
+            onChange={onchange}
+            placeholder="Estado de la mesa..."
+          />
+          {getRol() === 'Dueño' ? (
+            <Button onClick={showConfirm} type="primary" danger>
+              <DeleteFilled />
+            </Button>
+          ) : null}
+          {reservada && (
+            <form id={table._id}>
+              <TextArea
+                name="detalles"
+                placeholder="Observaciones de la reservación..."
+                className="margin-top"
+              ></TextArea>
+              <Button className="margin-top reservar-btn" onClick={reservar}>Reservar</Button>
+            </form>
+          )}
+        </div>: <div><strong>Orden en proceso...</strong>
+          <br />
+          <LoadingOutlined />
+          
+          <br />
+          <Button type="primary" className="margin">
+            <Link
+              onClick={setLocalStorage}
+              to={{
+                pathname: '/ver-orden/:id'
+              }}
+            >
+              Ver orden
+            </Link>
+          </Button>
+        </div>}
       </Modal>
     </div>
   );

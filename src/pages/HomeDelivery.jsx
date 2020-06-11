@@ -4,10 +4,10 @@ import HomeDelivery from '../components/HomeDelivery/HomeDelivery'
 
 //
 
-function HomeDeliveryPage() {
+function HomeDeliveryPage(props) {
     return (
         <>
-        <HomeDelivery/>
+        <HomeDelivery props={props}/>
 
             
         </>

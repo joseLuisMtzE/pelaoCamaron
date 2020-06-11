@@ -7,6 +7,10 @@
   padding: 0;
   box-sizing: inherit;
 }
+body { /*THIS FIXES A RANDOM ERROR THAT CAN'T LET YOU SCROLL ON RANDOM SITUATIONS*/
+  overflow: visible !important;   
+  min-width: 100%;
+}
 
 body,
 html {

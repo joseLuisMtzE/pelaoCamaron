@@ -20,9 +20,9 @@ const ComandasTodas = () => {
   //Obtener todas las comandas
   const obtenerComandasTodas = async () => {
     try {
-      let response = await makeRequest('GET', 'comandas');
+      let response = await makeRequest('GET', 'comandas?limit=1000000');
       let data = response.data.data;
-      ////console.log('data', data);
+      console.log('data', data);
       return data;
     } catch (err) {
       //console.log(err);

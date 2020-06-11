@@ -2,16 +2,18 @@ import React from 'react';
 
 //! Imports
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Button  } from 'antd';
 import {
   UserOutlined,
   MenuOutlined,
   BookOutlined,
   AppstoreOutlined,
+  PoweroffOutlined,
   NotificationOutlined,
   ProfileOutlined,
 } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
+import {isAuthenticated} from '../../shared/ApiWrapper'
 
 //! Assets
 import Logo from '../../assets/logo.png';
@@ -19,9 +21,17 @@ import Logo from '../../assets/logo.png';
 const { Content, Sider } = Layout;
 
 function Sidernav(props) {
+
+  const logOut=()=>{
+    localStorage.removeItem('token');
+        window.location.href='/'
+  }
+
+
   return (
     <div>
       <Layout>
+      {isAuthenticated()&&(
         <Sider
           breakpoint="xs"
           collapsedWidth="0"
@@ -70,7 +80,7 @@ function Sidernav(props) {
             </SubMenu>
             <Menu.Item key="6">
               <UserOutlined />
-              <Link className="nav-text" to="">
+              <Link className="nav-text" to="/vista-usuarios">
                 Usuarios
               </Link>
             </Menu.Item>
@@ -87,11 +97,19 @@ function Sidernav(props) {
               </Link>
             </Menu.Item>
           </Menu>
+          <div style={{textAlign:'center', marginTop:'15px'}}>
+          <Button type="primary" danger onClick={logOut}>
+          <PoweroffOutlined /> Cerrar Sesión
+          </Button>
+            
+          </div>
         </Sider>
+        
+        )}
         <Layout>
           <Content style={{ minHeight: '100vh' }}>{props.children}</Content>
         </Layout>
-      </Layout>
+        </Layout>
     </div>
   );
 }

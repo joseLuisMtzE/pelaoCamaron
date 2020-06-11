@@ -7,7 +7,6 @@ import ComandasTodas from '../components/Comandas/ComandasTodas';
 const Layout = lazy(() => import('../pages/Layout/Sidernav'));
 const Tables = lazy(() => import('../pages/Tables'));
 const AddDishes = lazy(() => import('../pages/AddDishes'));
-const Home = lazy(() => import('../pages/Home'));
 const Ticket = lazy(() => import('../pages/Ticket'));
 const CloseOrderPage = lazy(() => import('../pages/CloseOrderPage'));
 const Login = lazy(() => import('../pages/LoginPage'));
@@ -15,8 +14,10 @@ const HomeDelivery = lazy(() => import('../pages/HomeDelivery'));
 const MenuDishes = lazy(() => import('../pages/MenuDishesPage'));
 const KitchenArea = lazy(() => import('../pages/KitchenArea'));
 const Categories = lazy(() => import('../pages/Categories'));
+const usersView = lazy(() => import('../pages/Userview'));
 const OrdersView = lazy(() => import('../pages/OrdersView'));
 const Discount = lazy(() => import('../components/Discounts/Discount'));
+const usersEdit = lazy(() => import('../components/UsersView/UserEdit'));
 const ComandasPage = lazy(() => import('../pages/ComandasPage'));
 
 const OrderView = lazy(() => import('../pages/OrderView'));
@@ -37,9 +38,8 @@ export default function AppRoutes() {
                 path="/agregar-platillos/:id"
                 component={AddDishes}
               />
-              <Route exact path="/" component={Home} />
-              <Route exact path="/login" component={Login} />
               <Route exact path="/home-delivery" component={HomeDelivery} />
+              <Route exact path="/" component={Login} />
               <Route exact path="/menu-dishes" component={MenuDishes} />
               <Route exact path="/areas-cocina" component={KitchenArea} />
               <Route
@@ -62,6 +62,10 @@ export default function AppRoutes() {
                 path="/comandas/todas"
                 render={() => <ComandasTodas areas={[]} />}
               />
+
+              <Route exact path="/vista-usuarios" component={usersView} />
+              <Route exact path="/Editar-usuario" component={usersEdit} />
+              <Route exact path="/Editar-usuario/:id" component={usersEdit} />
             </Switch>
           </Layout>
         </BrowserRouter>

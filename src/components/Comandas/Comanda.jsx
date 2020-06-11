@@ -6,6 +6,7 @@ import { makeRequest } from '../../shared/ApiWrapper';
 
 function Comanda({ comanda, noMesa, mostrar }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
+  console.log('MARIANA LO JODIO, ', comanda, noMesa);
 
   /*ACTUALIZAR COMANDA */
   const actualizarComanda = async () => {
