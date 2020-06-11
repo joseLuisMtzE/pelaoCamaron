@@ -227,7 +227,9 @@ const ComandasTodas = () => {
       <div className="scrolling-wrapper">
         <div className="scrolling-wrapper">
           {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => <Comanda comanda={comanda} />)}
+            comandasFiltradas.map((comanda) => (
+              <Comanda comanda={comanda} mostrar={true} />
+            ))}
         </div>
       </div>
     </div>

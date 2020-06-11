@@ -88,7 +88,7 @@ const Comandas = ({ comandas, areas, setVerTodas, room }) => {
           <div className="scrolling-wrapper">
             {comandasFiltradas &&
               comandasFiltradas.map((comanda) => (
-                <Comanda comanda={comanda} onChange={onChange} />
+                <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
               ))}
           </div>
           <div className="botonVerMas">
