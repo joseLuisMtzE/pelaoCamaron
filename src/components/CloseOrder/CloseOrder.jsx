@@ -28,7 +28,7 @@ function ModalCloseAC({ id, ordenTotal }) {
       successAlert('Pago realizado', 'Generando ticket...');
     } catch (err) {
       setLoading(false);
-      errorAlert('Oops...', 'Algo salió mal al generar el ticket');
+      errorAlert('Oops...', 'Algo salió mal al generar el ticket verifica que las ordenes estén cerradas');
       console.log(err);
     }
   };

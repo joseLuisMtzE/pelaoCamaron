@@ -54,11 +54,11 @@ const CloseOrder = props => {
             suffix="MXN"
           />
         </Form.Item>
-        <Form.Item label="Descuento:" name="porcentajeDescuento">
-          <Input placeholder="Cantidad con la que pagó el cliente" suffix="%" />
+        <Form.Item label="" name="porcentajeDescuento">
+         
         </Form.Item>
-        <h5>Total: {Numeral(total).format('$0,0.00')}</h5>
-        <h5>Cambio: {Numeral(cambio).format('$0,0.00')}</h5>
+        <h3>Total: {Numeral(total).format('$0,0.00')}</h3>
+        <h3>Cambio: {Numeral(cambio).format('$0,0.00')}</h3>
 
         <Button type="primary" htmlType="submit" loading={loading}>
           Pagar
