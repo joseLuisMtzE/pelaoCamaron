@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import camarones from '../../assets/camarones.jpg';
 import { Tag, Button } from 'antd';
 import Swal from 'sweetalert2';
@@ -16,10 +16,10 @@ function Comanda({ comanda, noMesa, mostrar }) {
         cantidad: comanda.cantidad,
         estado: 'Cerrada',
         observaciones: comanda.observaciones,
-        orden: comanda.orden._id,
+        orden: comanda.orden._id
       });
       let data = response.data.data;
-      window.location.href = window.location.href;
+      window.location.reload();
       ////console.log('data', data);
       return data;
     } catch (err) {
@@ -36,8 +36,8 @@ function Comanda({ comanda, noMesa, mostrar }) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, ¡ciérrala!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
       if (result.value) {
         console.log('Funcionaaa');
         actualizarComanda();
@@ -97,7 +97,7 @@ function Comanda({ comanda, noMesa, mostrar }) {
                   width: 120,
                   height: 50,
                   boxShadow: '0px 3px 5px 0px grey',
-                  margin: '1rem',
+                  margin: '1rem'
                 }}
                 id="Button-print"
                 type="danger"

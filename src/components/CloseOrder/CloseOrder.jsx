@@ -5,7 +5,7 @@ import ModalCloseOrder from './ModalCloseOrder';
 import { Modal, Button } from 'antd';
 
 //! Constants
-import url from '../../constants/api';
+// import url from '../../constants/api';
 
 import { errorAlert, successAlert } from '../../shared/Alerts';
 

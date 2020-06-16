@@ -8,7 +8,7 @@ import Order from '../components/OrderView/Order';
 import {
   PlusOutlined,
   PrinterOutlined,
-  DollarCircleOutlined,
+  // DollarCircleOutlined,
   HomeOutlined
 } from '@ant-design/icons';
 
@@ -70,7 +70,7 @@ const OrderView = props => {
       });
       return null;
     });
-    orders.map(order => {
+    orders.forEach(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
     });
