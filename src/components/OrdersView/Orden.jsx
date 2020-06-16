@@ -69,7 +69,7 @@ function Orden({ orden }) {
           )}
           <hr></hr>
           <h2 className="center">Comandas</h2>
-          <div className="center">
+          <div className="scrolling-comandas">
             {orden &&
               orden.comandas &&
               orden.comandas.map((comanda) => (
@@ -77,6 +77,7 @@ function Orden({ orden }) {
                   comanda={comanda}
                   key={comanda.id}
                   noMesa={orden.mesa.noMesa}
+                  mostrar={false}
                 />
               ))}
           </div>
