@@ -3,12 +3,13 @@ import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { Link } from 'react-router-dom';
+import { apiEndPointSocket } from '../../constants/api';
 
 import io from 'socket.io-client';
 
 import notificationSound from '../../assets/newComandaSound.mp3';
 // import apiEndPoint from '../../constants/api';
-const socket = io('https://afternoon-bastion-13633.herokuapp.com');
+const socket = io(apiEndPointSocket.url);
 
 //Audio for notification when nueva comanda gets created
 
