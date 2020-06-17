@@ -9,6 +9,7 @@ import {
   PlusOutlined,
   PrinterOutlined,
   // DollarCircleOutlined,
+  CloseOutlined,
   HomeOutlined
 } from '@ant-design/icons';
 
@@ -131,39 +132,7 @@ const OrderView = props => {
             </h3>
           </section>
         </Col>
-        <Col xs={24} md={6}>
-          <div className="center margin-top">
-            <Button shape="circle" className="add-btn">
-              <Link to={`/agregar-platillos/${id}`}>
-                <PlusOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Agregar platillo</p>
-          </div>
-          <div className="center">
-            <Button shape="circle" className="close-btn">
-              <Link to="/cerrar-orden-salas-creo">
-                <CloseOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Cerrar orden</p>
-          </div>
-          {tipoOrden==='Domicilio'&&(
-          <div className="center">
-            <Button shape="circle" className="edit-btn">
-              <Link to={{
-                pathname:"/home-delivery",
-                state:{
-                  'idMesa':mesaID
-                }
-              }}>
-                <HomeOutlined  className="normal-size" />
-              </Link>
-            </Button>
-            <p>Editar Domicilio</p>
-          </div>
-          )}
-        </Col>
+       
         {orders.length !== 0 && (
           <Col xs={24} md={6} style={{ zIndex: 10 }}>
             <div className="center margin-top">
@@ -175,18 +144,15 @@ const OrderView = props => {
               <p>Agregar platillo</p>
             </div>
             <CloseOrder id={id} ordenTotal={total.precioTotal} />
-            {/* <div className="center">
-              <Button shape="circle" className="close-btn">
-                <Link to="/cerrar-orden-salas-creo">
-                  <CloseOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Cerrar orden</p>
-            </div> */}
             {tipoOrden === 'Domicilio' && (
               <div className="center">
                 <Button shape="circle" className="edit-btn">
-                  <Link to="/home-delivery">
+                  <Link to={{
+                pathname:"/home-delivery",
+                state:{
+                  'idMesa':mesaID
+                }
+              }}>
                     <HomeOutlined className="normal-size" />
                   </Link>
                 </Button>
