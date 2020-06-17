@@ -79,11 +79,11 @@ function ModalDishes({
       <Modal
         title="Editar Platillo"
         visible={editModal.visible}
-        onOk={editOk}
         onCancel={editCancel}
         footer=""
-      >
+        >
         <EditFormMenuDishes
+        onOk={editOk}
           nombre={nombre}
           categorias={categories}
           descripcion={descripcion}

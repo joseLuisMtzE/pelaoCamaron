@@ -9,6 +9,7 @@ import {
   PlusOutlined,
   PrinterOutlined,
   // DollarCircleOutlined,
+  CloseOutlined,
   HomeOutlined
 } from '@ant-design/icons';
 
@@ -112,30 +113,26 @@ const OrderView = props => {
                   </tr>
                   {orders.map((order, index) => (
                     <Order order={order} key={index} getOrders={getOrders} />
-                  ))}
-                </tbody>
-              </table>
-            </section>
-          )}
-          {orders.length !== 0 && (
+                    ))}
+                    </tbody>
+                    </table>
+                  </section>
+                  )}
             <section
-              style={{
-                background: 'white',
-                padding: 15,
-                borderRadius: 15,
-                marginTop: 20
-              }}
-            >
-              <h3 style={{ textAlign: 'center' }}>
-                Subtotal: ${total.subTotal.toFixed(2)}
-              </h3>
-              <h3 style={{ textAlign: 'center' }}>
-                Total:{' '}
-                <span className="total">${total.precioTotal.toFixed(2)}</span>
-              </h3>
-            </section>
-          )}
+            style={{
+              background: 'white',
+              padding: 15,
+              borderRadius: 15,
+              marginTop: 20
+            }}
+          >
+            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal.toFixed(2)}</h3>
+            <h3 style={{ textAlign: 'center' }}>
+              Total: <span className="total">${total.precioTotal.toFixed(2)}</span>
+            </h3>
+          </section>
         </Col>
+       
         {orders.length !== 0 && (
           <Col xs={24} md={6} style={{ zIndex: 10 }}>
             <div className="center margin-top">
@@ -147,18 +144,15 @@ const OrderView = props => {
               <p>Agregar platillo</p>
             </div>
             <CloseOrder id={id} ordenTotal={total.precioTotal} />
-            {/* <div className="center">
-              <Button shape="circle" className="close-btn">
-                <Link to="/cerrar-orden-salas-creo">
-                  <CloseOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Cerrar orden</p>
-            </div> */}
             {tipoOrden === 'Domicilio' && (
               <div className="center">
                 <Button shape="circle" className="edit-btn">
-                  <Link to="/home-delivery">
+                  <Link to={{
+                pathname:"/home-delivery",
+                state:{
+                  'idMesa':mesaID
+                }
+              }}>
                     <HomeOutlined className="normal-size" />
                   </Link>
                 </Button>

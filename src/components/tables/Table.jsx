@@ -203,7 +203,10 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                         pathname:
                           orderType === 'Local'
                             ? '/agregar-platillos/:id'
-                            : '/home-delivery/'
+                            : '/home-delivery/',
+                            state:{
+                              'idMesa':table._id
+                            }
                       }}
                     >
                       Abrir cuenta
