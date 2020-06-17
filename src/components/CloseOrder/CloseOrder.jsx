@@ -74,7 +74,7 @@ function ModalCloseAC({ id, ordenTotal }) {
         >
           <CloseOutlined className="normal-size" />
         </Button>
-        <p>Cerrar orden</p>
+        <p>Cerrar orden </p>
       </div>
       <Modal
         title="CERRAR ORDEN"
