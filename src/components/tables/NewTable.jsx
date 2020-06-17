@@ -44,15 +44,14 @@ export default function NewTable({ addTable }) {
         title="Nueva mesa"
         visible={visible}
         onCancel={handleCancel}
-        footer={[
-          <Button type="primary" onClick={handleOk}>
-            Agregar
-          </Button>
-        ]}
+        footer={null}
       >
         <form id="form">
           <p>Número de mesa:</p>
-          <Input name="noMesa" size="large" style={{ width: '25%' }} />
+          <Input onPressEnter={(e)=>e.preventDefault()} name="noMesa" size="large" style={{ width: '25%' }} /><br/>
+          <Button type="primary" onClick={handleOk} className="margin">
+            Agregar
+          </Button>
         </form>
       </Modal>
     </div>

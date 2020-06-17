@@ -70,7 +70,7 @@ export default function AddDishes() {
         <img src={Background} alt="bg" className="bg-img" />
         <header className="header">
           <h1 className="h1">Menú</h1>
-          <h3 className="h3">Mesa{noMesa}</h3>
+          <h3 className="h3">Mesa {noMesa}</h3>
           <div className="search-input">
             <Search
               placeholder="Buscar"
