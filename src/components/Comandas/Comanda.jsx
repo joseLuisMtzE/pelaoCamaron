@@ -6,7 +6,7 @@ import { makeRequest } from '../../shared/ApiWrapper';
 
 function Comanda({ comanda, noMesa, mostrar }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
-  console.log('MARIANA LO JODIO, ', comanda, noMesa);
+  console.log('DATA for comanda and mesa ', comanda, noMesa);
 
   /*ACTUALIZAR COMANDA */
   const actualizarComanda = async () => {
@@ -19,7 +19,7 @@ function Comanda({ comanda, noMesa, mostrar }) {
         orden: comanda.orden._id
       });
       let data = response.data.data;
-      window.location.reload();
+      // window.location.reload();
       ////console.log('data', data);
       return data;
     } catch (err) {

@@ -3,12 +3,13 @@ import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { Link } from 'react-router-dom';
+import { apiEndPointSocket } from '../../constants/api';
 
 import io from 'socket.io-client';
 
 import notificationSound from '../../assets/newComandaSound.mp3';
 // import apiEndPoint from '../../constants/api';
-const socket = io('https://afternoon-bastion-13633.herokuapp.com');
+const socket = io(apiEndPointSocket.url);
 
 //Audio for notification when nueva comanda gets created
 
@@ -27,22 +28,22 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   //Get the audio file
   let newComandaSound = new Audio(notificationSound);
 
-  const socketJoinRoom = async (room) => {
+  const socketJoinRoom = async room => {
     console.log('Joined called with room: ', room);
     socket.emit('joinRoom', room);
     //Todas las comandas
-    socket.on('joinedToRoom', (response) => {
+    socket.on('joinedToRoom', response => {
       console.log('Conectadado correctamente, datos recibidos: ', response);
     });
 
     //Escucar cuando se crea una nueva comanda
-    socket.on('nuevaComanda', (comanda) => {
+    socket.on('nuevaComanda', comanda => {
       let divScrollingWrapper = scrollingWrapper.current;
 
       console.log('Nueva comanda creada!!', comanda);
 
       //update the list of comandas
-      setComandasFiltradas((comandas) => [...comandas, comanda]);
+      setComandasFiltradas(comandas => [...comandas, comanda]);
       //scroll to the last item in comandas list
       divScrollingWrapper.scrollTo(divScrollingWrapper.scrollWidth, 0);
       //Add blink effect to the last children of comandas
@@ -61,11 +62,11 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     });
   };
 
-  const socketLeaveRoom = async (room) => {
+  const socketLeaveRoom = async room => {
     console.log('Leave called');
     socket.emit('leaveRoom', room);
     //Todas las comandas
-    socket.on('leavedRoom', (response) => {
+    socket.on('leavedRoom', response => {
       console.log('Desconectado correctamente, datos recibidos: ', response);
     });
   };
@@ -89,9 +90,9 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   }, []);
 
   if (areas.length !== 0) {
-    options = areas.map((area) => ({
+    options = areas.map(area => ({
       value: area._id,
-      label: area.nombre,
+      label: area.nombre
     }));
   }
 
@@ -104,7 +105,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     setSelectedArea(valorOpcion);
     setLabelSelectedArea(labelOpcion);
     let resultado = [...comandas].filter(
-      (comanda) => comanda.platillo.area.nombre === labelOpcion
+      comanda => comanda.platillo.area.nombre === labelOpcion
     );
     // console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
@@ -127,7 +128,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       ),
       onOk() {
         handleModalOk();
-      },
+      }
     });
   }
 
@@ -149,32 +150,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
         )}
         <div className="scrolling-wrapper" ref={scrollingWrapper}>
           {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
-              <Comanda comanda={comanda} onChange={onChange} />
-            ))}
-        </div>
-        <div className="botonVerMas">
-          <Link to="/comandas/todas">
-            <Button
-              style={{
-                textAlign: 'center',
-                width: 120,
-                height: 50,
-                boxShadow: '0px 3px 5px 0px grey',
-              }}
-              id="Button-print"
-              type="primary"
-              htmlType="button"
-              size="large"
-            >
-              Ver todas
-            </Button>
-          </Link>
-        </div>
-
-        <div className="scrolling-wrapper">
-          {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
+            comandasFiltradas.map(comanda => (
               <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
             ))}
         </div>
@@ -185,7 +161,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
                 textAlign: 'center',
                 width: 120,
                 height: 50,
-                boxShadow: '0px 3px 5px 0px grey',
+                boxShadow: '0px 3px 5px 0px grey'
               }}
               id="Button-print"
               type="primary"

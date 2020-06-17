@@ -51,6 +51,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
 
   const onOrdenchange = value => {
     if (value[0]) setOrderType(value[0]);
+    else setOrderType('');
   };
 
   const onchange = value => {
@@ -66,6 +67,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
   const [orderType, setOrderType] = useState('');
   // const [order, setOrder] = useState({});
   const [reservada, setReservada] = useState(false);
+  const [numPersonas, setNumPersonas] = useState(0);
 
   const showModal = () => {
     setVisible(true);
@@ -142,7 +144,12 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       onCancel() {}
     });
   };
-
+  const onNumberChange = value =>{
+    if(value)
+      setNumPersonas(value)
+    else
+      setNumPersonas(0)
+  }
   const reservar = () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
@@ -182,7 +189,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
               <form id={table._id}>
                 <strong>Abrir cuenta</strong>
                 <p>¿Cuántas personas?</p>
-                <InputNumber required placeholder="0" name="numPersonas" />
+                <InputNumber placeholder="0" name="numPersonas" onChange={onNumberChange}/>
                 <p>Tipo de orden: </p>
                 <Cascader
                   required
@@ -197,20 +204,22 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   placeholder="Agregar observaciones..."
                 />
                 <Button key="submit" type="primary" className="margin">
-                  <Link
-                    onClick={handleClick}
-                    to={{
-                      pathname:
-                        orderType === 'Local'
-                          ? '/agregar-platillos/:id'
-                          : '/home-delivery/',
-                      state:{
-                        'idMesa': table._id
-                      }
-                    }}
-                  >
+                  {orderType!==''&&numPersonas!==0 &&(
+                    <Link
+                      onClick={handleClick}
+                      to={{
+                        pathname:
+                          orderType === 'Local'
+                            ? '/agregar-platillos/:id'
+                            : '/home-delivery/',
+                        state:{
+                          'idMesa': table._id
+                        }
+                      }}
+                    >
                     Abrir cuenta
-                  </Link>
+                    </Link>
+                  )}
                 </Button>
               </form>
             ]

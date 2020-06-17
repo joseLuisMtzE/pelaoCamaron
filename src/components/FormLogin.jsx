@@ -37,9 +37,9 @@ const FormLogin = () => {
         let data = response.data;
         localStorage.setItem('token', data && data.token);
         //history.push('/mesas');
-        window.location.href='/mesas'
+        window.location.href = '/mesas';
       } else {
-        errorAlert('Error', 'Algo salió mal');
+        errorAlert('Error', 'Algo salió mal, usuario o contraseña incorrecta');
       }
     } catch (err) {
       console.log(err);

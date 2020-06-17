@@ -10,7 +10,8 @@ import {
   PrinterOutlined,
   // DollarCircleOutlined,
   HomeOutlined,
-  ExclamationCircleOutlined
+  ExclamationCircleOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
@@ -99,7 +100,7 @@ const OrderView = props => {
           {
             isEmpty && (
               <div
-                style={{ textAlign: 'center', top: 180, position: 'relative' }}
+                style={{ textAlign: 'center', top: 0, position: 'relative' }}
               >
                 <ExclamationCircleOutlined className="big-size"/><br/>
                 No hay ordenes
@@ -133,24 +134,19 @@ const OrderView = props => {
               </table>
             </section>
           )}
-          {orders.length !== 0 && (
-            <section
-              style={{
-                background: 'white',
-                padding: 15,
-                borderRadius: 15,
-                marginTop: 20
-              }}
-            >
-              <h3 style={{ textAlign: 'center' }}>
-                Subtotal: ${total.subTotal.toFixed(2)}
-              </h3>
-              <h3 style={{ textAlign: 'center' }}>
-                Total:{' '}
-                <span className="total">${total.precioTotal.toFixed(2)}</span>
-              </h3>
-            </section>
-          )}
+          <section
+            style={{
+              background: 'white',
+              padding: 15,
+              borderRadius: 15,
+              marginTop: 20
+            }}
+          >
+            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal.toFixed(2)}</h3>
+            <h3 style={{ textAlign: 'center' }}>
+              Total: <span className="total">${total.precioTotal.toFixed(2)}</span>
+            </h3>
+          </section>
         </Col>
         
         <Col xs={24} md={6} style={{ zIndex: 10 }}>
