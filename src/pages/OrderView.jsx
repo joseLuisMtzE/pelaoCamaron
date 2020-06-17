@@ -9,7 +9,8 @@ import {
   PlusOutlined,
   PrinterOutlined,
   // DollarCircleOutlined,
-  HomeOutlined
+  HomeOutlined,
+  ExclamationCircleOutlined
 } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
@@ -19,6 +20,7 @@ import CloseOrder from '../components/CloseOrder/CloseOrder';
 const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
+  const [isEmpty,setIsEmpty] = useState(false);
 
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState({
@@ -32,6 +34,10 @@ const OrderView = props => {
     try {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
+      if(data[0].comandas.length==0){
+        console.log('VACIO');
+        setIsEmpty(true);
+      }
       setOrders(data[0].comandas);
       setTotal(data[0].pago);
       if (response.status === 200) {
@@ -83,13 +89,23 @@ const OrderView = props => {
         <Col xs={24}>
           <img src={BackgroundYellow} alt="bg" className="bg-img" />
           <h1 className="h1">Orden - Mesa {noMesa}</h1>
-          {orders.length === 0 ? (
+          {orders.length === 0 && isEmpty ==false? (
             <div
               style={{ textAlign: 'center', top: 200, position: 'relative' }}
             >
               <LoadingOutlined className="big-size" spin />
             </div>
           ) : null}
+          {
+            isEmpty && (
+              <div
+                style={{ textAlign: 'center', top: 180, position: 'relative' }}
+              >
+                <ExclamationCircleOutlined className="big-size"/><br/>
+                No hay ordenes
+              </div>
+            )
+          }
         </Col>
         <Col xs={24} md={18} style={{ zIndex: 10 }}>
           {orders.length !== 0 && (
