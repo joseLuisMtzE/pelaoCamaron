@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal, Input, Cascader } from 'antd';
+import { Card, Button, Modal, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 export default function NewTable({ addTable }) {
@@ -21,14 +21,14 @@ export default function NewTable({ addTable }) {
     setVisible(false);
   };
 
-  const handleKeyPress = event => {
-    if (
-      (event.which != 8 && event.which != 0 && event.which < 48) ||
-      event.which > 57
-    ) {
-      event.preventDefault();
-    }
-  };
+  // const handleKeyPress = event => {
+  //   if (
+  //     (event.which !== 8 && event.which !== 0 && event.which < 48) ||
+  //     event.which > 57
+  //   ) {
+  //     event.preventDefault();
+  //   }
+  // };
 
   return (
     <div>
@@ -44,15 +44,14 @@ export default function NewTable({ addTable }) {
         title="Nueva mesa"
         visible={visible}
         onCancel={handleCancel}
-        footer={[
-          <Button type="primary" onClick={handleOk}>
-            Agregar
-          </Button>
-        ]}
+        footer={null}
       >
         <form id="form">
           <p>Número de mesa:</p>
-          <Input name="noMesa" size="large" style={{ width: '25%' }} />
+          <Input onPressEnter={(e)=>e.preventDefault()} name="noMesa" size="large" style={{ width: '25%' }} /><br/>
+          <Button type="primary" onClick={handleOk} className="margin">
+            Agregar
+          </Button>
         </form>
       </Modal>
     </div>

@@ -5,7 +5,7 @@ import ModalCloseOrder from './ModalCloseOrder';
 import { Modal, Button } from 'antd';
 
 //! Constants
-import url from '../../constants/api';
+// import url from '../../constants/api';
 
 import { errorAlert, successAlert } from '../../shared/Alerts';
 
@@ -28,7 +28,7 @@ function ModalCloseAC({ id, ordenTotal }) {
       successAlert('Pago realizado', 'Generando ticket...');
     } catch (err) {
       setLoading(false);
-      errorAlert('Oops...', 'Algo salió mal al generar el ticket');
+      errorAlert('Oops...', 'Algo salió mal al generar el ticket verifica que las ordenes estén cerradas');
       console.log(err);
     }
   };
@@ -74,7 +74,7 @@ function ModalCloseAC({ id, ordenTotal }) {
         >
           <CloseOutlined className="normal-size" />
         </Button>
-        <p>Cerrar orden</p>
+        <p>Cerrar orden </p>
       </div>
       <Modal
         title="CERRAR ORDEN"

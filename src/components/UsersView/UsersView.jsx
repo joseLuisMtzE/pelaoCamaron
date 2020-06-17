@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 //import icons
-import { Input, Tabs } from 'antd';
+import { Tabs } from 'antd';
 import UserCard from './UserCard';
 import { Link } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ const UsersViewPage1 = () => {
     };
     setearEstado();
   }, []);
-  
+
   return (
     <div className="MainWrapper">
       <div className="card-container">
@@ -41,21 +41,21 @@ const UsersViewPage1 = () => {
           <TabPane tab="Usuarios" key="1">
             <div className="UserCardWrapper">
               {console.log('estado de usuarios', usuarios)}
-              {usuarios.map((usuario) => {
+              {usuarios.map(usuario => {
                 let apellidos = '';
                 if (usuario.apellidos !== undefined)
                   apellidos = usuario.apellidos;
                 return (
                   <UserCard
-                    key= {usuario._id}
-                    id= {usuario._id}
+                    key={usuario._id}
+                    id={usuario._id}
                     nombre={`${usuario.nombre} ${apellidos}`}
                     rol={usuario.rol}
                   />
                 );
               })}
               <Link className="nav-text" to="/Editar-usuario">
-                <UserAdd/>
+                <UserAdd />
               </Link>
             </div>
           </TabPane>

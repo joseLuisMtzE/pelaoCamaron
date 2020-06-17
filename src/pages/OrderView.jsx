@@ -8,8 +8,10 @@ import Order from '../components/OrderView/Order';
 import {
   PlusOutlined,
   PrinterOutlined,
-  DollarCircleOutlined,
-  HomeOutlined
+  // DollarCircleOutlined,
+  HomeOutlined,
+  ExclamationCircleOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
@@ -19,6 +21,7 @@ import CloseOrder from '../components/CloseOrder/CloseOrder';
 const OrderView = props => {
   const mesaID = localStorage.getItem('mesaID');
   const noMesa = localStorage.getItem('noMesa');
+  const [isEmpty,setIsEmpty] = useState(false);
 
   const [orders, setOrders] = useState([]);
   const [total, setTotal] = useState({
@@ -32,6 +35,10 @@ const OrderView = props => {
     try {
       let response = await makeRequest('GET', `mesas/${mesaID}/ordenes`);
       let data = response.data.data;
+      if(data[0].comandas.length==0){
+        console.log('VACIO');
+        setIsEmpty(true);
+      }
       setOrders(data[0].comandas);
       setTotal(data[0].pago);
       if (response.status === 200) {
@@ -70,7 +77,7 @@ const OrderView = props => {
       });
       return null;
     });
-    orders.map(order => {
+    orders.forEach(order => {
       order.platillo.precioConIva *= order.cantidad;
       order.platillo.precioSinIva *= order.cantidad;
     });
@@ -83,13 +90,23 @@ const OrderView = props => {
         <Col xs={24}>
           <img src={BackgroundYellow} alt="bg" className="bg-img" />
           <h1 className="h1">Orden - Mesa {noMesa}</h1>
-          {orders.length === 0 ? (
+          {orders.length === 0 && isEmpty ==false? (
             <div
               style={{ textAlign: 'center', top: 200, position: 'relative' }}
             >
               <LoadingOutlined className="big-size" spin />
             </div>
           ) : null}
+          {
+            isEmpty && (
+              <div
+                style={{ textAlign: 'center', top: 0, position: 'relative' }}
+              >
+                <ExclamationCircleOutlined className="big-size"/><br/>
+                No hay ordenes
+              </div>
+            )
+          }
         </Col>
         <Col xs={24} md={18} style={{ zIndex: 10 }}>
           {orders.length !== 0 && (
@@ -117,69 +134,64 @@ const OrderView = props => {
               </table>
             </section>
           )}
-          {orders.length !== 0 && (
-            <section
-              style={{
-                background: 'white',
-                padding: 15,
-                borderRadius: 15,
-                marginTop: 20
-              }}
-            >
-              <h3 style={{ textAlign: 'center' }}>
-                Subtotal: ${total.subTotal.toFixed(2)}
-              </h3>
-              <h3 style={{ textAlign: 'center' }}>
-                Total:{' '}
-                <span className="total">${total.precioTotal.toFixed(2)}</span>
-              </h3>
-            </section>
-          )}
+          <section
+            style={{
+              background: 'white',
+              padding: 15,
+              borderRadius: 15,
+              marginTop: 20
+            }}
+          >
+            <h3 style={{ textAlign: 'center' }}>Subtotal: ${total.subTotal.toFixed(2)}</h3>
+            <h3 style={{ textAlign: 'center' }}>
+              Total: <span className="total">${total.precioTotal.toFixed(2)}</span>
+            </h3>
+          </section>
         </Col>
-        {orders.length !== 0 && (
-          <Col xs={24} md={6} style={{ zIndex: 10 }}>
-            <div className="center margin-top">
-              <Button shape="circle" className="add-btn">
-                <Link to={`/agregar-platillos/${id}`}>
-                  <PlusOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Agregar platillo</p>
-            </div>
-            <CloseOrder id={id} ordenTotal={total.precioTotal} />
-            {/* <div className="center">
-              <Button shape="circle" className="close-btn">
-                <Link to="/cerrar-orden-salas-creo">
-                  <CloseOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Cerrar orden</p>
-            </div> */}
-            {tipoOrden === 'Domicilio' && (
-              <div className="center">
-                <Button shape="circle" className="edit-btn">
-                  <Link to="/home-delivery">
-                    <HomeOutlined className="normal-size" />
-                  </Link>
-                </Button>
-                <p>Editar Domicilio</p>
-              </div>
-            )}
-
+        
+        <Col xs={24} md={6} style={{ zIndex: 10 }}>
+          <div className="center margin-top">
+            <Button shape="circle" className="add-btn">
+              <Link to={`/agregar-platillos/${id}`}>
+                <PlusOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Agregar platillo</p>
+          </div>
+          <CloseOrder id={id} ordenTotal={total.precioTotal} />
+          {/* <div className="center">
+            <Button shape="circle" className="close-btn">
+              <Link to="/cerrar-orden-salas-creo">
+                <CloseOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Cerrar orden</p>
+          </div> */}
+          {tipoOrden === 'Domicilio' && (
             <div className="center">
-              <Discount orderId={id} total={total.precioTotal} />
-            </div>
-
-            <div className="center alot-margin-bottom">
-              <Button shape="circle" className="print-btn">
-                <Link to={`/ticket/${id}`}>
-                  <PrinterOutlined className="normal-size" />
+              <Button shape="circle" className="edit-btn">
+                <Link to="/home-delivery">
+                  <HomeOutlined className="normal-size" />
                 </Link>
               </Button>
-              <p>Imprimir Ticket</p>
+              <p>Editar Domicilio</p>
             </div>
-          </Col>
-        )}
+          )}
+
+          <div className="center">
+            <Discount orderId={id} total={total.precioTotal} />
+          </div>
+
+          <div className="center alot-margin-bottom">
+            <Button shape="circle" className="print-btn">
+              <Link to={`/ticket/${id}`}>
+                <PrinterOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Imprimir Ticket</p>
+          </div>
+        </Col>
+        
         <Col xs={24}>
           <img src={BackgroundRed} alt="bg" className="bg-img bottom" />
         </Col>

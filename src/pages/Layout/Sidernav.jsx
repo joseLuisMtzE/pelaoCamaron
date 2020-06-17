@@ -18,6 +18,7 @@ import { isAuthenticated } from '../../shared/ApiWrapper';
 
 //! Assets
 import Logo from '../../assets/logo.png';
+import { getRol } from '../../shared/ApiWrapper';
 
 const { Content, Sider } = Layout;
 
@@ -101,6 +102,26 @@ function Sidernav(props) {
                   </Menu.Item>
                 </div>
               ) : null}
+              {getRol() === 'Dueño' && (
+                <Menu.Item key="6">
+                  <UserOutlined />
+                  <Link className="nav-text" to="/vista-usuarios">
+                    Usuarios
+                  </Link>
+                </Menu.Item>
+              )}
+              <Menu.Item key="7">
+                <ProfileOutlined />
+                <Link to="/ordenes-vista-general" className="nav-text">
+                  Órdenes
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="8">
+                <NotificationOutlined />
+                <Link to="/comandas" className="nav-text">
+                  Comandas
+                </Link>
+              </Menu.Item>
             </Menu>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
               <Button type="primary" danger onClick={logOut}>

@@ -7,7 +7,7 @@ import Comandas from './Comandas';
 
 function Comanda({ comanda, noMesa, mostrar, handleModalOk }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
-  //console.log('MARIANA LO JODIO, ', comanda, noMesa);
+  console.log('DATA for comanda and mesa ', comanda, noMesa);
 
   useEffect(() => {
     console.log('useEffect');
