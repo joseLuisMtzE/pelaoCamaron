@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TablaProductos = (props) => {
+const TablaProductos = props => {
   //Variables
   const { comandas } = props;
   let enProceso = false,
@@ -23,7 +23,7 @@ const TablaProductos = (props) => {
 
   //Para obtejer subtotal, impuestos y precioTotal
   comandas.comandas &&
-    props.comandas.comandas.map((comanda) => {
+    props.comandas.comandas.forEach(comanda => {
       subtotal += comanda.cantidad * comanda.platillo.precioSinIva;
       impuestos +=
         ((comanda.platillo.precioSinIva * iva) / 100) * comanda.cantidad;
@@ -49,7 +49,7 @@ const TablaProductos = (props) => {
 
         <tbody>
           {comandas.comandas &&
-            props.comandas.comandas.map((comanda) => {
+            props.comandas.comandas.map(comanda => {
               return (
                 <tr key={comanda._id}>
                   <td className="Tabla-tds-comandas">{comanda.cantidad}</td>

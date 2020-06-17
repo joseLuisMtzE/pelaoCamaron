@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeRequest } from '../../shared/ApiWrapper';
 import { alertError, alertSuccess } from '../../shared/Alert';
 import { confirmDialog } from '../../shared/Alerts';
@@ -12,10 +12,12 @@ import { Link, useHistory } from 'react-router-dom';
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-const UserEdit = (props) => {
+const UserEdit = props => {
   const [form] = Form.useForm();
   const id = props.match.params.id;
   console.log('recibido', id);
+  let history = useHistory();
+
   const retrieveUser = async () => {
     try {
       let response = await makeRequest('GET', `usuario/${id}`);
@@ -25,13 +27,22 @@ const UserEdit = (props) => {
       console.log(err);
     }
   };
-  const addUser = async (usuario) => {
+  const addUser = async usuario => {
     try {
       let response = await makeRequest('POST', 'usuario/registro', usuario);
       if (response.status === 201) {
         alertSuccess('Usuario creado correctamente');
+        history.push('/vista-usuarios');
       } else {
-        alertError('Ups, algo salió chistosón, revisa tus datos');
+        // debugger;
+        console.log(response.response.data.error);
+        let msg =
+          (response &&
+            response.response &&
+            response.response.data &&
+            response.response.data.error) ||
+          '';
+        alertError(`Ups, algo salió chistosón, revisa tus datos. ${msg}`);
       }
       let data = response.data.data;
       console.log(data);
@@ -41,11 +52,12 @@ const UserEdit = (props) => {
     }
   };
 
-  const updateUser = async (usuario) => {
+  const updateUser = async usuario => {
     try {
       let response = await makeRequest('PUT', `usuario/${id}`, usuario);
       if (response.status === 200) {
         alertSuccess('Usuario editado correctamente');
+        history.push('/vista-usuarios');
       } else {
         alertError('Ups, algo salió chistosón, revisa tus datos');
       }
@@ -72,6 +84,7 @@ const UserEdit = (props) => {
       let response = await makeRequest('DELETE', `usuario/${id}`);
       if (response.status === 204) {
         alertSuccess('Usuario eliminado correctamente');
+        history.push('/vista-usuarios');
       } else {
         alertError('Ups, algo salió chistosón, revisa tus datos');
       }
@@ -84,8 +97,8 @@ const UserEdit = (props) => {
   };
 
   useEffect(() => {
-    if (id != undefined) {
-      let datos = retrieveUser().then((cositas) => {
+    if (id !== undefined) {
+      retrieveUser().then(cositas => {
         console.log(cositas);
         form.setFieldsValue({
           nombre: cositas.nombre,
@@ -96,19 +109,19 @@ const UserEdit = (props) => {
           reftelefono: cositas.contactoReferencia.telefono,
           observaciones: cositas.observaciones,
           rol: cositas.rol,
-          nombreUsuario: cositas.nombreUsuario,
+          nombreUsuario: cositas.nombreUsuario
         });
       });
     }
   }, []);
   let SubmitButton;
   let borrarUsuario;
-  const onFinish = (values) => {
+  const onFinish = values => {
     console.log('Success:', values);
     const usuario = {
       contactoReferencia: {
         nombre: values.refnombre,
-        telefono: values.reftelefono,
+        telefono: values.reftelefono
       },
       rol: values.rol,
       nombre: values.nombre,
@@ -118,9 +131,9 @@ const UserEdit = (props) => {
       nombreUsuario: values.nombreUsuario,
       pin: values.pin,
       observaciones: values.observaciones,
-      contrasena: values.contrasena,
+      contrasena: values.contrasena
     };
-    if (id != undefined) {
+    if (id !== undefined) {
       console.log('update');
       console.log(usuario);
       updateUser(usuario);
@@ -131,11 +144,11 @@ const UserEdit = (props) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
   };
 
-  if (id == undefined) {
+  if (id === undefined) {
     SubmitButton = 'Crear usuario';
   } else {
     SubmitButton = 'Guardar cambios';
@@ -237,8 +250,8 @@ const UserEdit = (props) => {
                   reglas={[
                     {
                       required: true,
-                      message: 'Favor de introducir su contraseña',
-                    },
+                      message: 'Favor de introducir su contraseña'
+                    }
                   ]}
                 />
                 <UserTextInput
@@ -248,7 +261,7 @@ const UserEdit = (props) => {
                   reglas={[
                     {
                       required: true,
-                      message: 'Favor de introducir su contraseña',
+                      message: 'Favor de introducir su contraseña'
                     },
                     ({ getFieldValue }) => ({
                       validator(rule, value) {
@@ -256,8 +269,8 @@ const UserEdit = (props) => {
                           return Promise.resolve();
                         }
                         return Promise.reject('Las contraseñas no coinciden');
-                      },
-                    }),
+                      }
+                    })
                   ]}
                 />
                 <UserTextInput
@@ -267,8 +280,8 @@ const UserEdit = (props) => {
                   reglas={[
                     {
                       required: true,
-                      message: 'Favor de introducir su PIN',
-                    },
+                      message: 'Favor de introducir su PIN'
+                    }
                   ]}
                 />
                 <UserTextInput
@@ -278,7 +291,7 @@ const UserEdit = (props) => {
                   reglas={[
                     {
                       required: true,
-                      message: 'Favor de introducir su PIN',
+                      message: 'Favor de introducir su PIN'
                     },
                     ({ getFieldValue }) => ({
                       validator(rule, value) {
@@ -286,8 +299,8 @@ const UserEdit = (props) => {
                           return Promise.resolve();
                         }
                         return Promise.reject('Los PIN no coinciden');
-                      },
-                    }),
+                      }
+                    })
                   ]}
                 />
               </div>
