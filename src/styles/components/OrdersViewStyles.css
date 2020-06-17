@@ -47,3 +47,9 @@
   font: bold 22px Arial;
   padding: 20px;
 }
+
+.scrolling-comandas {
+  white-space: nowrap;
+  margin: 1rem 1rem;
+  overflow-x: auto;
+}

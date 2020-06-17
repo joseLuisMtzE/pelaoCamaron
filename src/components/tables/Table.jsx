@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import TextArea from 'antd/lib/input/TextArea';
 import { makeRequest, getRol } from '../../shared/ApiWrapper';
-import { alertSuccess, alertError } from '../../shared/Alert';
+import { alertError } from '../../shared/Alert';
 const { confirm } = Modal;
 
 export default function Table({ table, deleteTable, editTablesRequest }) {
@@ -18,8 +18,19 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       label: 'Disponible'
     },
     {
-      value: 'Ocupada',
-      label: 'Ocupada'
+      value: 'No Disponible',
+      label: 'No Disponible'
+    },
+    {
+      value: 'Reservada',
+      label: 'Reservada'
+    }
+  ];
+
+  const optionsReservada = [
+    {
+      value: 'Disponible',
+      label: 'Disponible'
     },
     {
       value: 'Reservada',
@@ -53,7 +64,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
 
   const [visible, setVisible] = useState(false);
   const [orderType, setOrderType] = useState('');
-  const [order, setOrder] = useState({});
+  // const [order, setOrder] = useState({});
   const [reservada, setReservada] = useState(false);
 
   const showModal = () => {
@@ -68,17 +79,22 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
     setVisible(false);
   };
 
+  useEffect(() => {
+    if (table.estado === 'Reservada') {
+      setReservada(true);
+    }
+  }, [table.estado]);
+
   const handleClick = async () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
     data.tipoOrden = orderType;
-    //console.log(data);
-    localStorage.setItem('domicilio',JSON.stringify(data));
-
+    console.log(data);
+    localStorage.setItem('domicilio', JSON.stringify(data));
     localStorage.setItem('noMesa', table.noMesa);
     if (orderType === 'Local') {
       const newOrder = await crearOrden(data);
-      setOrder(newOrder);
+      // setOrder(newOrder);
       console.log(newOrder);
     }
   };
@@ -198,18 +214,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                   </Button>
                 </form>
               ]
-            : [
-                <Button type="primary" className="margin">
-                  <Link
-                    onClick={setLocalStorage}
-                    to={{
-                      pathname: '/ver-orden/:id'
-                    }}
-                  >
-                    Ver orden
-                  </Link>
-                </Button>
-              ]
+            : null
         }
       >
         {table.estado !== 'Ocupada' ? (
@@ -217,7 +222,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
             <strong>Editar</strong>
             <br />
             <Cascader
-              options={options}
+              options={reservada ? optionsReservada : options}
               onChange={onchange}
               placeholder="Estado de la mesa..."
             />
@@ -244,7 +249,18 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
             <strong>Orden en proceso...</strong>
             <br />
             <LoadingOutlined />
+
             <br />
+            <Button type="primary" className="margin">
+              <Link
+                onClick={setLocalStorage}
+                to={{
+                  pathname: '/ver-orden/:id'
+                }}
+              >
+                Ver orden
+              </Link>
+            </Button>
           </div>
         )}
       </Modal>

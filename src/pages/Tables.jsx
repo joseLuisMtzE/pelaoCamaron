@@ -68,7 +68,7 @@ export default function Tables() {
     try {
       let response = await makeRequest('PATCH',`mesas/${id}`,{
         'estado': estado,
-        'noMesa':noMesa,
+        // 'noMesa':noMesa,
         'reservaciones': {
           'detalles': detalles
         }

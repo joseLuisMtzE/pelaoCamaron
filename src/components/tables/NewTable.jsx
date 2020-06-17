@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal, Input, Cascader } from 'antd';
+import { Card, Button, Modal, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 export default function NewTable({ addTable }) {
@@ -21,14 +21,14 @@ export default function NewTable({ addTable }) {
     setVisible(false);
   };
 
-  const handleKeyPress = event => {
-    if (
-      (event.which != 8 && event.which != 0 && event.which < 48) ||
-      event.which > 57
-    ) {
-      event.preventDefault();
-    }
-  };
+  // const handleKeyPress = event => {
+  //   if (
+  //     (event.which !== 8 && event.which !== 0 && event.which < 48) ||
+  //     event.which > 57
+  //   ) {
+  //     event.preventDefault();
+  //   }
+  // };
 
   return (
     <div>

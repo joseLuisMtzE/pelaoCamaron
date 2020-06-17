@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ConvertidorNumLetras = (props) => {
+const ConvertidorNumLetras = props => {
   const { comandas } = props;
   var decena,
     unidad,
@@ -23,7 +23,7 @@ const ConvertidorNumLetras = (props) => {
 
   //Para obtejer subtotal, impuestos y precioTotal
   comandas.comandas &&
-    props.comandas.comandas.map((comanda) => {
+    props.comandas.comandas.map(comanda => {
       precioTotal += comanda.cantidad * comanda.platillo.precioConIva;
       return '';
     });
@@ -64,8 +64,6 @@ const ConvertidorNumLetras = (props) => {
       default:
         return '';
     }
-
-    return '';
   }
 
   function Decenas(num) {
@@ -113,6 +111,8 @@ const ConvertidorNumLetras = (props) => {
         return DecenasY('NOVENTA', unidad);
       case 0:
         return Unidades(unidad);
+      default:
+        return '';
     }
   } //Unidades()
 
@@ -201,7 +201,7 @@ const ConvertidorNumLetras = (props) => {
       numero: num,
       enteros: Math.floor(num),
       centavos: Math.round(num * 100) - Math.floor(num) * 100,
-      letrasCentavos: '',
+      letrasCentavos: ''
     };
     if (centavos === undefined || centavos === false) {
       data.letrasMonedaPlural = 'PESOS';

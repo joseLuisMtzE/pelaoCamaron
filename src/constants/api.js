@@ -1,4 +1,6 @@
 export default {
-  apiEndPoint: 'https://afternoon-bastion-13633.herokuapp.com/api/v1/'
+  apiEndPoint: 'https://posrestfront4d.herokuapp.com/api/v1/'
 };
-  
+export const apiEndPointSocket = {
+  url: 'https://posrestfront4d.herokuapp.com'
+};

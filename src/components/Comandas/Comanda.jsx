@@ -1,14 +1,12 @@
 import React from 'react';
 import camarones from '../../assets/camarones.jpg';
-import { Tag } from 'antd';
-import { Button } from 'antd';
+import { Tag, Button } from 'antd';
 import Swal from 'sweetalert2';
 import { makeRequest } from '../../shared/ApiWrapper';
 
-function Comanda({ comanda, noMesa }) {
+function Comanda({ comanda, noMesa, mostrar }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
-
-  //console.log(comanda.id);
+  console.log('DATA for comanda and mesa ', comanda, noMesa);
 
   /*ACTUALIZAR COMANDA */
   const actualizarComanda = async () => {
@@ -18,10 +16,10 @@ function Comanda({ comanda, noMesa }) {
         cantidad: comanda.cantidad,
         estado: 'Cerrada',
         observaciones: comanda.observaciones,
-        orden: comanda.orden._id,
+        orden: comanda.orden._id
       });
       let data = response.data.data;
-      window.location.href = window.location.href;
+      // window.location.reload();
       ////console.log('data', data);
       return data;
     } catch (err) {
@@ -38,8 +36,8 @@ function Comanda({ comanda, noMesa }) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, ¡ciérrala!',
-      cancelButtonText: 'Cancelar',
-    }).then((result) => {
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
       if (result.value) {
         console.log('Funcionaaa');
         actualizarComanda();
@@ -61,11 +59,11 @@ function Comanda({ comanda, noMesa }) {
             </td>
           </p>
         ) : comanda.estado === 'En proceso' ? (
-          <p className="texto-orden">
-            <td>
+          <td>
+            <p className="texto-orden">
               <Tag color="warning">{comanda.estado}</Tag>
-            </td>
-          </p>
+            </p>
+          </td>
         ) : (
           <p className="texto-orden">
             <td>
@@ -90,24 +88,28 @@ function Comanda({ comanda, noMesa }) {
         <p className="texto-orden">
           <b>Observaciones:</b> {comanda.observaciones}
         </p>
-        <div className="center">
-          <Button
-            style={{
-              textAlign: 'center',
-              width: 120,
-              height: 50,
-              boxShadow: '0px 3px 5px 0px grey',
-              margin: '1rem',
-            }}
-            id="Button-print"
-            type="danger"
-            htmlType="button"
-            size="large"
-            onClick={() => alert()}
-          >
-            Cerrar
-          </Button>
-        </div>
+        {(mostrar &&
+          (comanda.estado === 'En proceso' ? (
+            <div className="center">
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 120,
+                  height: 50,
+                  boxShadow: '0px 3px 5px 0px grey',
+                  margin: '1rem'
+                }}
+                id="Button-print"
+                type="danger"
+                htmlType="button"
+                size="large"
+                onClick={() => alert()}
+              >
+                Cerrar
+              </Button>
+            </div>
+          ) : null)) ||
+          null}
       </div>
     </div>
   );

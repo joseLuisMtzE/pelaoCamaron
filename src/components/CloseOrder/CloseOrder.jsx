@@ -5,26 +5,23 @@ import ModalCloseOrder from './ModalCloseOrder';
 import { Modal, Button } from 'antd';
 
 //! Constants
-import url from '../../constants/api';
+// import url from '../../constants/api';
 
-//! Libraries
-import axios from 'axios';
 import { errorAlert, successAlert } from '../../shared/Alerts';
 
-function ModalCloseAC() {
+import { CloseOutlined } from '@ant-design/icons';
+import { makeRequest } from '../../shared/ApiWrapper';
+
+function ModalCloseAC({ id, ordenTotal }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cambio, setCambio] = useState(0);
-  const total = 150;
-
-  const api = axios.create({
-    baseURL: url.apiEndPoint
-  });
+  const total = ordenTotal;
 
   const closeOrderAndGetTicket = async (id, payload) => {
     try {
       setLoading(true);
-      let response = await api.post(`ordenes/${id}/ticket`, payload);
+      let response = await makeRequest('POST', `ordenes/${id}/ticket`, payload);
       let data = response.data.data;
       console.log('Response: ', response, 'Data: ', data);
       setLoading(false);
@@ -42,7 +39,7 @@ function ModalCloseAC() {
 
   const onFinishForm = values => {
     console.log('Form submitted, values recieved are: ', values);
-    closeOrderAndGetTicket('5e9ea4f643462a00179d4101', {
+    closeOrderAndGetTicket(id, {
       tipoPago: values.tipoPago,
       porcentajeDescuento: parseInt(values.porcentajeDescuento),
       pagoCon: parseFloat(values.pagoCon),
@@ -57,8 +54,8 @@ function ModalCloseAC() {
   //--------FORM
   return (
     <>
-      <div className="close-order__wrapper">
-        <Button
+      {/* <div className="close-order__wrapper"> */}
+      {/* <Button
           type="primary"
           className="close-order_btn"
           onClick={() => {
@@ -66,21 +63,33 @@ function ModalCloseAC() {
           }}
         >
           Cerrar cuenta
-        </Button>
-        <Modal
-          title="CERRAR ORDEN"
-          visible={modalVisible}
-          onCancel={handleCancel}
-          footer={''}
+        </Button> */}
+      <div className="center">
+        <Button
+          shape="circle"
+          className="close-btn"
+          onClick={() => {
+            setModalVisible(true);
+          }}
         >
-          <ModalCloseOrder
-            total={total}
-            cambio={cambio}
-            loading={loading}
-            onFinishForm={onFinishForm}
-          />
-        </Modal>
+          <CloseOutlined className="normal-size" />
+        </Button>
+        <p>Cerrar orden</p>
       </div>
+      <Modal
+        title="CERRAR ORDEN"
+        visible={modalVisible}
+        onCancel={handleCancel}
+        footer={''}
+      >
+        <ModalCloseOrder
+          total={total}
+          cambio={cambio}
+          loading={loading}
+          onFinishForm={onFinishForm}
+        />
+      </Modal>
+      {/* </div> */}
     </>
   );
 }

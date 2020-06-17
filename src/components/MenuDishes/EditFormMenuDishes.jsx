@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Form, Input, Button, Cascader,InputNumber } from 'antd';
+import { Form, Input, Button, Cascader, InputNumber } from 'antd';
 import { DishesContext } from './MenuDishesContext';
 
 const layout = {
@@ -36,22 +36,22 @@ const EditFormMenuDishes = ({
 }) => {
   //console.log('Edit, Area: ', area);
   const {
-    retrieveFormMenuDishes,
-    addDishesRequest,
+    // retrieveFormMenuDishes,
+    // addDishesRequest,
     retrieveCategories,
     retrieveAreas,
     editDishes
   } = useContext(DishesContext);
 
-  const [dishes, setDishes] = useState([]);
+  // const [dishes, setDishes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [areas, setAreas] = useState([]);
 
   const [form] = Form.useForm();
 
   const initialize = async () => {
-    const initDishes = await retrieveFormMenuDishes();
-    setDishes(initDishes);
+    // const initDishes = await retrieveFormMenuDishes();
+    // setDishes(initDishes);
 
     const initCategories = await retrieveCategories();
     setCategories(initCategories);
@@ -69,7 +69,7 @@ const EditFormMenuDishes = ({
       peso: peso,
       descripcion: descripcion,
       tiempoPreparación: tiempoPreparación,
-      imagen:  imagen ,
+      imagen: imagen,
       categoria: [categoryOptionOriginal[0].value],
       area: [areaOptionsOriginal[0].value]
     });
@@ -108,15 +108,16 @@ const EditFormMenuDishes = ({
   // console.log(categoryOptionOriginal[0].value);
   //console.log(categoryOptions)
 
-    const [cat,setCat]=useState([categoryOptionOriginal[0].value]);
-    const [aria,setAria]=useState([areaOptionsOriginal[0].value]);
+  const [cat, setCat] = useState([categoryOptionOriginal[0].value]);
+  const [aria, setAria] = useState([areaOptionsOriginal[0].value]);
 
-    console.log('Edit, Area: ', aria);
-    console.log('Edit, Cat: ', cat);
+  console.log('Edit, Area: ', aria);
+  console.log('Edit, Cat: ', cat);
 
   //Calcular iva
-  const [precioIva,setPrecioIva]=useState(precioSinIva+(precioSinIva * 0.16))
-
+  const [precioIva, setPrecioIva] = useState(
+    precioSinIva + precioSinIva * 0.16
+  );
 
   const onFinish = values => {
     //console.log(dish._id)
@@ -169,13 +170,11 @@ const EditFormMenuDishes = ({
               }
             ]}
           >
-            
             <Cascader
               options={categoriesOptions}
               defaultValue={[categoryOptionOriginal[0].value]}
-              placeholder={""}
-              onChange={(value)=> setCat(value[0])}
-
+              placeholder={''}
+              onChange={value => setCat(value[0])}
             />
           </Form.Item>
           <Form.Item
@@ -188,12 +187,11 @@ const EditFormMenuDishes = ({
               }
             ]}
           >
-            
             <Cascader
               options={areaOptions}
               defaultValue={[areaOptionsOriginal[0].value]}
               placeholder={''}
-              onChange={(value)=> setAria(value[0])}
+              onChange={value => setAria(value[0])}
             />
           </Form.Item>
           <Form.Item
@@ -202,20 +200,19 @@ const EditFormMenuDishes = ({
             rules={[
               {
                 required: true,
-                message: 'Introduce el precio sin IVA',
-              },
+                message: 'Introduce el precio sin IVA'
+              }
             ]}
           >
-            <InputNumber  className="inputs" id='sinIva'  onChange={(value)=>setPrecioIva(value+(value*.16))} style={{float:"left"}}  />
+            <InputNumber
+              className="inputs"
+              id="sinIva"
+              onChange={value => setPrecioIva(value + value * 0.16)}
+              style={{ float: 'left' }}
+            />
           </Form.Item>
-          <Form.Item
-            label="Precio con IVA"
-            name="precioConIva"
-             
-          >
-  
-            <h4  style={{ float:'left'}}>{precioIva}</h4>
-
+          <Form.Item label="Precio con IVA" name="precioConIva">
+            <h4 style={{ float: 'left' }}>{precioIva}</h4>
           </Form.Item>
           <Form.Item
             label="Peso (gr)"
