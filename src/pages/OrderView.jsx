@@ -142,7 +142,12 @@ const OrderView = props => {
           {tipoOrden==='Domicilio'&&(
           <div className="center">
             <Button shape="circle" className="edit-btn">
-              <Link to="/home-delivery">
+              <Link to={{
+                pathname:"/home-delivery",
+                state:{
+                  'idMesa':mesaID
+                }
+              }}>
                 <HomeOutlined  className="normal-size" />
               </Link>
             </Button>
