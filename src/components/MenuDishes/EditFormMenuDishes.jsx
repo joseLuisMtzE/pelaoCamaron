@@ -124,6 +124,9 @@ const EditFormMenuDishes = ({
     values.categoria=cat
     values.area=aria
     editDishes(dish._id,values);
+    setTimeout(() => {
+      onOk()
+    }, 3000);
     console.log('Success:', values);
   };
 
