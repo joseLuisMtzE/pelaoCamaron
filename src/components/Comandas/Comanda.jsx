@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import camarones from '../../assets/camarones.jpg';
 import { Tag, Button } from 'antd';
 import Swal from 'sweetalert2';
 import { makeRequest } from '../../shared/ApiWrapper';
+import Comandas from './Comandas';
 
-function Comanda({ comanda, noMesa, mostrar }) {
+function Comanda({ comanda, noMesa, mostrar, handleModalOk }) {
   noMesa = noMesa || comanda.orden.mesa.noMesa;
-  console.log('MARIANA LO JODIO, ', comanda, noMesa);
+  //console.log('MARIANA LO JODIO, ', comanda, noMesa);
 
-  /*ACTUALIZAR COMANDA */
-  const actualizarComanda = async () => {
+  useEffect(() => {
+    console.log('useEffect');
+  });
+
+  /*CERRAR COMANDA */
+  const cerrarComanda = async () => {
     try {
       let response = await makeRequest('PUT', `comandas/${comanda._id}`, {
         platillo: comanda.platillo._id,
@@ -19,7 +24,7 @@ function Comanda({ comanda, noMesa, mostrar }) {
         orden: comanda.orden._id,
       });
       let data = response.data.data;
-      window.location.href = window.location.href;
+      //window.location.href = window.location.href;
       ////console.log('data', data);
       return data;
     } catch (err) {
@@ -27,7 +32,26 @@ function Comanda({ comanda, noMesa, mostrar }) {
     }
   };
 
-  function alert() {
+  /*CANCELAR COMANDA */
+  const cancelarComanda = async () => {
+    try {
+      let response = await makeRequest('PUT', `comandas/${comanda._id}`, {
+        platillo: comanda.platillo._id,
+        cantidad: comanda.cantidad,
+        estado: 'Cancelada',
+        observaciones: comanda.observaciones,
+        orden: comanda.orden._id,
+      });
+      let data = response.data.data;
+      //window.location.href = window.location.href;
+      ////console.log('data', data);
+      return data;
+    } catch (err) {
+      //console.log(err);
+    }
+  };
+
+  function alertCerrar() {
     Swal.fire({
       title: '¿Estás seguro cerrarla?',
       text: '¡No podras revertir está acción!',
@@ -39,8 +63,26 @@ function Comanda({ comanda, noMesa, mostrar }) {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        console.log('Funcionaaa');
-        actualizarComanda();
+        console.log('COMANDA CERRADA EXITOSAMENTE');
+        cerrarComanda();
+      }
+    });
+  }
+
+  function alertCancelar() {
+    Swal.fire({
+      title: '¿Estás seguro cancelarla?',
+      text: '¡No podras revertir está acción!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, ¡cancélala!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        console.log('COMANDA CANCELADA EXITOSAMENTE');
+        cancelarComanda();
       }
     });
   }
@@ -90,22 +132,39 @@ function Comanda({ comanda, noMesa, mostrar }) {
         </p>
         {(mostrar &&
           (comanda.estado === 'En proceso' ? (
-            <div className="center">
+            <div className="containerBotonesComandas">
               <Button
                 style={{
                   textAlign: 'center',
-                  width: 120,
-                  height: 50,
+                  width: 100,
+                  height: 40,
                   boxShadow: '0px 3px 5px 0px grey',
-                  margin: '1rem',
+                  margin: '2px',
+                }}
+                id="Button-print"
+                type="dashed"
+                htmlType="button"
+                size="large"
+                onClick={() => alertCerrar()}
+              >
+                Cerrar
+              </Button>
+
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 100,
+                  height: 40,
+                  boxShadow: '0px 3px 5px 0px grey',
+                  margin: '2px',
                 }}
                 id="Button-print"
                 type="danger"
                 htmlType="button"
                 size="large"
-                onClick={() => alert()}
+                onClick={() => alertCancelar()}
               >
-                Cerrar
+                Cancelar
               </Button>
             </div>
           ) : null)) ||

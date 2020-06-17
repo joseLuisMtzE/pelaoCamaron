@@ -3,16 +3,16 @@ import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
 import { Link } from 'react-router-dom';
-
 import io from 'socket.io-client';
 
 import notificationSound from '../../assets/newComandaSound.mp3';
+import { getRol } from '../../shared/ApiWrapper';
 // import apiEndPoint from '../../constants/api';
 const socket = io('https://afternoon-bastion-13633.herokuapp.com');
 
 //Audio for notification when nueva comanda gets created
 
-const Comandas = ({ comandas, areas, setVerTodas }) => {
+const Comandas = ({ comandas, areas }) => {
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
   const [selectedArea, setSelectedArea] = useState('');
   const [labelSelectedArea, setLabelSelectedArea] = useState('');
@@ -133,70 +133,81 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
 
   return (
     <div className="wrapper-comandas">
-      <div>
-        <h1 className="tituloPedidos">COMANDAS</h1>
-        <div className="center">
-          <h4>Elige un área de cocina para que puedas ver las comandas</h4>
-          <Button type="primary" icon={<FilterFilled />} default onClick={info}>
-            Cambiar área
-          </Button>
-        </div>
-        {labelSelectedArea && (
+      {getRol() === 'Dueño' || getRol() === 'Caja' || getRol() === 'Cocina' ? (
+        <div>
+          <h1 className="tituloPedidos">COMANDAS</h1>
           <div className="center">
-            <h4 className="bold">Area seleccionada:</h4>
-            <span className="normal-size">{labelSelectedArea}</span>
+            <h4>Elige un área de cocina para que puedas ver las comandas</h4>
+            <Button
+              type="primary"
+              icon={<FilterFilled />}
+              default
+              onClick={info}
+            >
+              Cambiar área
+            </Button>
           </div>
-        )}
-        <div className="scrolling-wrapper" ref={scrollingWrapper}>
-          {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
-              <Comanda comanda={comanda} onChange={onChange} />
-            ))}
-        </div>
-        <div className="botonVerMas">
-          <Link to="/comandas/todas">
-            <Button
-              style={{
-                textAlign: 'center',
-                width: 120,
-                height: 50,
-                boxShadow: '0px 3px 5px 0px grey',
-              }}
-              id="Button-print"
-              type="primary"
-              htmlType="button"
-              size="large"
-            >
-              Ver todas
-            </Button>
-          </Link>
-        </div>
+          {labelSelectedArea && (
+            <div className="center">
+              <h4 className="bold">Area seleccionada:</h4>
+              <span className="normal-size">{labelSelectedArea}</span>
+            </div>
+          )}
+          <div className="scrolling-wrapper" ref={scrollingWrapper}>
+            {comandasFiltradas &&
+              comandasFiltradas.map((comanda) => (
+                <Comanda
+                  comanda={comanda}
+                  onChange={onChange}
+                  handleModalOk={handleModalOk()}
+                />
+              ))}
+          </div>
+          <div className="botonVerMas">
+            <Link to="/comandas/todas">
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 120,
+                  height: 50,
+                  boxShadow: '0px 3px 5px 0px grey',
+                }}
+                id="Button-print"
+                type="primary"
+                htmlType="button"
+                size="large"
+              >
+                Ver todas
+              </Button>
+            </Link>
+          </div>
 
-        <div className="scrolling-wrapper">
-          {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
-              <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
-            ))}
+          <div className="scrolling-wrapper">
+            {comandasFiltradas &&
+              comandasFiltradas.map((comanda) => (
+                <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
+              ))}
+          </div>
+          <div className="botonVerMas">
+            <Link to="/comandas/todas">
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 120,
+                  height: 50,
+                  boxShadow: '0px 3px 5px 0px grey',
+                }}
+                id="Button-print"
+                type="primary"
+                htmlType="button"
+                size="large"
+              >
+                Ver todas
+              </Button>
+            </Link>
+          </div>
         </div>
-        <div className="botonVerMas">
-          <Link to="/comandas/todas">
-            <Button
-              style={{
-                textAlign: 'center',
-                width: 120,
-                height: 50,
-                boxShadow: '0px 3px 5px 0px grey',
-              }}
-              id="Button-print"
-              type="primary"
-              htmlType="button"
-              size="large"
-            >
-              Ver todas
-            </Button>
-          </Link>
-        </div>
-      </div>
+      ) : null}
     </div>
   );
 };

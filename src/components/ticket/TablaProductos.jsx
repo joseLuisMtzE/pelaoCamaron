@@ -1,4 +1,5 @@
 import React from 'react';
+import ComandasTicket from './ComandasTicket';
 
 const TablaProductos = (props) => {
   //Variables
@@ -22,7 +23,7 @@ const TablaProductos = (props) => {
   }
 
   //Para obtejer subtotal, impuestos y precioTotal
-  comandas.comandas &&
+  /* comandas.comandas &&
     props.comandas.comandas.map((comanda) => {
       subtotal += comanda.cantidad * comanda.platillo.precioSinIva;
       impuestos +=
@@ -32,7 +33,7 @@ const TablaProductos = (props) => {
   //Calcular descuento
   descuentoCantidad = (precioTotal * descuentoPorcentaje) / 100;
   precioTotal = precioTotal - descuentoCantidad;
-  precioTotal = precioTotal.toFixed(2);
+  precioTotal = precioTotal.toFixed(2);*/
 
   return (
     <div className="Container-ticket">
@@ -50,24 +51,7 @@ const TablaProductos = (props) => {
         <tbody>
           {comandas.comandas &&
             props.comandas.comandas.map((comanda) => {
-              return (
-                <tr key={comanda._id}>
-                  <td className="Tabla-tds-comandas">{comanda.cantidad}</td>
-
-                  <td className="Tabla-tds-comandas">
-                    {comanda.platillo.nombre}
-                  </td>
-                  <td className="Tabla-tds-comandas">
-                    ${comanda.platillo.precioConIva.toFixed(2)}
-                  </td>
-                  <td className="Tabla-tds-comandas">
-                    $
-                    {(comanda.cantidad * comanda.platillo.precioConIva).toFixed(
-                      2
-                    )}
-                  </td>
-                </tr>
-              );
+              return <ComandasTicket comanda={comanda} />;
             })}
 
           <tr className="datos-pago">
