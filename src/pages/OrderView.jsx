@@ -136,50 +136,50 @@ const OrderView = props => {
             </section>
           )}
         </Col>
-        {orders.length !== 0 && (
-          <Col xs={24} md={6} style={{ zIndex: 10 }}>
-            <div className="center margin-top">
-              <Button shape="circle" className="add-btn">
-                <Link to={`/agregar-platillos/${id}`}>
-                  <PlusOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Agregar platillo</p>
-            </div>
-            <CloseOrder id={id} ordenTotal={total.precioTotal} />
-            {/* <div className="center">
-              <Button shape="circle" className="close-btn">
-                <Link to="/cerrar-orden-salas-creo">
-                  <CloseOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Cerrar orden</p>
-            </div> */}
-            {tipoOrden === 'Domicilio' && (
-              <div className="center">
-                <Button shape="circle" className="edit-btn">
-                  <Link to="/home-delivery">
-                    <HomeOutlined className="normal-size" />
-                  </Link>
-                </Button>
-                <p>Editar Domicilio</p>
-              </div>
-            )}
-
+        
+        <Col xs={24} md={6} style={{ zIndex: 10 }}>
+          <div className="center margin-top">
+            <Button shape="circle" className="add-btn">
+              <Link to={`/agregar-platillos/${id}`}>
+                <PlusOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Agregar platillo</p>
+          </div>
+          <CloseOrder id={id} ordenTotal={total.precioTotal} />
+          {/* <div className="center">
+            <Button shape="circle" className="close-btn">
+              <Link to="/cerrar-orden-salas-creo">
+                <CloseOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Cerrar orden</p>
+          </div> */}
+          {tipoOrden === 'Domicilio' && (
             <div className="center">
-              <Discount orderId={id} total={total.precioTotal} />
-            </div>
-
-            <div className="center alot-margin-bottom">
-              <Button shape="circle" className="print-btn">
-                <Link to={`/ticket/${id}`}>
-                  <PrinterOutlined className="normal-size" />
+              <Button shape="circle" className="edit-btn">
+                <Link to="/home-delivery">
+                  <HomeOutlined className="normal-size" />
                 </Link>
               </Button>
-              <p>Imprimir Ticket</p>
+              <p>Editar Domicilio</p>
             </div>
-          </Col>
-        )}
+          )}
+
+          <div className="center">
+            <Discount orderId={id} total={total.precioTotal} />
+          </div>
+
+          <div className="center alot-margin-bottom">
+            <Button shape="circle" className="print-btn">
+              <Link to={`/ticket/${id}`}>
+                <PrinterOutlined className="normal-size" />
+              </Link>
+            </Button>
+            <p>Imprimir Ticket</p>
+          </div>
+        </Col>
+        
         <Col xs={24}>
           <img src={BackgroundRed} alt="bg" className="bg-img bottom" />
         </Col>

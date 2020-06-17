@@ -179,38 +179,41 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         footer={
           table.estado === 'Disponible'
             ? [
-                <form id={table._id}>
-                  <strong>Abrir cuenta</strong>
-                  <p>¿Cuántas personas?</p>
-                  <InputNumber required placeholder="0" name="numPersonas" />
-                  <p>Tipo de orden: </p>
-                  <Cascader
-                    required
-                    name="tipoOrden"
-                    options={tipoOrdenOptions}
-                    onChange={onOrdenchange}
-                    placeholder="Tipo de orden..."
-                  />
-                  <p>Observaciones: </p>
-                  <TextArea
-                    name="observaciones"
-                    placeholder="Agregar observaciones..."
-                  />
-                  <Button key="submit" type="primary" className="margin">
-                    <Link
-                      onClick={handleClick}
-                      to={{
-                        pathname:
-                          orderType === 'Local'
-                            ? '/agregar-platillos/:id'
-                            : '/home-delivery/'
-                      }}
-                    >
-                      Abrir cuenta
-                    </Link>
-                  </Button>
-                </form>
-              ]
+              <form id={table._id}>
+                <strong>Abrir cuenta</strong>
+                <p>¿Cuántas personas?</p>
+                <InputNumber required placeholder="0" name="numPersonas" />
+                <p>Tipo de orden: </p>
+                <Cascader
+                  required
+                  name="tipoOrden"
+                  options={tipoOrdenOptions}
+                  onChange={onOrdenchange}
+                  placeholder="Tipo de orden..."
+                />
+                <p>Observaciones: </p>
+                <TextArea
+                  name="observaciones"
+                  placeholder="Agregar observaciones..."
+                />
+                <Button key="submit" type="primary" className="margin">
+                  <Link
+                    onClick={handleClick}
+                    to={{
+                      pathname:
+                        orderType === 'Local'
+                          ? '/agregar-platillos/:id'
+                          : '/home-delivery/',
+                      state:{
+                        'idMesa': table._id
+                      }
+                    }}
+                  >
+                    Abrir cuenta
+                  </Link>
+                </Button>
+              </form>
+            ]
             : null
         }
       >
