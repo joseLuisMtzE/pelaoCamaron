@@ -148,7 +148,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
             <span className="normal-size">{labelSelectedArea}</span>
           </div>
         )}
-        <div className="scrolling-wrapper">
+        <div className="scrolling-wrapper" ref={scrollingWrapper}>
           {comandasFiltradas &&
             comandasFiltradas.map(comanda => (
               <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
