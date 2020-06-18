@@ -94,22 +94,22 @@ function Sidernav(props) {
                   </Link>
                 </Menu.Item>
               )}
+
               {getRol() !== 'Mesero' && (
-                <>
-                  {' '}
-                  <Menu.Item key="7">
-                    <ProfileOutlined />
-                    <Link to="/ordenes-vista-general" className="nav-text">
-                      Órdenes
-                    </Link>
-                  </Menu.Item>
-                  <Menu.Item key="8">
-                    <NotificationOutlined />
-                    <Link to="/comandas" className="nav-text">
-                      Comandas
-                    </Link>
-                  </Menu.Item>
-                </>
+                <Menu.Item key="7">
+                  <ProfileOutlined />
+                  <Link to="/ordenes-vista-general" className="nav-text">
+                    Órdenes
+                  </Link>
+                </Menu.Item>
+              )}
+              {getRol() !== 'Mesero' && (
+                <Menu.Item key="8">
+                  <NotificationOutlined />
+                  <Link to="/comandas" className="nav-text">
+                    Comandas
+                  </Link>
+                </Menu.Item>
               )}
             </Menu>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
