@@ -51,6 +51,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
 
   const onOrdenchange = value => {
     if (value[0]) setOrderType(value[0]);
+    else setOrderType('');
   };
 
   const onchange = value => {
@@ -66,6 +67,7 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
   const [orderType, setOrderType] = useState('');
   // const [order, setOrder] = useState({});
   const [reservada, setReservada] = useState(false);
+  const [numPersonas, setNumPersonas] = useState(0);
 
   const showModal = () => {
     setVisible(true);
@@ -142,7 +144,12 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
       onCancel() {}
     });
   };
-
+  const onNumberChange = value =>{
+    if(value)
+      setNumPersonas(value)
+    else
+      setNumPersonas(0)
+  }
   const reservar = () => {
     const form = new FormData(document.getElementById(table._id));
     const data = Object.fromEntries(form);
@@ -179,24 +186,25 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
         footer={
           table.estado === 'Disponible'
             ? [
-                <form id={table._id}>
-                  <strong>Abrir cuenta</strong>
-                  <p>¿Cuántas personas?</p>
-                  <InputNumber required placeholder="0" name="numPersonas" />
-                  <p>Tipo de orden: </p>
-                  <Cascader
-                    required
-                    name="tipoOrden"
-                    options={tipoOrdenOptions}
-                    onChange={onOrdenchange}
-                    placeholder="Tipo de orden..."
-                  />
-                  <p>Observaciones: </p>
-                  <TextArea
-                    name="observaciones"
-                    placeholder="Agregar observaciones..."
-                  />
-                  <Button key="submit" type="primary" className="margin">
+              <form id={table._id}>
+                <strong>Abrir cuenta</strong>
+                <p>¿Cuántas personas?</p>
+                <InputNumber placeholder="0" name="numPersonas" onChange={onNumberChange}/>
+                <p>Tipo de orden: </p>
+                <Cascader
+                  required
+                  name="tipoOrden"
+                  options={tipoOrdenOptions}
+                  onChange={onOrdenchange}
+                  placeholder="Tipo de orden..."
+                />
+                <p>Observaciones: </p>
+                <TextArea
+                  name="observaciones"
+                  placeholder="Agregar observaciones..."
+                />
+                <Button key="submit" type="primary" className="margin">
+                  {orderType!==''&&numPersonas!==0 &&(
                     <Link
                       onClick={handleClick}
                       to={{
@@ -204,16 +212,17 @@ export default function Table({ table, deleteTable, editTablesRequest }) {
                           orderType === 'Local'
                             ? '/agregar-platillos/:id'
                             : '/home-delivery/',
-                            state:{
-                              'idMesa':table._id
-                            }
+                        state:{
+                          'idMesa': table._id
+                        }
                       }}
                     >
-                      Abrir cuenta
+                    Abrir cuenta
                     </Link>
-                  </Button>
-                </form>
-              ]
+                  )}
+                </Button>
+              </form>
+            ]
             : null
         }
       >
