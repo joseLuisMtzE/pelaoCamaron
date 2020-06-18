@@ -148,7 +148,7 @@ const OrderView = props => {
               <div className="center">
                 <Button shape="circle" className="edit-btn">
                   <Link to={{
-                pathname:"/home-delivery",
+                pathname:"/edit-home-delivery",
                 state:{
                   'idMesa':mesaID
                 }
