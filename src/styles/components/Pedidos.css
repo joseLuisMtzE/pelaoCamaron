@@ -93,14 +93,27 @@
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }
+
   100% {
     opacity: 1;
   }
 }
+
 .botonesFiltrado {
   text-align: center;
   margin: 5px;
+}
+
+.containerBotonesComandas {
+  height: 70px;
+  width: 210px;
+  float: left;
+}
+
+.botonesComandas {
+  text-align: center;
 }

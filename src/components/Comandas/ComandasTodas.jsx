@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeRequest } from '../../shared/ApiWrapper';
+import { makeRequest, getRol } from '../../shared/ApiWrapper';
 import { Button, Modal, Cascader } from 'antd';
 import { FilterFilled } from '@ant-design/icons';
 import Comanda from './Comanda';
@@ -22,7 +22,7 @@ const ComandasTodas = () => {
     try {
       let response = await makeRequest('GET', 'comandas?limit=1000000');
       let data = response.data.data;
-      console.log('data', data);
+      //console.log('data', data);
       return data;
     } catch (err) {
       //console.log(err);
@@ -198,40 +198,50 @@ const ComandasTodas = () => {
 
   return (
     <div className="wrapper-comandas">
-      <h1 className="tituloPedidos"> TODAS LAS COMANDAS </h1>
-      <div className="botonesFiltrado">
-        <Button type="primary" icon={<FilterFilled />} default onClick={info}>
-          Cambiar área
-        </Button>
-      </div>
-      <div className="botonesFiltrado">
-        <Button
-          type="primary"
-          icon={<FilterFilled />}
-          default
-          onClick={infoEstado}
-        >
-          Cambiar estado
-        </Button>
-      </div>
-      <div className="botonesFiltrado">
-        <Button
-          type="primary"
-          icon={<FilterFilled />}
-          default
-          onClick={infoMesas}
-        >
-          Cambiar mesas
-        </Button>
-      </div>
-      <div className="scrolling-wrapper">
-        <div className="scrolling-wrapper">
-          {comandasFiltradas &&
-            comandasFiltradas.map((comanda) => (
-              <Comanda comanda={comanda} mostrar={true} />
-            ))}
+      {getRol() == 'Dueño' || getRol() === 'Cocina' || getRol() === 'Caja' ? (
+        <div>
+          {' '}
+          <h1 className="tituloPedidos"> TODAS LAS COMANDAS </h1>
+          <div className="botonesFiltrado">
+            <Button
+              type="primary"
+              icon={<FilterFilled />}
+              default
+              onClick={info}
+            >
+              Cambiar área
+            </Button>
+          </div>
+          <div className="botonesFiltrado">
+            <Button
+              type="primary"
+              icon={<FilterFilled />}
+              default
+              onClick={infoEstado}
+            >
+              Cambiar estado
+            </Button>
+          </div>
+          <div className="botonesFiltrado">
+            <Button
+              type="primary"
+              icon={<FilterFilled />}
+              default
+              onClick={infoMesas}
+            >
+              Cambiar mesas
+            </Button>
+          </div>
+          <div className="scrolling-wrapper">
+            <div className="scrolling-wrapper">
+              {comandasFiltradas &&
+                comandasFiltradas.map((comanda) => (
+                  <Comanda comanda={comanda} mostrar={true} />
+                ))}
+            </div>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
