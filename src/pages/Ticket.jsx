@@ -4,11 +4,13 @@ import TablaProductos from '../components/ticket/TablaProductos';
 import Domicilio from '../components/ticket/Domicilio';
 import ConvertidorNumLetras from '../components/ticket/ConvertidorNumLetras';
 import PrintTicket from '../components/ticket/PrintTicket';
+import ComandasTicket from '../components/ticket/ComandasTicket';
 import { makeRequest } from '../shared/ApiWrapper';
 
 function Ticket(props) {
   const [orden, setOrden] = useState([]);
   const id = props.match.params.id;
+  //var domicilioOrden = orden.domicilio;
   //console.log(domicilio ? true : false);
   const recuperarOrdenes = async () => {
     try {
@@ -32,7 +34,7 @@ function Ticket(props) {
   return (
     <Fragment>
       <InfoVariables info={orden} />
-      <Domicilio domicilio={orden.domicilio} />
+      {orden.domicilio ? <Domicilio domicilio={orden.domicilio} /> : null}
       <TablaProductos comandas={orden} />
       <ConvertidorNumLetras comandas={orden} />
       <PrintTicket />

@@ -25,7 +25,6 @@ Observaciones */
       <Col xs={24}>
         <div className="wrapper">
           {getRol() === 'Dueño' ||
-          getRol() === 'Mesero' ||
           getRol() === 'Cocina' ||
           getRol() === 'Caja' ? (
             <div>

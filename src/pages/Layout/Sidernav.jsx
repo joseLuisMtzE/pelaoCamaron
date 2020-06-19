@@ -10,7 +10,7 @@ import {
   AppstoreOutlined,
   PoweroffOutlined,
   NotificationOutlined,
-  ProfileOutlined
+  ProfileOutlined,
 } from '@ant-design/icons';
 import SubMenu from 'antd/lib/menu/SubMenu';
 import { isAuthenticated } from '../../shared/ApiWrapper';
@@ -34,7 +34,7 @@ function Sidernav(props) {
           <Sider
             breakpoint="xs"
             collapsedWidth="0"
-            onBreakpoint={broken => {
+            onBreakpoint={(broken) => {
               console.log(broken);
             }}
             onCollapse={(collapsed, type) => {
@@ -79,6 +79,13 @@ function Sidernav(props) {
                   <Link to="/areas-cocina">Áreas de cocina</Link>
                 </Menu.Item>
               </SubMenu>
+              <Menu.Item key="6">
+                <UserOutlined />
+                <Link className="nav-text" to="/vista-usuarios">
+                  Usuarios
+                </Link>
+              </Menu.Item>
+
               {getRol() === 'Dueño' && (
                 <Menu.Item key="6">
                   <UserOutlined />
@@ -87,18 +94,23 @@ function Sidernav(props) {
                   </Link>
                 </Menu.Item>
               )}
-              <Menu.Item key="7">
-                <ProfileOutlined />
-                <Link to="/ordenes-vista-general" className="nav-text">
-                  Órdenes
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="8">
-                <NotificationOutlined />
-                <Link to="/comandas" className="nav-text">
-                  Comandas
-                </Link>
-              </Menu.Item>
+
+              {getRol() !== 'Mesero' && (
+                <Menu.Item key="7">
+                  <ProfileOutlined />
+                  <Link to="/ordenes-vista-general" className="nav-text">
+                    Órdenes
+                  </Link>
+                </Menu.Item>
+              )}
+              {getRol() !== 'Mesero' && (
+                <Menu.Item key="8">
+                  <NotificationOutlined />
+                  <Link to="/comandas" className="nav-text">
+                    Comandas
+                  </Link>
+                </Menu.Item>
+              )}
             </Menu>
             <div style={{ textAlign: 'center', marginTop: '15px' }}>
               <Button type="primary" danger onClick={logOut}>

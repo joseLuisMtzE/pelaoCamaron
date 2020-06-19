@@ -8,12 +8,13 @@ import { apiEndPointSocket } from '../../constants/api';
 import io from 'socket.io-client';
 
 import notificationSound from '../../assets/newComandaSound.mp3';
+import { getRol } from '../../shared/ApiWrapper';
 // import apiEndPoint from '../../constants/api';
 const socket = io(apiEndPointSocket.url);
 
 //Audio for notification when nueva comanda gets created
 
-const Comandas = ({ comandas, areas, setVerTodas }) => {
+const Comandas = ({ comandas, areas }) => {
   const [comandasFiltradas, setComandasFiltradas] = useState([]);
   const [selectedArea, setSelectedArea] = useState('');
   const [labelSelectedArea, setLabelSelectedArea] = useState('');
@@ -28,22 +29,22 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   //Get the audio file
   let newComandaSound = new Audio(notificationSound);
 
-  const socketJoinRoom = async room => {
+  const socketJoinRoom = async (room) => {
     console.log('Joined called with room: ', room);
     socket.emit('joinRoom', room);
     //Todas las comandas
-    socket.on('joinedToRoom', response => {
+    socket.on('joinedToRoom', (response) => {
       console.log('Conectadado correctamente, datos recibidos: ', response);
     });
 
     //Escucar cuando se crea una nueva comanda
-    socket.on('nuevaComanda', comanda => {
+    socket.on('nuevaComanda', (comanda) => {
       let divScrollingWrapper = scrollingWrapper.current;
 
       console.log('Nueva comanda creada!!', comanda);
 
       //update the list of comandas
-      setComandasFiltradas(comandas => [...comandas, comanda]);
+      setComandasFiltradas((comandas) => [...comandas, comanda]);
       //scroll to the last item in comandas list
       divScrollingWrapper.scrollTo(divScrollingWrapper.scrollWidth, 0);
       //Add blink effect to the last children of comandas
@@ -62,11 +63,11 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     });
   };
 
-  const socketLeaveRoom = async room => {
+  const socketLeaveRoom = async (room) => {
     console.log('Leave called');
     socket.emit('leaveRoom', room);
     //Todas las comandas
-    socket.on('leavedRoom', response => {
+    socket.on('leavedRoom', (response) => {
       console.log('Desconectado correctamente, datos recibidos: ', response);
     });
   };
@@ -90,9 +91,9 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
   }, []);
 
   if (areas.length !== 0) {
-    options = areas.map(area => ({
+    options = areas.map((area) => ({
       value: area._id,
-      label: area.nombre
+      label: area.nombre,
     }));
   }
 
@@ -105,7 +106,7 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
     setSelectedArea(valorOpcion);
     setLabelSelectedArea(labelOpcion);
     let resultado = [...comandas].filter(
-      comanda => comanda.platillo.area.nombre === labelOpcion
+      (comanda) => comanda.platillo.area.nombre === labelOpcion
     );
     // console.log('resultado de comandas filtradas', resultado);
     setComandasFiltradas(resultado);
@@ -128,51 +129,87 @@ const Comandas = ({ comandas, areas, setVerTodas }) => {
       ),
       onOk() {
         handleModalOk();
-      }
+      },
     });
   }
 
   return (
     <div className="wrapper-comandas">
-      <div>
-        <h1 className="tituloPedidos">COMANDAS</h1>
-        <div className="center">
-          <h4>Elige un área de cocina para que puedas ver las comandas</h4>
-          <Button type="primary" icon={<FilterFilled />} default onClick={info}>
-            Cambiar área
-          </Button>
-        </div>
-        {labelSelectedArea && (
+      {getRol() === 'Dueño' || getRol() === 'Caja' || getRol() === 'Cocina' ? (
+        <div>
+          <h1 className="tituloPedidos">COMANDAS</h1>
           <div className="center">
-            <h4 className="bold">Area seleccionada:</h4>
-            <span className="normal-size">{labelSelectedArea}</span>
-          </div>
-        )}
-        <div className="scrolling-wrapper" ref={scrollingWrapper}>
-          {comandasFiltradas &&
-            comandasFiltradas.map(comanda => (
-              <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
-            ))}
-        </div>
-        <div className="botonVerMas">
-          <Link to="/comandas/todas">
+            <h4>Elige un área de cocina para que puedas ver las comandas</h4>
             <Button
-              style={{
-                textAlign: 'center',
-                width: 120,
-                height: 50,
-                boxShadow: '0px 3px 5px 0px grey'
-              }}
-              id="Button-print"
               type="primary"
-              htmlType="button"
-              size="large"
+              icon={<FilterFilled />}
+              default
+              onClick={info}
             >
-              Ver todas
+              Cambiar área
             </Button>
-          </Link>
+          </div>
+          {labelSelectedArea && (
+            <div className="center">
+              <h4 className="bold">Area seleccionada:</h4>
+              <span className="normal-size">{labelSelectedArea}</span>
+            </div>
+          )}
+          <div className="scrolling-wrapper" ref={scrollingWrapper}>
+            {comandasFiltradas &&
+              comandasFiltradas.map((comanda) => (
+                <Comanda
+                  comanda={comanda}
+                  onChange={onChange}
+                  handleModalOk={handleModalOk()}
+                />
+              ))}
+          </div>
+          <div className="botonVerMas">
+            <Link to="/comandas/todas">
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 120,
+                  height: 50,
+                  boxShadow: '0px 3px 5px 0px grey',
+                }}
+                id="Button-print"
+                type="primary"
+                htmlType="button"
+                size="large"
+              >
+                Ver todas
+              </Button>
+            </Link>
+          </div>
+
+          <div className="scrolling-wrapper">
+            {comandasFiltradas &&
+              comandasFiltradas.map((comanda) => (
+                <Comanda comanda={comanda} onChange={onChange} mostrar={true} />
+              ))}
+          </div>
+          <div className="botonVerMas">
+            <Link to="/comandas/todas">
+              <Button
+                style={{
+                  textAlign: 'center',
+                  width: 120,
+                  height: 50,
+                  boxShadow: '0px 3px 5px 0px grey',
+                }}
+                id="Button-print"
+                type="primary"
+                htmlType="button"
+                size="large"
+              >
+                Ver todas
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
