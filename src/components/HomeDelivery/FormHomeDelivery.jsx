@@ -13,7 +13,7 @@ const layout = {
     span: 16
   }
 };
-const tailLayout = {
+const tailLayout = { 
   wrapperCol: {
     offset: 8,
     span: 16
