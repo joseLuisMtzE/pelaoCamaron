@@ -159,24 +159,23 @@ const OrderView = props => {
             <p>Agregar platillo</p>
           </div>
           <CloseOrder id={id} ordenTotal={total.precioTotal} />
-          {/* <div className="center">
-            <Button shape="circle" className="close-btn">
-              <Link to="/cerrar-orden-salas-creo">
-                <CloseOutlined className="normal-size" />
-              </Link>
-            </Button>
-            <p>Cerrar orden</p>
-          </div> */}
-          {tipoOrden === 'Domicilio' && (
-            <div className="center">
-              <Button shape="circle" className="edit-btn">
-                <Link to="/home-delivery">
-                  <HomeOutlined className="normal-size" />
-                </Link>
-              </Button>
-              <p>Editar Domicilio</p>
-            </div>
-          )}
+          
+         
+            {tipoOrden === 'Domicilio' && (
+              <div className="center">
+                <Button shape="circle" className="edit-btn">
+                  <Link to={{
+                pathname:"/edit-home-delivery",
+                state:{
+                  'idMesa':mesaID
+                }
+              }}>
+                    <HomeOutlined className="normal-size" />
+                  </Link>
+                </Button>
+                <p>Editar Domicilio</p>
+              </div>
+            )}
 
           <div className="center">
             <Discount orderId={id} total={total.precioTotal} />

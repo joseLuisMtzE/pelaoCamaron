@@ -1,9 +1,11 @@
 import { Form, Input, Button, InputNumber } from 'antd';
-import React from 'react';
+import React,{useEffect} from 'react';
 // import { Link } from 'react-router-dom';
 //import Domicilio from '../ticket/Domicilio';
-import { makeRequest } from '../../shared/ApiWrapper';
-import { alertError } from '../../shared/Alert';
+import { makeRequest } from '../../../shared/ApiWrapper';
+import { alertError } from '../../../shared/Alert';
+import { CodepenOutlined } from '@ant-design/icons';
+
 
 const layout = {
   labelCol: {
@@ -13,7 +15,7 @@ const layout = {
     span: 16
   }
 };
-const tailLayout = { 
+const tailLayout = {
   wrapperCol: {
     offset: 8,
     span: 16
@@ -22,19 +24,15 @@ const tailLayout = {
 
 const LSKEY = 'address-home-delivery';
 
-const FormHomeDelivery = ({ props }) => {
-  const crearOrden = async (
-    idMesa,
-    numPersonas,
-    tipoOrden,
-    observaciones,
-    values
-  ) => {
+const EditFormHomeDelivery = ({ props }) => {
+  const idMesa=localStorage.getItem('mesaID')
+  const [form] = Form.useForm();
+  console.log(props)
+  const editarDomicilio = async (estado,values) => {
+    //console.log(estado,values)
     try {
-      let response = await makeRequest('POST', `mesas/${idMesa}/ordenes`, {
-        numPersonas: numPersonas,
-        tipoOrden: tipoOrden,
-        observaciones: observaciones,
+      let response = await makeRequest('PUT', `ordenes/${idMesa}`, {
+        estado: estado,
         domicilio: {
           calle: values.calle,
           colonia: values.colonia,
@@ -48,34 +46,76 @@ const FormHomeDelivery = ({ props }) => {
       });
 
       if (response.status === 201) {
-        console.log('Orden creada correctamente');
-        window.location.href =
-          'http://localhost:3000/agregar-platillos/' + response.data.data._id;
+        console.log('Domicilio actualizado correctamente');
+       // window.location.href = 'http://localhost:3000/agregar-platillos/' + response.data.data._id;
       } else {
         // window.location.href = '/mesas';
-        alertError('Hubo un error al crear la orden');
+        alertError('Hubo un error al actualizar el domicilio');
       }
       let data = response.data.data;
       return data;
     } catch (err) {
       console.log(err);
       // window.location.href = '/mesas';
-      alertError('Hubo un error al crear la orden');
+      alertError('Hubo un error al actualizar el domicilio');
     }
   };
+
+  useEffect(() => {
+    //llenar inputs con informacion original
+    init()
+    // console.log(categoria, area);
+  }, []);
+  
+  const getDataHomeDelivery = async (id) => {
+    try {
+      let response = await makeRequest('GET', 'mesas/'+id+'/ordenes');
+      let data = response.data.data;
+      //console.log(data)
+      //console.log(data)
+      return data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+  function init(){
+    getDataHomeDelivery(idMesa).then((data)=>{
+      console.log(data[0].estado) //-------  OBTENER ESTADO DE MESA
+      const values=data[0].domicilio
+      if(values){
+        console.log('GET CORRECTO, ESCRIBIENDO VALUES EN INPUTS...');
+
+      }
+    
+      form.setFieldsValue({
+        nombreCliente: values.nombreCliente,
+        telefono: values.telefono,
+        calle: values.calle,
+        numeroExterior: values.numeroExterior,
+        numeroInterior: values.numeroInterior,
+        colonia: values.colonia,
+        referencia: values.referencia,
+        pagaraCon: values.pagaraCon
+      });
+      
+    })
+    
+  }
+  
+
+
 
   const domicilio = JSON.parse(localStorage.getItem('domicilio'));
   console.log(domicilio.tipoOrden);
 
   const onFinish = values => {
-    localStorage.setItem(LSKEY, JSON.stringify(values));
-    crearOrden(
-      props.location.state.idMesa,
-      domicilio.numPersonas,
-      domicilio.tipoOrden,
-      domicilio.observaciones,
-      values
-    );
+    getDataHomeDelivery(idMesa).then((data)=>{
+      var estado=data[0].estado; //-------  OBTENER ESTADO DE MESA
+      editarDomicilio(estado,values);
+    })
+    
     console.log('Success:', values);
   };
 
@@ -93,6 +133,7 @@ const FormHomeDelivery = ({ props }) => {
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        form={form}
       >
         <Form.Item
           label="Nombre"
@@ -177,7 +218,16 @@ const FormHomeDelivery = ({ props }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="Pagara con" name="pagaraCon">
+        <Form.Item 
+        label="Pagara con" 
+        name="pagaraCon"
+        rules={[
+          {
+            required: true,
+            message: 'Introduzca la colonia'
+          }
+        ]}
+        >
           <InputNumber className="inputs" />
         </Form.Item>
         {/*<Form.Item
@@ -204,4 +254,4 @@ const FormHomeDelivery = ({ props }) => {
   );
 };
 
-export default FormHomeDelivery;
+export default EditFormHomeDelivery;

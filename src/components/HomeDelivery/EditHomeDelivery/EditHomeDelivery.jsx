@@ -2,10 +2,9 @@ import React from 'react';
 import { Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useHistory } from "react-router-dom";
-
-
-import FormHomeDelivery from './FormHomeDelivery';
-
+import EditFormHomeDelivery from './EditFormHomeDelivery';
+import { Typography } from 'antd';
+const { Title } = Typography;
 
 function HomeDelivery({props}) {
  console.log(props)
@@ -25,15 +24,14 @@ function HomeDelivery({props}) {
             </Button>
           </div>
           <div className="centerContent">
-            <h1 level={2} className="white-text-color">
-              <strong>Pedido a domicilio</strong>
+            <h1  className="white-text-color" >
+              <Title level={3} style={{color: '#FFFFFF'}}>Editar domicilio</Title>
             </h1>
           </div>
         </div>
         <div className="" >
-        <div className="centerContent" style={{ padding: '1px' }} />
-          <FormHomeDelivery props={props}/>
-      
+        <div className="centerContent" style={{ padding: '20px' }} />
+          <EditFormHomeDelivery props={props}/>
           
         </div>
 

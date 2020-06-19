@@ -1,5 +1,5 @@
 import React from 'react'
-import HomeDelivery from '../components/HomeDelivery/HomeDelivery'
+import EditHomeDelivery from '../components/HomeDelivery/EditHomeDelivery/EditHomeDelivery'
 
 
 //
@@ -7,7 +7,7 @@ import HomeDelivery from '../components/HomeDelivery/HomeDelivery'
 function HomeDeliveryPage(props) {
     return (
         <>
-        <HomeDelivery props={props}/>
+        <EditHomeDelivery props={props}/>
   
         </>
     )
