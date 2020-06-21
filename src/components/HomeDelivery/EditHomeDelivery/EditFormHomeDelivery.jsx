@@ -3,7 +3,7 @@ import React,{useEffect} from 'react';
 // import { Link } from 'react-router-dom';
 //import Domicilio from '../ticket/Domicilio';
 import { makeRequest } from '../../../shared/ApiWrapper';
-import { alertError } from '../../../shared/Alert';
+import { alertError,alertSuccess } from '../../../shared/Alert';
 import { CodepenOutlined } from '@ant-design/icons';
 
 
@@ -28,10 +28,10 @@ const EditFormHomeDelivery = ({ props }) => {
   const idMesa=localStorage.getItem('mesaID')
   const [form] = Form.useForm();
   console.log(props)
-  const editarDomicilio = async (estado,values) => {
+  const editarDomicilio = async (estado,values,idOrder) => {
     //console.log(estado,values)
     try {
-      let response = await makeRequest('PUT', `ordenes/${idMesa}`, {
+      let response = await makeRequest('PUT', `ordenes/${idOrder}`, {
         estado: estado,
         domicilio: {
           calle: values.calle,
@@ -45,9 +45,15 @@ const EditFormHomeDelivery = ({ props }) => {
         }
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log('Domicilio actualizado correctamente');
-       // window.location.href = 'http://localhost:3000/agregar-platillos/' + response.data.data._id;
+        
+        alertSuccess(`Domicilio actualizado correctamente`)
+        setTimeout(() => {
+          window.location.href = 'http://localhost:3000/ver-orden/' + response.data.data._id
+        }, 3000);
+        
+        
       } else {
         // window.location.href = '/mesas';
         alertError('Hubo un error al actualizar el domicilio');
@@ -71,7 +77,8 @@ const EditFormHomeDelivery = ({ props }) => {
     try {
       let response = await makeRequest('GET', 'mesas/'+id+'/ordenes');
       let data = response.data.data;
-      //console.log(data)
+      console.log(data)
+      console.log(data[0].id)
       //console.log(data)
       return data;
     } catch (err) {
@@ -113,7 +120,9 @@ const EditFormHomeDelivery = ({ props }) => {
   const onFinish = values => {
     getDataHomeDelivery(idMesa).then((data)=>{
       var estado=data[0].estado; //-------  OBTENER ESTADO DE MESA
-      editarDomicilio(estado,values);
+      var idOrder= data[0].id
+      editarDomicilio(estado,values,idOrder);
+     
     })
     
     console.log('Success:', values);
