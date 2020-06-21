@@ -170,9 +170,8 @@ export default function Tables() {
             </Col>
           ))}
           <Col lg={4} md={6} xs={8}>
-            {tables.length!==0 && 
             <NewTable count={tables.length} addTable={addTable} />
-            }
+            
           </Col>
         </Row>
       </Col>
