@@ -1,0 +1,55 @@
+.wrapper {
+  background: url('../../assets/donfoAmarillo') top,
+    url('../../assets/fondoAzul') bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 100%;
+  min-height: 100vh;
+}
+
+@media only screen and (max-width: 900px) {
+  .wrapper {
+    background-size: 100% 100%;
+  }
+
+
+}
+
+.Texto-condicional {
+  text-align: center;
+  color: darkgrey;
+  font-size: 30px;
+}
+
+.Contenedor-Tabla-VistaGeneral-Ordenes {
+  overflow: auto;
+  height: auto;
+  width: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center
+}
+
+.Tabla-VistaGeneral-Ordenes {
+  font: normal 20px Arial;
+  text-align: center;
+  width: 100%;
+}
+
+.tr-white {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 0px 3px 3px grey;
+  height: 70px;
+}
+
+.Tabla-VistaGeneral-Ordenes thead th {
+  font: bold 22px Arial;
+  padding: 20px;
+}
+
+.scrolling-comandas {
+  white-space: nowrap;
+  margin: 1rem 1rem;
+  overflow-x: auto;
+}

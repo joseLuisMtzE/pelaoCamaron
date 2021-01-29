@@ -1,0 +1,27 @@
+/* Tipografias, resetear valores css */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+body { /*THIS FIXES A RANDOM ERROR THAT CAN'T LET YOU SCROLL ON RANDOM SITUATIONS*/
+  overflow: visible !important;   
+  min-width: 100%;
+}
+
+body,
+html {
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif !important;
+  background-color: #eeeeee !important;
+  /* min-height:100vh; */
+}
+root {
+  min-height: 100vh;
+}
+a {
+  text-decoration: none;
+}
